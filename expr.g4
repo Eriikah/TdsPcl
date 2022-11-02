@@ -4,7 +4,7 @@ grammar expr;
 package parser;
 }
 
-program: expr EOF;
+program: expr EOF; 
 
 expr : STRING
 	| INT
