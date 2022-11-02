@@ -4,9 +4,9 @@ grammar expr;
 package parser;
 }
 
-program: expr+ EOF;
+program: expr EOF;
 
-expr : STR
+expr : STRING
 	| INT
 	|'nil'
 	|lvalue
@@ -23,6 +23,7 @@ expr : STR
 	|'for' ID ':=' expr 'to' expr 'do' expr
 	|'break'
 	|'let' decl_list 'in' expr_seq? 'end'
+	|print
 	;
 
 expr_seq : expr
@@ -41,8 +42,10 @@ lvalue : ID
 
 freturn : 'return (' expr_seq ')' ;
 
+print : 'print(' (expr | ID) ')' ; 
+
 decl_list : decl
-	|decl_list decl
+	|decl decl_list
 	;
 decl : type_decl
 	|variable_decl
@@ -66,9 +69,11 @@ function_decl : 'function' ID '(' type_field? ') =' expr
 
 BINOP : ('+' | '-' | '*' | '/ ' | '=' | '<>' | '<' | '>' | '<=' | '>=' | '&' | '|') ;
 INT: ('0' ..'9')+;
-STR: ('a' ..'z' | 'A' ..'Z')+;
-ID : (STR | '_')+ (INT | STR | '_')*;
+CHARS: ('a' ..'z' | 'A' ..'Z')+;
+SYMBS:('!'|'?'|'-'|'_'|'.'|':'|';'|','|' ');
+STRING: '"'(INT|CHARS|SYMBS|'\n')* '"';
+ID : (CHARS | '_')+ (INT | CHARS | '_')*;
 TYPE: 'int'|'string' ;
 TYPEID:TYPE ID;
 
-WS: (' ' | '\n' | '/*'.*'*/' | '\t')+ -> skip;
+WS: (' '|'\n' | '/*'.*'*/' | '\t')+ -> skip;
