@@ -1,5 +1,4 @@
 /* Hello-world with function */
 let 
-    function hello() = print("Hello, World!\n")
-in hello() 
-end
+    function hello() = print("Hello, World!")
+in hello() end
