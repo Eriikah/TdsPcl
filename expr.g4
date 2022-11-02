@@ -4,6 +4,7 @@ grammar expr;
 package parser;
 }
 
+program: expr+ EOF;
 
 expr : STR
 	| INT
@@ -69,3 +70,5 @@ STR: ('a' ..'z' | 'A' ..'Z')+;
 ID : (STR | '_')+ (INT | STR | '_')*;
 TYPE: 'int'|'string' ;
 TYPEID:TYPE ID;
+
+WS: (' ' | '\n' | '/*'.*'*/' | '\t')+ -> skip;
