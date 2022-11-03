@@ -4,67 +4,112 @@ grammar expr;
 package parser;
 }
 
-program: expr EOF; 
+program : expr EOF
+	;
 
-expr : STRING
+decl : TYPE TYPEID '=' typeval  
+	| vardecl 
+	| funcdecl 
+	;
+
+typeval : TYPEID 
+	| 'array of' TYPEID
+	| '{' fielddecl '}'
+	;
+
+fielddecl : ID ':' TYPEID
+	| ID ':' TYPEID ',' fielddecl
+	;
+
+vardecl : 'var' ID ':=' expr
+	| 'var' ID ':' TYPEID ':=' expr
+	;
+
+funcdecl : 'function' ID '(' fielddecl ') =' expr
+	| 'function' ID '(' fielddecl ') :' TYPEID '=' expr
+	;
+
+lvalue : ID subscript
+	| ID fieldexpr
+	;
+
+subscript : 'nil'
+	| lvalue '[' expr ']'
+	;
+
+fieldexpr : 'nil'
+	| lvalue '.' ID
+	;
+
+expr : lvalue
+	| 'nil'
 	| INT
-	|'nil'
-	|lvalue
-	|'-' expr
-	|expr BINOP expr 
-	|lvalue ':=' expr
-	|ID '('expr_list?')'
-	|'('expr_seq?')'
-	|TYPEID '{'field_list?'}'
-	|TYPEID '['expr'] of' expr
-	|'if' expr 'then' expr
-	|'if' expr 'then' expr 'else' expr
-	|'while' expr 'do' expr
-	|'for' ID ':=' expr 'to' expr 'do' expr
-	|'break'
-	|'let' decl_list 'in' expr_seq? 'end'
-	|print
+	| STRING
+	| '(' expr_seq ')'
+	| '-' expr
+	| ID '(' expr_list ')'
+	| '(' expr BINOP expr ')'
+	| TYPEID '[' expr '] of' expr
+	| TYPEID '{' fieldcreate '}'
+	| lvalue ':=' expr
+	| 'if' expr 'then' expr 'else' expr
+	| 'if' expr 'then' expr
+	| 'while' expr 'do' expr
+	| 'for' ID ':=' expr 'to' expr 'do' expr
+	| 'break'
+	| 'let' decl_list 'in' expr_seq 'end'
+	| print
 	;
 
 expr_seq : expr
-	|expr_seq ';' expr
+	| 'nil'
+	| expr ';' expr_seq
 	;
+
 expr_list : expr
-	|expr_list ',' expr
-	;
-field_list : ID '=' expr
-	|field_list ',' ID '=' expr
-	;
-lvalue : ID
-	|lvalue '.' ID
-	|lvalue '[' expr ']'
+	| expr ',' expr
 	;
 
-freturn : 'return (' expr_seq ')' ;
-
-print : 'print(' (expr | ID) ')' ; 
+fieldcreate : ID '=' expr
+	| ID '=' expr '.' fieldcreate
+	;
 
 decl_list : decl
-	|decl decl_list
+	| 'nil'
+	| decl ' ' decl_list
+	; 
+
+freturn : 'return (' expr_seq ')' 
 	;
-decl : type_decl
-	|variable_decl
-	|function_decl
+
+print : 'print(' (STRING | ID) ')' 
 	;
-type_decl : TYPE TYPEID '=' type;
-type : TYPEID
-	|'{' type_field '}'
-	|'array of' TYPEID
+
+flush : 'flush()'
 	;
-type_fields: type_field
-	|type_fields ',' type_field
+
+getchar : 'getchar()'
 	;
-type_field : ID ':' TYPEID ;
-variable_decl : 'var' ID ':=' expr
-	|'var' ID ':' TYPEID ':=' expr
+
+ord : 'ord(' (STRING | ID) ')'
 	;
-function_decl : 'function' ID '(' type_field? ') =' expr
-	| 'function' ID '(' type_field? ') :' TYPEID '=' expr
+
+chr : 'chr(' (INT | ID) ')'
+	;
+
+size : 'size(' (STRING | ID) ')'
+	;
+
+substring : 'substring(' (STRING|ID) ',' (INT|ID) ',' (INT|ID) ')'
+	;
+
+concat : 'concat(' (STRING|ID) ',' (STRING|ID) ')'
+	;
+
+not : 'not(' (INT|ID) ')'
+	;
+
+exit : 'exit(' (INT|ID) ')'
 	;
 
 BINOP : ('+' | '-' | '*' | '/ ' | '=' | '<>' | '<' | '>' | '<=' | '>=' | '&' | '|') ;
