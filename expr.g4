@@ -21,16 +21,25 @@ fielddecl : ID ':' TYPEID
 	| ID ':' TYPEID ',' fielddecl
 	;
 
-vardecl : 'var' ID ':=' expr
-	| 'var' ID ':' TYPEID ':=' expr
+vardecl : 'var' ID vardecls
 	;
 
-funcdecl : 'function' ID '(' fielddecl ') =' expr
-	| 'function' ID '(' fielddecl ') :' TYPEID '=' expr
+vardecls : ':=' expr
+	| ':=' expr
 	;
 
-lvalue : ID subscript
-	| ID fieldexpr
+funcdecl : 'function' ID '(' fielddecl funcdecls
+	;
+
+funcdecls : ') =' expr
+	| ') :' TYPEID '=' expr
+	;
+
+lvalue : ID lvalues
+	;
+
+lvalues : subscript
+	| fieldexpr
 	;
 
 subscript : 'nil'
@@ -49,11 +58,9 @@ expr : lvalue
 	| '-' expr
 	| ID '(' expr_list ')'
 	| '(' expr BINOP expr ')'
-	| TYPEID '[' expr '] of' expr
-	| TYPEID '{' fieldcreate '}'
+	| TYPEID expr2
 	| lvalue ':=' expr
-	| 'if' expr 'then' expr 'else' expr
-	| 'if' expr 'then' expr
+	| 'if' expr 'then' expr expr3
 	| 'while' expr 'do' expr
 	| 'for' ID ':=' expr 'to' expr 'do' expr
 	| 'break'
@@ -61,23 +68,43 @@ expr : lvalue
 	| print
 	;
 
-expr_seq : expr
+expr2 : '[' expr '] of' expr
+	| '{' fieldcreate '}'
+	;
+
+expr3 : 'else' expr
+	|
+	;
+
+expr_seq : expr expr_seq2
 	| 'nil'
-	| expr ';' expr_seq
 	;
 
-expr_list : expr
-	| expr ',' expr
+expr_seq2 : ';' expr_seq
+	|
 	;
 
-fieldcreate : ID '=' expr
-	| ID '=' expr '.' fieldcreate
+expr_list : expr expr_list2
 	;
 
-decl_list : decl
+expr_list2 : ',' expr
+	|
+	;
+
+fieldcreate : ID fieldcreate2
+	;
+
+fieldcreate2 : '=' expr
+	| '=' expr '.' fieldcreate
+	;
+
+decl_list : decl decl_list2
 	| 'nil'
-	| decl ' ' decl_list
-	; 
+	;
+
+decl_list2 : ' ' decl_list
+	|
+	;
 
 freturn : 'return (' expr_seq ')' 
 	;
