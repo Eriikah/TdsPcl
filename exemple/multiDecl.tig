@@ -1,0 +1,8 @@
+let
+    function Hello() = print("Hello!") function Bye() = print("Goodbye!")
+    function What() = print("?")
+in 
+    Hello()
+    What()
+    Bye()
+end
