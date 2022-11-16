@@ -1,5 +1,5 @@
 let
-    function greet(name: string, surname : string, age : int) : int = (print("Hi, "); print(name);print(surname); print("!")) 
+    function greet(name: string, surname : string, age : int) : int = (print("Hi,"); print(name); print(surname); print("!")) 
   in
     greet("Joe")
   end

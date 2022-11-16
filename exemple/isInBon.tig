@@ -1,0 +1,8 @@
+let
+    function isInBon (c:string) = 
+    if c = "B" then return(1) else
+        if c = "o" then return(1) else
+            if c = "n" then return(1) else
+in
+    isInBon("g")
+end

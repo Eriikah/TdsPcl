@@ -1,5 +1,5 @@
 let /* The eight queens solver from Appel */
-    var N := 8
+    var Nu := 8
     type intArray = array of int
     var row := intArray [ N ] of 0
     var col := intArray [ N ] of 0
@@ -12,7 +12,7 @@ let /* The eight queens solver from Appel */
             do print(if col[i]=j then " O" else " .");
             print("\n"));
         print("\n"))
-    *
+    
     function try(c:int) =
         if c=N then printboard()
     else for r := 0 to N-1
