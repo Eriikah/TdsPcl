@@ -1,0 +1,8 @@
+/*assign things to variable*/
+let
+  var va1 := "string"
+  var va2 := -4
+  var va3 := 3
+in
+  print(va1)
+end
