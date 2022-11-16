@@ -17,8 +17,11 @@ typeval : TYPEID
 	| '{' fielddecl '}'
 	;
 
-fielddecl : ID ':' TYPEID
-	| ID ':' TYPEID ',' fielddecl
+fielddecl : ID ':' TYPEID fielddecl2
+	;
+
+fielddecl2 : ',' fielddecl
+	|
 	;
 
 vardecl : 'var' ID vardecls
