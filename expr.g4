@@ -31,7 +31,6 @@ subscript: '[' exprsolo ']';
 
 fieldexpr: '.' ID;
 
-exprsolo: affectexpr;
 
 expr:INT
 	| string
@@ -48,7 +47,7 @@ expr:INT
 	| prints
 	|freturn;
 
-affectexpr: orexpr (':=' exprsolo)?;
+exprsolo: orexpr (':=' exprsolo)?;
 orexpr: andexpr ('|' exprsolo)?;
 andexpr:diffexpr boolexpr ('&' exprsolo)?;
 boolexpr: ('<=' exprsolo)?
@@ -62,7 +61,7 @@ addexpr:divexpr ('+' exprsolo)?;
 divexpr:multexpr ('/' exprsolo)?;
 multexpr: expr ('*'expr)?;
 
-expr2: '[' expr ']''of' expr | '{' fieldcreate '}';
+expr2: '[' exprsolo ']''of' exprsolo | '{' fieldcreate '}';
 
 expr3: 'else' exprsolo;
 
