@@ -16,7 +16,7 @@ fielddecl2: ','ID ':' typeid fielddecl2 |;
 
 vardecl: 'var' ID vardecls;
 
-vardecls: ':=' exprsolo | ':=' exprsolo;
+vardecls: ':=' exprsolo | TYPEID ':=' exprsolo;
 
 funcdecl: 'function' ID '(' fielddecl?')' funcdecls ;
 
