@@ -10,117 +10,134 @@ decl: typedecl | vardecl | funcdecl;
 
 typedecl: 'type' typeid '=' type;
 
-fielddecl: ID ':' typeid fielddecl2;
+fielddecl:
+	ID ':' typeid (',' ID ':' typeid)*;
 
-fielddecl2: ','ID ':' typeid fielddecl2 |;
+vardecl: 'var' ID ':=' exprsolo  #Var_decl
+		| 'var' ID typeid ':=' exprsolo VarDeclWithIdf
+		;
 
-vardecl: 'var' ID vardecls;
+funcdecl:
+	 'function' ID  '(' fielddecl? ')' (':' typeid )? '=' exprsolo
+	;
 
-vardecls: ':=' exprsolo | typeid ':=' exprsolo;
-
-funcdecl: 'function' ID '(' fielddecl?')' funcdecls ;
-
-funcdecls: '=' exprsolo | ':' typeid '=' exprsolo;
-
-lvalue: ID lvalue? lvalues?;
-
-lvalues: subscript 
-	| fieldexpr;
+lvalue: ID  (subscript | fieldexpr)*
+	;
 
 subscript: '[' exprsolo ']';
 
 fieldexpr: '.' ID;
 
+expr:
+	INT														# Integer
+	| string												# StringDecl
+	| '(' expr_seq ')'										# Parenthesis
+	| '-' exprsolo											# Minus
+	| lvalue (':=' exprsolo)?								# Affect
+	| ID '(' expr_list? ')'									# FunctionCall
+	| typeid '[' exprsolo ']' 'of' exprsolo					# ListDecl
+	| typeid '{' fieldcreate '}'							# List
+	| 'if' exprsolo 'then' exprsolo							# IfThen
+	| 'if' exprsolo 'then' exprsolo 'else' exprsolo			# IfThenElse
+	| 'while' exprsolo 'do' exprsolo						# While
+	| 'for' ID ':=' exprsolo 'to' exprsolo 'do' exprsolo	# For
+	| 'break'												# Break
+	| 'let' decl_list? 'in' expr_seq 'end'					# Let
+	| prints												#PrintStr
+	| freturn												#ReturnF
+	| printi												#PrintInt
+	| flush													#FlushF
+	| getchar												#GetCharF
+	| ord													#OrdF
+	| chr													#CharF
+	| size													#SizeF
+	| substring												#SubstringF
+	| concat												#ConcatenateF
+	| not													#NotF
+	| exit													#ExitF
+	;
 
-expr:INT
-	| string
-	| '(' exprsolo expr_seq ')'
-	| '-' exprsolo
-	|lvalue (':='exprsolo)?
-	| ID '(' expr_list? ')'
-	| typeid expr2
-	| 'if' exprsolo 'then' exprsolo expr3?
-	| 'while' exprsolo 'do' exprsolo
-	| 'for' ID ':=' exprsolo 'to' exprsolo 'do' exprsolo
-	| 'break'
-	| 'let' decl_list? 'in' exprsolo? expr_seq? 'end'
-	| prints
-	|freturn;
+exprsolo: orexpr (':=' exprsolo)? #Affect
+		;
 
-exprsolo: orexpr (':=' exprsolo)?;
-orexpr: andexpr ('|' exprsolo)?;
-andexpr:diffexpr boolexpr ('&' exprsolo)?;
-boolexpr: ('<=' exprsolo)?
-	| ('>=' exprsolo)?
-	| ('<' exprsolo)?
-	| ('>' exprsolo)?;
-diffexpr:egexpr ('<>' exprsolo)?;
-egexpr:minusexpr('=' exprsolo)?;
-minusexpr:addexpr ('-' exprsolo)?;
-addexpr:divexpr ('+' exprsolo)?;
-divexpr:multexpr ('/' exprsolo)?;
-multexpr: expr ('*'expr)?;
+orexpr: andexpr ('|' exprsolo)? #Or
+		;
+andexpr: boolexpr ('&' exprsolo)? #And
+		;
+boolexpr: diffexpr ('<=' exprsolo)? #Infeq
+	|diffexpr ('>=' exprsolo)? #Supeq
+	|diffexpr ('<' exprsolo)? #Inf
+	| diffexpr('>' exprsolo)? #Sup
+	;
+diffexpr: egexpr ('<>' exprsolo)? #Diff
+	;
+egexpr: minusexpr ('=' exprsolo)? #Eq
+	;
+minusexpr: addexpr ('-' exprsolo)? #Minus
+	;
+addexpr: divexpr ('+' exprsolo)? #Plus
+	;
+divexpr: multexpr ('/' exprsolo)? #Div
+	;
+multexpr: expr ('*' exprsolo)? #Mult
+	;
 
-expr2: '[' exprsolo ']''of' exprsolo | '{' fieldcreate '}';
+expr_seq: exprsolo (';' exprsolo)* #ExprSeq
+	;
 
-expr3: 'else' exprsolo;
+expr_list: exprsolo (',' exprsolo)* #ExprList
+	;
 
-expr_seq: ';' exprsolo expr_seq |;
+fieldcreate: ID '=' exprsolo ('.' ID '=' exprsolo)* #Field_Create
+	;
 
-expr_list: exprsolo expr_list2;
+decl_list: decl+ #DeclList
+	;
 
-expr_list2:',' exprsolo expr_list2| ;
+freturn: 'return' '(' expr_seq ')';
 
-fieldcreate: ID '=' exprsolo fieldcreate2;
+prints: 'print' '(' (exprsolo) ')';
 
-fieldcreate2:  | '.' fieldcreate;
+printi: 'printi' '(' (exprsolo) ')';
 
-decl_list: decl decl_list2;
+flush: 'flush' '(' ')';
 
-decl_list2:  decl decl_list2 |;
+getchar: 'getchar' '(' ')';
 
-freturn: 'return''(' exprsolo? expr_seq? ')';
+ord: 'ord' '(' (string | ID) ')';
 
-prints: 'print''(' (string | ID | exprsolo) ')';
+chr: 'chr' '(' (INT | ID) ')';
 
-flush: 'flush''('')';
+size: 'size' '(' (string | ID) ')';
 
-getchar: 'getchar''('')';
+substring:	'substring' '(' (string | ID) ',' (INT | ID) ',' (INT | ID) ')';
 
-ord: 'ord''(' (string | ID) ')';
+concat: 'concat' '(' (string | ID) ',' (string | ID) ')';
 
-chr: 'chr''(' (INT | ID) ')';
+not: 'not' '(' (INT | ID) ')';
 
-size: 'size''(' (string | ID) ')';
+exit: 'exit' '(' (INT | ID) ')';
 
-substring: 'substring''(' (string | ID) ',' (INT | ID) ',' (INT | ID) ')';
+type: typeid 
+	| '{' typefields? '}' 
+	| 'array' 'of' typeid
+	;
 
-concat: 'concat''(' (string | ID) ',' (string | ID) ')';
+typefields: typefield (',' typefields)* #Type_Fields
+		; 
 
-not: 'not''(' (INT | ID) ')';
+typefield: ID ':' typeid #Type_Field
+	;
 
-exit: 'exit''(' (INT | ID) ')';
-
-type:typeid
-	|'{'typefields?'}'
-	|'array''of'typeid;
-
-typefields:typefield
-	|typefield ',' typefields;
-
-typefield: ID ':' typeid;
-
-typeid: 'int' | 'string' |ID ;
+typeid: 'int' | 'string' | ID;
 
 string: '"' (INT | ID | SYMBS)* '"';
 
-
-
 //BINOP: ( '+' | '-' | '*' | '/'  '=' | '<>' | '<' | '>' | '<=' | '>=' | '&' | '|' );
 INT: ('0' ..'9')+;
-//CHAR:('a' ..'z' | 'A' ..'Z');
-SYMBS: ('!' | '?' | '-' | '_' | '.' | ':' | ';' | ',' );
 
-ID: ('a' ..'z' | 'A' ..'Z') ( 'a' ..'z' | 'A' ..'Z' | '0' ..'9' | '_' )*;
+SYMBS: ('!' | '?' | '-' | '_' | '.' | ':' | ';' | ',');
+
+ID: ('a' ..'z' | 'A' ..'Z') ('a' ..'z'| 'A' ..'Z'| '0' ..'9'| '_')*;
 
 WS: (' ' | '\n' | '/*' .*? '*/' | '\t')+ -> skip;
