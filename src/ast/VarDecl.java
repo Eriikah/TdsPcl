@@ -6,10 +6,10 @@ public class VarDecl implements Ast {
         return visitor.visit(this);
     }
 
-    public String Idf;
+    public Ast Idf;
     public Ast expressions;
 
-    public VarDecl(String Idf, Ast expressions) {
+    public VarDecl(Ast Idf, Ast expressions) {
         this.Idf = Idf;
         this.expressions = expressions;
     }

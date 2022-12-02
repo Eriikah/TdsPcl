@@ -13,8 +13,7 @@ typedecl: 'type' typeid '=' type;
 fielddecl:
 	ID ':' typeid (',' ID ':' typeid)*;
 
-vardecl: 'var' ID ':=' exprsolo  #Var_decl
-		| 'var' ID typeid ':=' exprsolo #VarDeclWithIdf
+vardecl: 'var' ID (':' typeid)? ':=' exprsolo  #VarDecl
 		;
 
 funcdecl:
@@ -30,9 +29,9 @@ fieldexpr: '.' ID;
 
 expr:
 	INT														# Integer
-	| string												# StringDecl
+	| STRING												# StringDecl
 	| '(' expr_seq ')'										# Parenthesis
-	| '-' exprsolo											# Minus
+	| '-' exprsolo											# MinusAffector
 	| lvalue (':=' exprsolo)?								# Affect
 	| ID '(' expr_list? ')'									# FunctionCall
 	| typeid '[' exprsolo ']' 'of' exprsolo					# ListDecl
@@ -42,7 +41,7 @@ expr:
 	| 'while' exprsolo 'do' exprsolo						# While
 	| 'for' ID ':=' exprsolo 'to' exprsolo 'do' exprsolo	# For
 	| 'break'												# Break
-	| 'let' decl_list? 'in' expr_seq 'end'					# Let
+	| 'let' decl_list 'in' expr_seq? 'end'					# Let
 	| prints												#PrintStr
 	| freturn												#ReturnF
 	| printi												#PrintInt
@@ -57,19 +56,16 @@ expr:
 	| exit													#ExitF
 	;
 
-exprsolo: andexpr ('|' exprsolo)? #Or
+exprsolo: orexpr (':=' exprsolo)? #Affect2
+		;
+
+orexpr: andexpr ('|' exprsolo)? #Or
 		;
 andexpr: boolexpr ('&' exprsolo)? #And
 		;
-boolexpr: diffexpr ('<=' exprsolo)? #Infeq
-	|diffexpr ('>=' exprsolo)? #Supeq
-	|diffexpr ('<' exprsolo)? #Inf
-	| diffexpr('>' exprsolo)? #Sup
-	;
-diffexpr: egexpr ('<>' exprsolo)? #Diff
-	;
-egexpr: minusexpr ('=' exprsolo)? #Eq
-	;
+boolexpr: minusexpr (('='|'<>'|'<='|'>='|'<'|'>') exprsolo)?	
+		;
+
 minusexpr: addexpr ('-' exprsolo)? #Moins
 	;
 addexpr: divexpr ('+' exprsolo)? #Plus
@@ -101,15 +97,15 @@ flush: 'flush' '(' ')';
 
 getchar: 'getchar' '(' ')';
 
-ord: 'ord' '(' (string | ID) ')';
+ord: 'ord' '(' (STRING | ID) ')';
 
 chr: 'chr' '(' (INT | ID) ')';
 
-size: 'size' '(' (string | ID) ')';
+size: 'size' '(' (STRING | ID) ')';
 
-substring:	'substring' '(' (string | ID) ',' (INT | ID) ',' (INT | ID) ')';
+substring:	'substring' '(' (STRING | ID) ',' (INT | ID) ',' (INT | ID) ')';
 
-concat: 'concat' '(' (string | ID) ',' (string | ID) ')';
+concat: 'concat' '(' (STRING | ID) ',' (STRING | ID) ')';
 
 not: 'not' '(' (INT | ID) ')';
 
@@ -128,9 +124,29 @@ typefield: ID ':' typeid #Type_Field
 
 typeid: 'int' | 'string' | ID;
 
-string: '"' (INT | ID | SYMBS)* '"';
+STRING: '"' .*? '"';
 
 //BINOP: ( '+' | '-' | '*' | '/'  '=' | '<>' | '<' | '>' | '<=' | '>=' | '&' | '|' );
+
+USEDWORDS:
+    'array'
+    | 'break'
+    | 'do'
+    | 'else'
+    | 'end'
+    | 'for'
+    | 'function'
+    | 'if'
+    | 'in'
+    | 'let'
+    | 'nil'
+    | 'of'
+    | 'then'
+    | 'to'
+    | 'type'
+    | 'var'
+    | 'while';
+
 INT: ('0' ..'9')+;
 
 SYMBS: ('!' | '?' | '-' | '_' | '.' | ':' | ';' | ',');

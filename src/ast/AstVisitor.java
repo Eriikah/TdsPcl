@@ -59,7 +59,7 @@ public interface AstVisitor<T> {
 
     public T visit(Plus affect);
 
-    public T visit(Print affect);
+    public T visit(PrintInt affect);
 
     public T visit(PrintExpr affect);
 
