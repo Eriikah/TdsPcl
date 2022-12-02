@@ -14,7 +14,7 @@ fielddecl:
 	ID ':' typeid (',' ID ':' typeid)*;
 
 vardecl: 'var' ID ':=' exprsolo  #Var_decl
-		| 'var' ID typeid ':=' exprsolo VarDeclWithIdf
+		| 'var' ID typeid ':=' exprsolo #VarDeclWithIdf
 		;
 
 funcdecl:
@@ -57,10 +57,7 @@ expr:
 	| exit													#ExitF
 	;
 
-exprsolo: orexpr (':=' exprsolo)? #Affect
-		;
-
-orexpr: andexpr ('|' exprsolo)? #Or
+exprsolo: andexpr ('|' exprsolo)? #Or
 		;
 andexpr: boolexpr ('&' exprsolo)? #And
 		;
@@ -73,7 +70,7 @@ diffexpr: egexpr ('<>' exprsolo)? #Diff
 	;
 egexpr: minusexpr ('=' exprsolo)? #Eq
 	;
-minusexpr: addexpr ('-' exprsolo)? #Minus
+minusexpr: addexpr ('-' exprsolo)? #Moins
 	;
 addexpr: divexpr ('+' exprsolo)? #Plus
 	;
