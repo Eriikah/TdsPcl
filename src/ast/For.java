@@ -6,12 +6,12 @@ public class For implements Ast {
         return visitor.visit(this);
     }
 
-    public String Idf;
+    public Idf Idf;
     public Ast origExpr;
     public Ast goalExpr;
     public Ast expressions;
 
-    public For(String Idf, Ast origExpr, Ast goalExpr, Ast expressions) {
+    public For(Idf Idf, Ast origExpr, Ast goalExpr, Ast expressions) {
         this.Idf = Idf;
         this.origExpr = origExpr;
         this.goalExpr = goalExpr;

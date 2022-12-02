@@ -6,10 +6,10 @@ public class FieldElement implements Ast {
         return visitor.visit(this);
     }
 
-    public String Idf;
-    public String typeid;
+    public Idf Idf;
+    public TypeId typeid;
 
-    public FieldElement(String Idf, String typeid) {
+    public FieldElement(Idf Idf, TypeId typeid) {
         this.Idf = Idf;
         this.typeid = typeid;
     }
