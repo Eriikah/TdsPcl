@@ -5,6 +5,13 @@ import parser.exprBaseVisitor;
 
 public class AstCreator extends exprBaseVisitor<Ast> {
 
+    
+
+    @Override
+    public Ast visitDecl(exprParser.DeclContext ctx) {
+        return ctx.getChild(0).accept(this);
+    }
+
     @Override
     public Ast visitProgram(exprParser.ProgramContext ctx) { 
 
@@ -13,8 +20,9 @@ public class AstCreator extends exprBaseVisitor<Ast> {
 	}
 
     @Override
-    public Ast visitDecl(exprParser.DeclContext ctx) {
-        return ctx.getChild(0).accept(this);
+    public Ast visitPrintInt(exprParser.PrintIntContext ctx) {
+        Ast expr = ctx.getChild(2).accept(this);
+        return new PrintInt(expr);
     }
 
     @Override
@@ -42,9 +50,5 @@ public class AstCreator extends exprBaseVisitor<Ast> {
         return new VarDeclWithIdf(idf,typeString,expr);
     }
 
-    @Override
-    public Ast visitPrintInt(exprParser.PrintIntContext ctx) {
-        Ast expr = ctx.getChild(2).accept(this);
-        return new PrintInt(expr);
-    }
+    
 }
