@@ -4,7 +4,7 @@ grammar expr;
 package parser;
 }
 
-program: exprsolo EOF;
+program: expr EOF;
 
 decl: typedecl | vardecl | funcdecl;
 
@@ -13,8 +13,8 @@ typedecl: 'type' typeid '=' type;
 fielddecl:
 	ID ':' typeid (',' ID ':' typeid)*;
 
-vardecl: 'var' ID ':=' exprsolo  #Var_decl
-		| 'var' ID typeid ':=' exprsolo VarDeclWithIdf
+vardecl: 'var' ID ':=' exprsolo  #VarDecl
+		| 'var' ID typeid ':=' exprsolo #VarDeclWithIdf
 		;
 
 funcdecl:
@@ -32,7 +32,7 @@ expr:
 	INT														# Integer
 	| string												# StringDecl
 	| '(' expr_seq ')'										# Parenthesis
-	| '-' exprsolo											# Minus
+	| '-' exprsolo											# MinusAffector
 	| lvalue (':=' exprsolo)?								# Affect
 	| ID '(' expr_list? ')'									# FunctionCall
 	| typeid '[' exprsolo ']' 'of' exprsolo					# ListDecl
@@ -57,7 +57,7 @@ expr:
 	| exit													#ExitF
 	;
 
-exprsolo: orexpr (':=' exprsolo)? #Affect
+exprsolo: orexpr (':=' exprsolo)? #Affect2
 		;
 
 orexpr: andexpr ('|' exprsolo)? #Or

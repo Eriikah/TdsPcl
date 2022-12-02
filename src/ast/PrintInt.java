@@ -1,14 +1,14 @@
 package ast;
 
-public class Print implements Ast {
+public class PrintInt implements Ast {
 
     public <T> T accept(AstVisitor<T> visitor) {
         return visitor.visit(this);
     }
 
-    public String value;
+    public Ast value;
 
-    public Print(String value) {
+    public PrintInt(Ast value) {
         this.value = value;
     }
 }

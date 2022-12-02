@@ -6,11 +6,11 @@ public class VarDeclWithIdf implements Ast {
         return visitor.visit(this);
     }
 
-    public String Idf;
+    public Ast Idf;
     public String typeid;
     public Ast expressions;
 
-    public VarDeclWithIdf(String Idf, String typeid, Ast expressions) {
+    public VarDeclWithIdf(Ast Idf, String typeid, Ast expressions) {
         this.Idf = Idf;
         this.typeid = typeid;
         this.expressions = expressions;
