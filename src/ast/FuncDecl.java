@@ -1,16 +1,16 @@
 package ast;
 
-public class FuncDecl implements Ast {
+public class FuncDecl extends Decl implements Ast {
 
     public <T> T accept(AstVisitor<T> visitor) {
         return visitor.visit(this);
     }
 
-    public String Idf;
-    public Ast fieldDecl;
+    public Idf Idf;
+    public FieldDecl fieldDecl;
     public Ast expressions;
 
-    public FuncDecl(String Idf, Ast fieldDecl, Ast expressions) {
+    public FuncDecl(Idf Idf, FieldDecl fieldDecl, Ast expressions) {
         this.Idf = Idf;
         this.fieldDecl = fieldDecl;
         this.expressions = expressions;

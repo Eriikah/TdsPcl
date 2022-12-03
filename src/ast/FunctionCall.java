@@ -6,12 +6,12 @@ public class FunctionCall implements Ast {
         return visitor.visit(this);
     }
 
-    public Ast ID;
-    public Ast expr_list;
+    public Idf Idf;
+    public ExprList exprList;
 
-    public FunctionCall(Ast ID, Ast expr_list) {
-        this.ID = ID;
-        this.expr_list = expr_list;
+    public FunctionCall(Idf Idf, ExprList exprList) {
+        this.Idf = Idf;
+        this.exprList = exprList;
     }
 
 }
