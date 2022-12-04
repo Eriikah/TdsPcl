@@ -105,6 +105,78 @@ public class AstCreator extends exprBaseVisitor<Ast> {
         return exprSeq;
     }
 
+   /*  @Override
+    public Ast visitFieldDecl(exprParser.FieldDeclContext ctx) {
+        FieldDecl fieldDecl = new FieldDecl();
+        for (int i = 0; i < ctx.getChildCount(); i++) {
+            fieldDecl.addFieldElement(ctx.getChild(i).accept(this));
+        }
+        return fieldDecl; 
+    }  */
+
+    /*@Override
+    public Ast visitFieldElement(exprParser.FieldElementContext ctx) {
+        String idfString = ctx.getChild(0).toString();
+        Ast expr = ctx.getChild(2).accept(this);
+        return new FieldElement(idfString, expr);
+    }  */
+
+    @Override
+    public Ast visitFor(exprParser.ForContext ctx) {
+        String idfString = ctx.getChild(1).toString();
+        Ast expr = ctx.getChild(3).accept(this);
+        Ast exprSeq = ctx.getChild(5).accept(this);
+        Ast exprSeq2 = ctx.getChild(7).accept(this);
+
+        //Création des sous AST
+		Idf idf = new Idf(idfString);
+
+        return new For(idf, expr, exprSeq, exprSeq2);
+    }
+
+ /*    @Override
+    public Ast visitFuncdecl(exprParser.FuncdeclContext ctx) {
+        String idfString = ctx.getChild(1).toString();
+        Ast exprSeq = ctx.getChild(3).accept(this);
+        Ast exprSeq2 = ctx.getChild(5).accept(this);
+
+        //Création des sous AST
+        Idf idf = new Idf(idfString);
+        return new FuncDecl(idf, exprSeq, exprSeq2);
+    } */
+
+   /*  @Override
+    public Ast visitFunctionCall(exprParser.FunctionCallContext ctx) {
+        String idfString = ctx.getChild(0).toString();
+        ExprList exprList = ctx.getChild(2).accept(this);
+
+        //Création des sous AST
+        Idf idf = new Idf(idfString);
+        return new FunctionCall(idf, exprList);
+    } */
+
+  /*   @Override
+    public Ast visitIdentifier(exprParser.IdentifierContext ctx) { 
+		return new Idf(ctx.getChild(0).toString());
+	} */
+
+    @Override
+    public Ast visitIfThen(exprParser.IfThenContext ctx) {
+        Ast expr = ctx.getChild(1).accept(this);
+        Ast exprSeq = ctx.getChild(3).accept(this);
+        return new IfThen(expr, exprSeq);
+    }
+
+    @Override
+    public Ast visitIfThenElse(exprParser.IfThenElseContext ctx) {
+        Ast expr = ctx.getChild(1).accept(this);
+        Ast exprSeq = ctx.getChild(3).accept(this);
+        Ast exprSeq2 = ctx.getChild(5).accept(this);
+        return new IfThenElse(expr, exprSeq, exprSeq2);
+    }
+
+    
+
     @Override
     public Ast visitPrintInt(exprParser.PrintIntContext ctx) {
         Ast expr = ctx.getChild(2).accept(this);
