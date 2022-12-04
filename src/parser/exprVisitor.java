@@ -44,13 +44,6 @@ public interface exprVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitVarDecl(exprParser.VarDeclContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code VarDeclWithIdf}
-	 * labeled alternative in {@link exprParser#vardecl}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitVarDeclWithIdf(exprParser.VarDeclWithIdfContext ctx);
-	/**
 	 * Visit a parse tree produced by {@link exprParser#funcdecl}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
@@ -278,54 +271,18 @@ public interface exprVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitAnd(exprParser.AndContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code Infeq}
-	 * labeled alternative in {@link exprParser#boolexpr}.
+	 * Visit a parse tree produced by {@link exprParser#boolexpr}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitInfeq(exprParser.InfeqContext ctx);
+	T visitBoolexpr(exprParser.BoolexprContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code Supeq}
-	 * labeled alternative in {@link exprParser#boolexpr}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitSupeq(exprParser.SupeqContext ctx);
-	/**
-	 * Visit a parse tree produced by the {@code Inf}
-	 * labeled alternative in {@link exprParser#boolexpr}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitInf(exprParser.InfContext ctx);
-	/**
-	 * Visit a parse tree produced by the {@code Sup}
-	 * labeled alternative in {@link exprParser#boolexpr}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitSup(exprParser.SupContext ctx);
-	/**
-	 * Visit a parse tree produced by the {@code Diff}
-	 * labeled alternative in {@link exprParser#diffexpr}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitDiff(exprParser.DiffContext ctx);
-	/**
-	 * Visit a parse tree produced by the {@code Eq}
-	 * labeled alternative in {@link exprParser#egexpr}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitEq(exprParser.EqContext ctx);
-	/**
-	 * Visit a parse tree produced by the {@code Minus}
+	 * Visit a parse tree produced by the {@code Moins}
 	 * labeled alternative in {@link exprParser#minusexpr}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitMinus(exprParser.MinusContext ctx);
+	T visitMoins(exprParser.MoinsContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code Plus}
 	 * labeled alternative in {@link exprParser#addexpr}.
@@ -473,10 +430,4 @@ public interface exprVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitTypeid(exprParser.TypeidContext ctx);
-	/**
-	 * Visit a parse tree produced by {@link exprParser#string}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitString(exprParser.StringContext ctx);
 }

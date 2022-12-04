@@ -10,7 +10,11 @@ public class ExprSeq implements Ast {
 
     public ArrayList<Ast> seqElement;
 
-    public ExprSeq(ArrayList<Ast> seqElement) {
-        this.seqElement = seqElement;
+    public ExprSeq() {
+        this.seqElement = new ArrayList<Ast>();
+    }
+
+    public void addExprSeq(Ast expr) {
+        seqElement.add(expr);
     }
 }
