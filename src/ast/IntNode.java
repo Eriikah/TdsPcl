@@ -6,11 +6,9 @@ public class IntNode implements Ast {
         return visitor.visit(this);
     }
 
-    public int value;
-    public Idf Idf;
+    public String value;
 
-    public IntNode(int value, Idf Idf) {
+    public IntNode(String value) {
         this.value = value;
-        this.Idf = Idf;
     }
 }

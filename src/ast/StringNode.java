@@ -7,10 +7,8 @@ public class StringNode implements Ast {
     }
 
     public String value;
-    public Idf Idf;
 
-    public StringNode(String value, Idf Idf) {
+    public StringNode(String value) {
         this.value = value;
-        this.Idf = Idf;
     }
 }

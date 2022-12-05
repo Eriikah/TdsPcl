@@ -7,13 +7,12 @@ public class AstCreator extends exprBaseVisitor<Ast> {
 
     @Override
     public Ast visitAffect(exprParser.AffectContext ctx) {
-        Ast expr = ctx.getChild(2).accept(this);
-		String idfString = ctx.getChild(0).toString();
-	
-		//Création des sous AST
-		Idf idf = new Idf(idfString);
-	
-		return new Affect(idf,expr);
+        Ast left = ctx.getChild(0).accept(this);
+        Ast right = ctx.affexpr.accept(this);
+        if (right == null) {
+            return left;
+        }
+        return new Affect(left, right);
 
     }
 
@@ -21,71 +20,81 @@ public class AstCreator extends exprBaseVisitor<Ast> {
     public Ast visitAnd(exprParser.AndContext ctx) {
         Ast left = ctx.getChild(0).accept(this);
         Ast right = ctx.getChild(2).accept(this);
+        if (right == null) {
+            return left;
+        }
         return new AndNode(left, right);
     }
 
     @Override
     public Ast visitChr(exprParser.ChrContext ctx) {
-        String value = ctx.getChild(2).toString();
-        return new Chr(value);
+        return new Chr(ctx.chrel.getText());
     }
 
-   /*  @Override
+    @Override
     public Ast visitConcat(exprParser.ConcatContext ctx) {
-        String left = ctx.getChild(0).toString();
-        String right = ctx.getChild(2).toString();
+        String left = ctx.catel1.getText();
+        String right = ctx.catel2.getText();
+
         return new Concat(left, right);
-    } */
+    }
 
     @Override
     public Ast visitDecl(exprParser.DeclContext ctx) {
         return ctx.getChild(0).accept(this);
     }
 
-/*     @Override
+    @Override
     public Ast visitDeclList(exprParser.DeclListContext ctx) {
         DeclList declList = new DeclList();
         for (int i = 0; i < ctx.getChildCount(); i++) {
-            declList.add((Decl) ctx.getChild(i).accept(this));
+            declList.addDecl((Decl) ctx.getChild(i).accept(this));
         }
-        
-        Ast left = ctx.getChild(0).accept(this);
-        Ast right = ctx.getChild(2).accept(this);
-        return new DeclList(left, right);
-    } */
 
-   /*  @Override
-    public Ast visitDiffNode(exprParser.DiffNodeContext ctx) {
-        Ast left = ctx.getChild(0).accept(this);
-        Ast right = ctx.getChild(2).accept(this);
-        return new DiffNode(left, right);
-    } */
+        return declList;
+    }
+
+    /*
+     * @Override
+     * public Ast visitDiffNode(exprParser.DiffNodeContext ctx) {
+     * Ast left = ctx.getChild(0).accept(this);
+     * Ast right = ctx.getChild(2).accept(this);
+     * return new DiffNode(left, right);
+     * }
+     */
 
     @Override
     public Ast visitDiv(exprParser.DivContext ctx) {
         Ast left = ctx.getChild(0).accept(this);
         Ast right = ctx.getChild(2).accept(this);
+        if (right == null) {
+            return left;
+        }
         return new Div(left, right);
     }
 
-   /* @Override
-    public Ast visitEqNode(exprParser.EqContext ctx) {
-        Ast left = ctx.getChild(0).accept(this);
-        Ast right = ctx.getChild(2).accept(this);
-        return new Eq(left, right);
-    } */
+    /*
+     * @Override
+     * public Ast visitEqNode(exprParser.EqContext ctx) {
+     * Ast left = ctx.getChild(0).accept(this);
+     * Ast right = ctx.getChild(2).accept(this);
+     * return new Eq(left, right);
+     * }
+     */
 
     @Override
     public Ast visitExit(exprParser.ExitContext ctx) {
-        int value = Integer.parseInt(ctx.getChild(2).toString());
+        IntNode value = new IntNode(ctx.exitel.getText());
         return new Exit(value);
     }
 
-  /*   @Override
-    public Ast visitExitIdf(exprParser.ExitIdfContext ctx) {
-        String value = ctx.getChild(2).toString();
-        return new ExitIdf(value);
-    } */
+    /*
+     * @Override
+     * public Ast visitExitIdf(exprParser.ExitIdfContext ctx) {
+     * String value = ctx.getChild(2).toString();
+     * return new ExitIdf(value);
+     * }
+     */
 
     @Override
     public Ast visitExprList(exprParser.ExprListContext ctx) {
@@ -96,30 +105,25 @@ public class AstCreator extends exprBaseVisitor<Ast> {
         return exprList;
     }
 
-    @Override
-    public Ast visitExprSeq(exprParser.ExprSeqContext ctx) {
-        ExprSeq exprSeq = new ExprSeq();
-        for (int i = 0; i < ctx.getChildCount(); i++) {
-            exprSeq.addExprSeq(ctx.getChild(i).accept(this));
-        }
-        return exprSeq;
-    }
+    /*
+     * @Override
+     * public Ast visitFieldDecl(exprParser.FieldDeclContext ctx) {
+     * FieldDecl fieldDecl = new FieldDecl();
+     * for (int i = 0; i < ctx.getChildCount(); i++) {
+     * fieldDecl.addFieldElement(ctx.getChild(i).accept(this));
+     * }
+     * return fieldDecl;
+     * }
+     */
 
-   /*  @Override
-    public Ast visitFieldDecl(exprParser.FieldDeclContext ctx) {
-        FieldDecl fieldDecl = new FieldDecl();
-        for (int i = 0; i < ctx.getChildCount(); i++) {
-            fieldDecl.addFieldElement(ctx.getChild(i).accept(this));
-        }
-        return fieldDecl; 
-    }  */
-
-    /*@Override
-    public Ast visitFieldElement(exprParser.FieldElementContext ctx) {
-        String idfString = ctx.getChild(0).toString();
-        Ast expr = ctx.getChild(2).accept(this);
-        return new FieldElement(idfString, expr);
-    }  */
+    /*
+     * @Override
+     * public Ast visitFieldElement(exprParser.FieldElementContext ctx) {
+     * String idfString = ctx.getChild(0).toString();
+     * Ast expr = ctx.getChild(2).accept(this);
+     * return new FieldElement(idfString, expr);
+     * }
+     */
 
     @Override
     public Ast visitFor(exprParser.ForContext ctx) {
@@ -128,37 +132,43 @@ public class AstCreator extends exprBaseVisitor<Ast> {
         Ast exprSeq = ctx.getChild(5).accept(this);
         Ast exprSeq2 = ctx.getChild(7).accept(this);
 
-        //Création des sous AST
-		Idf idf = new Idf(idfString);
+        // Création des sous AST
+        Idf idf = new Idf(idfString);
 
         return new For(idf, expr, exprSeq, exprSeq2);
     }
 
- /*    @Override
-    public Ast visitFuncdecl(exprParser.FuncdeclContext ctx) {
-        String idfString = ctx.getChild(1).toString();
-        Ast exprSeq = ctx.getChild(3).accept(this);
-        Ast exprSeq2 = ctx.getChild(5).accept(this);
+    /*
+     * @Override
+     * public Ast visitFuncdecl(exprParser.FuncdeclContext ctx) {
+     * String idfString = ctx.getChild(1).toString();
+     * Ast exprSeq = ctx.getChild(3).accept(this);
+     * Ast exprSeq2 = ctx.getChild(5).accept(this);
+     * 
+     * //Création des sous AST
+     * Idf idf = new Idf(idfString);
+     * return new FuncDecl(idf, exprSeq, exprSeq2);
+     * }
+     */
 
-        //Création des sous AST
-        Idf idf = new Idf(idfString);
-        return new FuncDecl(idf, exprSeq, exprSeq2);
-    } */
+    /*
+     * @Override
+     * public Ast visitFunctionCall(exprParser.FunctionCallContext ctx) {
+     * String idfString = ctx.getChild(0).toString();
+     * ExprList exprList = ctx.getChild(2).accept(this);
+     * 
+     * //Création des sous AST
+     * Idf idf = new Idf(idfString);
+     * return new FunctionCall(idf, exprList);
+     * }
+     */
 
-   /*  @Override
-    public Ast visitFunctionCall(exprParser.FunctionCallContext ctx) {
-        String idfString = ctx.getChild(0).toString();
-        ExprList exprList = ctx.getChild(2).accept(this);
-
-        //Création des sous AST
-        Idf idf = new Idf(idfString);
-        return new FunctionCall(idf, exprList);
-    } */
-
-  /*   @Override
-    public Ast visitIdentifier(exprParser.IdentifierContext ctx) { 
-		return new Idf(ctx.getChild(0).toString());
-	} */
+    /*
+     * @Override
+     * public Ast visitIdentifier(exprParser.IdentifierContext ctx) {
+     * return new Idf(ctx.getChild(0).toString());
+     * }
+     */
 
     @Override
     public Ast visitIfThen(exprParser.IfThenContext ctx) {
@@ -175,7 +185,7 @@ public class AstCreator extends exprBaseVisitor<Ast> {
         return new IfThenElse(expr, exprSeq, exprSeq2);
     }
 
-    //pb avec BoolExpr
+    // pb avec BoolExpr
     @Override
     public Ast visitInfEqNode(exprParser.InfEqNodeContext ctx) {
         Ast left = ctx.getChild(0).accept(this);
@@ -183,7 +193,7 @@ public class AstCreator extends exprBaseVisitor<Ast> {
         return new InfEqNode(left, right);
     }
 
-    //même pb
+    // même pb
     @Override
     public Ast visitInfNode(exprParser.InfNodeContext ctx) {
         Ast left = ctx.getChild(0).accept(this);
@@ -191,15 +201,17 @@ public class AstCreator extends exprBaseVisitor<Ast> {
         return new InfNode(left, right);
     }
 
-    //@Override
-   // public Ast visitInt(exprParser.IntegerContext ctx) {}
+    // @Override
+    // public Ast visitInt(exprParser.IntegerContext ctx) {}
 
- /*    @Override
-    public Ast visitLetNode(exprParser.LetNodeContext ctx) {
-        Ast declList = ctx.getChild(1).accept(this);
-        Ast exprSeq = ctx.getChild(3).accept(this);
-        return new LetNode(declList, exprSeq);
-    }  */
+    /*
+     * @Override
+     * public Ast visitLetNode(exprParser.LetNodeContext ctx) {
+     * Ast declList = ctx.getChild(1).accept(this);
+     * Ast exprSeq = ctx.getChild(3).accept(this);
+     * return new LetNode(declList, exprSeq);
+     * }
+     */
 
     @Override
     public Ast visitMoins(exprParser.MoinsContext ctx) {
@@ -215,11 +227,13 @@ public class AstCreator extends exprBaseVisitor<Ast> {
         return new Mult(left, right);
     }
 
-  /*   @Override
-    public Ast visitNot(exprParser.NotContext ctx) {
-        Ast expr = ctx.getChild(1).accept(this);
-        return new NotNode(expr);
-    }*/
+    /*
+     * @Override
+     * public Ast visitNot(exprParser.NotContext ctx) {
+     * Ast expr = ctx.getChild(1).accept(this);
+     * return new NotNode(expr);
+     * }
+     */
 
     @Override
     public Ast visitPrintInt(exprParser.PrintIntContext ctx) {
@@ -228,25 +242,24 @@ public class AstCreator extends exprBaseVisitor<Ast> {
     }
 
     @Override
-    public Ast visitProgram(exprParser.ProgramContext ctx) { 
+    public Ast visitProgram(exprParser.ProgramContext ctx) {
 
-		Ast child = ctx.getChild(0).accept(this);
-		return new Program(child);
-	}
+        Ast child = ctx.getChild(0).accept(this);
+        return new Program(child);
+    }
 
     @Override
     public Ast visitVarDecl(exprParser.VarDeclContext ctx) {
-        //Récupération des noeuds fils
+        // Récupération des noeuds fils
         Ast expr = ctx.getChild(3).accept(this);
         String idfString = ctx.getChild(1).toString();
         FieldDecl fieldDecl = (FieldDecl) ctx.getChild(2).accept(this);
         TypeId typeId = (TypeId) ctx.getChild(0).accept(this);
 
-        //Création des sous AST
+        // Création des sous AST
         Idf idf = new Idf(idfString);
 
         return new VarDecl(idf, fieldDecl, typeId, expr);
     }
 
-    
 }

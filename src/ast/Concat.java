@@ -1,15 +1,15 @@
 package ast;
 
-public class Concat {
+public class Concat implements Ast {
 
     public <T> T accept(AstVisitor<T> visitor) {
         return visitor.visit(this);
     }
 
-    public StringNode leftString;
-    public StringNode righString;
+    public String leftString;
+    public String righString;
 
-    public Concat(StringNode leftString, StringNode rightString) {
+    public Concat(String leftString, String rightString) {
         this.leftString = leftString;
         this.righString = rightString;
     }

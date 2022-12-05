@@ -6,12 +6,12 @@ public class Affect implements Ast {
         return visitor.visit(this);
     }
 
-    public Idf idf;
-    public Ast expression;
+    public Ast left;
+    public Ast right;
 
-    public Affect(Idf idf, Ast expr) {
-        this.idf = idf;
-        this.expression = expr;
+    public Affect(Ast left, Ast right) {
+        this.left = left;
+        this.right = right;
     }
 
 }
