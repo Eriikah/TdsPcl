@@ -11,17 +11,19 @@ decl: typedecl | vardecl | funcdecl;
 typedecl: 'type' typeid '=' type;
 
 fielddecl:
-	ID ':' typeid (',' ID ':' typeid)*;
+	ID ':' typeid (',' fieldid+=ID ':' fieldtype+=typeid)*;
 
-vardecl: 'var' ID (':' typeid)? ':=' exprsolo  #VarDecl
+vardecl: 'var' ID (':' vartype=typeid)? ':=' exprsolo  #VarDecl
 		;
 
 funcdecl:
-	 'function' ID  '(' fielddecl? ')' (':' typeid )? '=' exprsolo
+	 'function' ID  '(' funcfield=fielddecl? ')' (':' functype=typeid )? '=' exprsolo
 	;
 
-lvalue: ID  (subscript | fieldexpr)*
+lvalue: ID  (lvalsub+=lvalues)*
 	;
+
+lvalues: subscript |fieldexpr;
 
 subscript: '[' exprsolo ']';
 
@@ -30,10 +32,10 @@ fieldexpr: '.' ID;
 expr:
 	INT														# Integer
 	| STRING												# StringDecl
-	| '(' expr_seq ')'										# Parenthesis
+	| '(' expr_list ')'										# Parenthesis
 	| '-' exprsolo											# MinusAffector
-	| lvalue (':=' exprsolo)?								# Affect
-	| ID '(' expr_list? ')'									# FunctionCall
+	| lvalue (':=' lavalueexpr=exprsolo)?								# Affect
+	| ID '(' exprlist=expr_list? ')'									# FunctionCall
 	| typeid '[' exprsolo ']' 'of' exprsolo					# ListDecl
 	| typeid '{' fieldcreate '}'							# List
 	| 'if' exprsolo 'then' exprsolo							# IfThen
@@ -41,7 +43,7 @@ expr:
 	| 'while' exprsolo 'do' exprsolo						# While
 	| 'for' ID ':=' exprsolo 'to' exprsolo 'do' exprsolo	# For
 	| 'break'												# Break
-	| 'let' decl_list 'in' expr_seq? 'end'					# Let
+	| 'let' decl_list 'in' expr_list? 'end'					# Let
 	| prints												#PrintStr
 	| freturn												#ReturnF
 	| printi												#PrintInt
@@ -56,38 +58,35 @@ expr:
 	| exit													#ExitF
 	;
 
-exprsolo: orexpr (':=' exprsolo)? #Affect2
+exprsolo: orexpr (':=' affexpr=exprsolo)? #Affect2
 		;
 
-orexpr: andexpr ('|' exprsolo)? #Or
+orexpr: andexpr ('|' expror=exprsolo)? #Or
 		;
-andexpr: boolexpr ('&' exprsolo)? #And
+andexpr: boolexpr ('&' exprand=exprsolo)? #And
 		;
-boolexpr: minusexpr (('='|'<>'|'<='|'>='|'<'|'>') exprsolo)?	
+boolexpr: minusexpr (('='|'<>'|'<='|'>='|'<'|'>') exprbool=exprsolo)?	
 		;
 
-minusexpr: addexpr ('-' exprsolo)? #Moins
+minusexpr: addexpr ('-' exprminus=exprsolo)? #Moins
 	;
-addexpr: divexpr ('+' exprsolo)? #Plus
+addexpr: divexpr ('+' exprplus=exprsolo)? #Plus
 	;
-divexpr: multexpr ('/' exprsolo)? #Div
+divexpr: multexpr ('/' exprdiv=exprsolo)? #Div
 	;
-multexpr: expr ('*' exprsolo)? #Mult
-	;
-
-expr_seq: exprsolo (';' exprsolo)* #ExprSeq
+multexpr: expr ('*' exprmult=exprsolo)? #Mult
 	;
 
-expr_list: exprsolo (',' exprsolo)* #ExprList
+expr_list: exprsolo (sep=(','|';') exprlist+=exprsolo)* #ExprList
 	;
 
-fieldcreate: ID '=' exprsolo ('.' ID '=' exprsolo)* #Field_Create
+fieldcreate: ID '=' exprsolo ('.' fieldid+=ID '=' fieldex+=exprsolo)* #Field_Create
 	;
 
 decl_list: decl+ #DeclList
 	;
 
-freturn: 'return' '(' expr_seq ')';
+freturn: 'return' '(' expr_list ')';
 
 prints: 'print' '(' (exprsolo) ')';
 
@@ -97,26 +96,26 @@ flush: 'flush' '(' ')';
 
 getchar: 'getchar' '(' ')';
 
-ord: 'ord' '(' (STRING | ID) ')';
+ord: 'ord' '(' (ordel=STRING | oerdel=ID) ')';
 
-chr: 'chr' '(' (INT | ID) ')';
+chr: 'chr' '(' (chrel=INT | chrel=ID) ')';
 
-size: 'size' '(' (STRING | ID) ')';
+size: 'size' '(' (sizeel=STRING | sizeel=ID) ')';
 
-substring:	'substring' '(' (STRING | ID) ',' (INT | ID) ',' (INT | ID) ')';
+substring:	'substring' '(' (sstrel=STRING | ID) ',' (sstrind=INT | sstrind=ID) ',' (sstrlen=INT | sstrlen=ID) ')';
 
-concat: 'concat' '(' (STRING | ID) ',' (STRING | ID) ')';
+concat: 'concat' '(' (catel1=STRING | catel1=ID) ',' (catel2=STRING | catel2=ID) ')';
 
-not: 'not' '(' (INT | ID) ')';
+not: 'not' '(' (notel=INT | notel=ID) ')';
 
-exit: 'exit' '(' (INT | ID) ')';
+exit: 'exit' '(' (exitel=INT | exitel=ID) ')';
 
 type: typeid 
-	| '{' typefields? '}' 
+	| '{' tyfield=typefields? '}' 
 	| 'array' 'of' typeid
 	;
 
-typefields: typefield (',' typefields)* #Type_Fields
+typefields: typefield (',' tyfield+=typefields)* #Type_Fields
 		; 
 
 typefield: ID ':' typeid #Type_Field
