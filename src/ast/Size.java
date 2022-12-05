@@ -6,9 +6,9 @@ public class Size implements Ast {
         return visitor.visit(this);
     }
 
-    public String value;
+    public StringNode value;
 
-    public Size(String value) {
+    public Size(StringNode value) {
         this.value = value;
     }
 

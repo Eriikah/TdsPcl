@@ -6,10 +6,10 @@ public class Concat {
         return visitor.visit(this);
     }
 
-    public String leftString;
-    public String righString;
+    public StringNode leftString;
+    public StringNode righString;
 
-    public Concat(String leftString, String rightString) {
+    public Concat(StringNode leftString, StringNode rightString) {
         this.leftString = leftString;
         this.righString = rightString;
     }

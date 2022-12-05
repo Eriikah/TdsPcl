@@ -6,9 +6,9 @@ public class Ord implements Ast {
         return visitor.visit(this);
     }
 
-    public String value;
+    public StringNode value;
 
-    public Ord(String value) {
+    public Ord(StringNode value) {
         this.value = value;
     }
 }

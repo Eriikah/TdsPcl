@@ -6,9 +6,9 @@ public class Exit implements Ast {
         return visitor.visit(this);
     }
 
-    public int value;
+    public IntNode value;
 
-    public Exit(int value) {
+    public Exit(IntNode value) {
         this.value = value;
     }
 

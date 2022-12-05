@@ -6,9 +6,9 @@ public class Chr implements Ast {
         return visitor.visit(this);
     }
 
-    public String value;
+    public IntNode value;
 
-    public Chr(String value) {
+    public Chr(IntNode value) {
         this.value = value;
     }
 
