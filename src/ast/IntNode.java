@@ -7,9 +7,10 @@ public class IntNode implements Ast {
     }
 
     public int value;
+    public Idf Idf;
 
-    public IntNode(int value) {
+    public IntNode(int value, Idf Idf) {
         this.value = value;
+        this.Idf = Idf;
     }
-
 }
