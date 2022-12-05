@@ -175,7 +175,51 @@ public class AstCreator extends exprBaseVisitor<Ast> {
         return new IfThenElse(expr, exprSeq, exprSeq2);
     }
 
-    
+    //pb avec BoolExpr
+    @Override
+    public Ast visitInfEqNode(exprParser.InfEqNodeContext ctx) {
+        Ast left = ctx.getChild(0).accept(this);
+        Ast right = ctx.getChild(2).accept(this);
+        return new InfEqNode(left, right);
+    }
+
+    //même pb
+    @Override
+    public Ast visitInfNode(exprParser.InfNodeContext ctx) {
+        Ast left = ctx.getChild(0).accept(this);
+        Ast right = ctx.getChild(2).accept(this);
+        return new InfNode(left, right);
+    }
+
+    //@Override
+   // public Ast visitInt(exprParser.IntegerContext ctx) {}
+
+ /*    @Override
+    public Ast visitLetNode(exprParser.LetNodeContext ctx) {
+        Ast declList = ctx.getChild(1).accept(this);
+        Ast exprSeq = ctx.getChild(3).accept(this);
+        return new LetNode(declList, exprSeq);
+    }  */
+
+    @Override
+    public Ast visitMoins(exprParser.MoinsContext ctx) {
+        Ast left = ctx.getChild(0).accept(this);
+        Ast right = ctx.getChild(2).accept(this);
+        return new Minus(left, right);
+    }
+
+    @Override
+    public Ast visitMult(exprParser.MultContext ctx) {
+        Ast left = ctx.getChild(0).accept(this);
+        Ast right = ctx.getChild(2).accept(this);
+        return new Mult(left, right);
+    }
+
+  /*   @Override
+    public Ast visitNot(exprParser.NotContext ctx) {
+        Ast expr = ctx.getChild(1).accept(this);
+        return new NotNode(expr);
+    }*/
 
     @Override
     public Ast visitPrintInt(exprParser.PrintIntContext ctx) {
