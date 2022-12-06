@@ -6,13 +6,9 @@ public interface AstVisitor<T> {
 
     public T visit(AndNode affect);
 
-    public T visit(Ast affect);
-
     public T visit(Chr affect);
 
     public T visit(Concat affect);
-
-    public T visit(Decl affect);
 
     public T visit(DeclList affect);
 
