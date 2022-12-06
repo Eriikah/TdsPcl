@@ -70,8 +70,9 @@ public class AstCreator extends exprBaseVisitor<Ast> {
 
     @Override
     public Ast visitInteger(exprParser.IntegerContext ctx) {
-        return visitChildren(ctx);
+        return new IntNode(Integer.parseInt(ctx.getChild(0))) ;
     }
+    // ??
 
     @Override
     public Ast visitStringDecl(exprParser.StringDeclContext ctx) {
@@ -80,7 +81,7 @@ public class AstCreator extends exprBaseVisitor<Ast> {
 
     @Override
     public Ast visitParenthesis(exprParser.ParenthesisContext ctx) {
-        return visitChildren(ctx);
+        return ctx.getChild(1).accept(this);
     }
 
     @Override
@@ -90,8 +91,13 @@ public class AstCreator extends exprBaseVisitor<Ast> {
 
     @Override
     public Ast visitAffect(exprParser.AffectContext ctx) {
-        return visitChildren(ctx);
+        Ast left = ctx.getChild(0).accept(this);
+        Ast right = ctx.getChild(2).accept(this);
+
+        // Création des sous AST
+        return new Affect(left, right);
     }
+
 
     @Override
     public Ast visitFunctionCall(exprParser.FunctionCallContext ctx) {
@@ -120,7 +126,11 @@ public class AstCreator extends exprBaseVisitor<Ast> {
 
     @Override
     public Ast visitWhile(exprParser.WhileContext ctx) {
-        return visitChildren(ctx);
+        Ast cond = ctx.getChild(1).accept(this);
+        Ast expr = ctx.getChild(3).accept(this);
+
+        // Création des sous AST
+        return new While(cond, expr);
     }
 
     @Override
@@ -197,7 +207,14 @@ public class AstCreator extends exprBaseVisitor<Ast> {
 
     @Override
     public Ast visitOr(exprParser.OrContext ctx) {
-        return visitChildren(ctx);
+        Ast left = ctx.getChild(0).accept(this);
+        if (ctx.getChild(2) == null) {
+            return left;
+        }
+        Ast right = ctx.getChild(2).accept(this);
+
+        // Création des sous AST
+        return new OrNode(left, right);
     }
 
     @Override
