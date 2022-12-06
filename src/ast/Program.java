@@ -11,5 +11,4 @@ public class Program implements Ast {
     public Program(Ast expressions) {
         this.expressions = expressions;
     }
-
 }

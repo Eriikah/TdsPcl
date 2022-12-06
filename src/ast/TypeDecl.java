@@ -6,10 +6,10 @@ public class TypeDecl implements Ast {
         return visitor.visit(this);
     }
 
-    public TypeId typeid;
+    public Ast typeid;
     public Ast type;
 
-    public TypeDecl(TypeId typeid, Ast type) {
+    public TypeDecl(Ast typeid, Ast type) {
         this.typeid = typeid;
         this.type = type;
     }

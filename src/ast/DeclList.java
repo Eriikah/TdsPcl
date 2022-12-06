@@ -8,13 +8,13 @@ public class DeclList extends Decl implements Ast {
         return visitor.visit(this);
     }
 
-    public ArrayList<Decl> declElement;
+    public ArrayList<Ast> declElement;
 
     public DeclList() {
         this.declElement = new ArrayList<>();
     }
 
-    public void addDecl(Decl elem) {
+    public void addDecl(Ast elem) {
         declElement.add(elem);
     }
 

@@ -6,9 +6,9 @@ public class Not implements Ast {
         return visitor.visit(this);
     }
 
-    public IntNode value;
+    public Ast value;
 
-    public Not(IntNode value) {
+    public Not(Ast value) {
         this.value = value;
     }
 

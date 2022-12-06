@@ -7,9 +7,9 @@ public class FunctionCall implements Ast {
     }
 
     public Idf Idf;
-    public ExprList exprList;
+    public Ast exprList;
 
-    public FunctionCall(Idf Idf, ExprList exprList) {
+    public FunctionCall(Idf Idf, Ast exprList) {
         this.Idf = Idf;
         this.exprList = exprList;
     }

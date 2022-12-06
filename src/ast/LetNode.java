@@ -6,10 +6,10 @@ public class LetNode implements Ast {
         return visitor.visit(this);
     }
 
-    public DeclList declList;
-    public ExprSeq exprSeq;
+    public Ast declList;
+    public Ast exprSeq;
 
-    public LetNode(DeclList declList, ExprSeq exprSeq) {
+    public LetNode(Ast declList, Ast exprSeq) {
         this.declList = declList;
         this.exprSeq = exprSeq;
     }

@@ -7,7 +7,7 @@ public class FieldElement implements Ast {
     }
 
     public Idf Idf;
-    public TypeId typeid;
+    public Ast typeid;
 
     public FieldElement(Idf Idf, TypeId typeid) {
         this.Idf = Idf;

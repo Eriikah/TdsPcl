@@ -2,16 +2,18 @@ package ast;
 
 import java.util.ArrayList;
 
-public class FieldDecl {
+public class FieldDecl implements Ast {
 
     public <T> T accept(AstVisitor<T> visitor) {
         return visitor.visit(this);
     }
 
-    public ArrayList<FieldElement> fieldElements;
+    public ArrayList<Idf> fieldIds;
+    public ArrayList<Ast> fieldTypes;
 
-    public FieldDecl(ArrayList<FieldElement> fieldElements) {
-        this.fieldElements = fieldElements;
+    public FieldDecl(ArrayList<Idf> Ids, ArrayList<Ast> fieldElements) {
+        this.fieldIds = Ids;
+        this.fieldTypes = fieldElements;
     }
 
 }
