@@ -11,9 +11,9 @@ public class FieldDecl implements Ast {
     public ArrayList<Idf> fieldIds;
     public ArrayList<Ast> fieldTypes;
 
-    public FieldDecl(ArrayList<Idf> Ids, ArrayList<Ast> fieldElements) {
-        this.fieldIds = Ids;
-        this.fieldTypes = fieldElements;
+    public FieldDecl(ArrayList<Idf> fieldIds, ArrayList<Ast> fieldTypes) {
+        this.fieldIds = fieldIds;
+        this.fieldTypes = fieldTypes;
     }
 
 }

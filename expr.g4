@@ -25,7 +25,8 @@ funcdecl:
 
 lvalue: ID (lvalsub += lvalues)*;
 
-lvalues: subscript | fieldexpr;
+lvalues: subscript #SubscriptF 
+	| fieldexpr #FieldexprF;
 
 subscript: '[' exprsolo ']';
 
@@ -116,9 +117,9 @@ not: 'not' '(' (notel = INT | notel = ID) ')';
 exit: 'exit' '(' (exitel = INT | exitel = ID) ')';
 
 type:
-	typeid
-	| '{' tyfield = typefields? '}'
-	| 'array' 'of' typeid;
+	typeid #TypeIdF
+	| '{' tyfield = typefields? '}'#Tyfields
+	| 'array' 'of' typeid #DeclArrayOfTyfields;
 
 typefields:
 	tyfield += typefield (',' tyfield += typefield)* # Type_Fields;

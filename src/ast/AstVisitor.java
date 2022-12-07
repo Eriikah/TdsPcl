@@ -54,8 +54,6 @@ public interface AstVisitor<T> {
 
     public T visit(Lvalue affect);
 
-    public T visit(LvalueSub affect);
-
     public T visit(Minus affect);
 
     public T visit(Mult affect);
@@ -97,5 +95,9 @@ public interface AstVisitor<T> {
     public T visit(VarDecl affect);
 
     public T visit(While affect);
+
+    public T visit(TypeField typeField);
+
+    public T visit(List list);
 
 }

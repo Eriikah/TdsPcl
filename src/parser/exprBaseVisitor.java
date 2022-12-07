@@ -68,7 +68,14 @@ public class exprBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements e
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitLvalues(exprParser.LvaluesContext ctx) { return visitChildren(ctx); }
+	@Override public T visitSubscriptF(exprParser.SubscriptFContext ctx) { return visitChildren(ctx); }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.</p>
+	 */
+	@Override public T visitFieldexprF(exprParser.FieldexprFContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -432,7 +439,21 @@ public class exprBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements e
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitType(exprParser.TypeContext ctx) { return visitChildren(ctx); }
+	@Override public T visitTypeIdF(exprParser.TypeIdFContext ctx) { return visitChildren(ctx); }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.</p>
+	 */
+	@Override public T visitTyfields(exprParser.TyfieldsContext ctx) { return visitChildren(ctx); }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.</p>
+	 */
+	@Override public T visitDeclArrayOfTyfields(exprParser.DeclArrayOfTyfieldsContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *

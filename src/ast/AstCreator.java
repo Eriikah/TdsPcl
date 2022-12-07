@@ -1,6 +1,9 @@
 package ast;
 
 import parser.exprParser;
+import parser.exprParser.ExprsoloContext;
+import parser.exprParser.Type_FieldContext;
+import parser.exprParser.TypefieldContext;
 import parser.exprParser.TypeidContext;
 
 import java.util.ArrayList;
@@ -49,34 +52,44 @@ public class AstCreator extends exprBaseVisitor<Ast> {
     }
 
     @Override
-    public Ast visitLvalue(exprParser.LvalueContext ctx) {
-        return visitChildren(ctx);
+    public Ast visitSubscriptF(exprParser.SubscriptFContext ctx) {
+        return ctx.getChild(0).accept(this);
     }
 
     @Override
-    public Ast visitLvalues(exprParser.LvaluesContext ctx) {
-        return visitChildren(ctx);
+    public Ast visitFieldexprF(exprParser.FieldexprFContext ctx) {
+        return ctx.getChild(0).accept(this);
+    }
+
+    @Override
+    public Ast visitLvalue(exprParser.LvalueContext ctx) {
+        String idfString = ctx.getChild(0).toString();
+        Idf idf = new Idf(idfString);
+        ArrayList<Ast> lvaluesubs = new ArrayList<Ast>();
+        for (int i = 1; i < ctx.getChildCount(); i++) {
+            lvaluesubs.add(ctx.getChild(i).accept(this));
+        }
+        return new Lvalue(idf, lvaluesubs);
     }
 
     @Override
     public Ast visitSubscript(exprParser.SubscriptContext ctx) {
-        return visitChildren(ctx);
+        return new Subscript(ctx.getChild(1).accept(this));
     }
 
     @Override
     public Ast visitFieldexpr(exprParser.FieldexprContext ctx) {
-        return visitChildren(ctx);
+        return new FieldExpr(ctx.getChild(1).toString());
     }
 
     @Override
     public Ast visitInteger(exprParser.IntegerContext ctx) {
         return new IntNode(ctx.getChild(0).toString());
     }
-    // ??
 
     @Override
     public Ast visitStringDecl(exprParser.StringDeclContext ctx) {
-        return visitChildren(ctx);
+        return new StringNode(ctx.getChild(0).toString());
     }
 
     @Override
@@ -86,7 +99,7 @@ public class AstCreator extends exprBaseVisitor<Ast> {
 
     @Override
     public Ast visitMinusAffector(exprParser.MinusAffectorContext ctx) {
-        return visitChildren(ctx);
+        return ctx.getChild(1).accept(this);
     }
 
     @Override
@@ -120,7 +133,9 @@ public class AstCreator extends exprBaseVisitor<Ast> {
 
     @Override
     public Ast visitList(exprParser.ListContext ctx) {
-        return visitChildren(ctx);
+        Ast typeid = ctx.getChild(0).accept(this);
+        Ast fieldCreate = ctx.getChild(2).accept(this);
+        return new List(typeid, fieldCreate);
     }
 
     @Override
@@ -146,52 +161,52 @@ public class AstCreator extends exprBaseVisitor<Ast> {
 
     @Override
     public Ast visitPrintStr(exprParser.PrintStrContext ctx) {
-        return visitChildren(ctx);
+        return ctx.getChild(0).accept(this);
     }
 
     @Override
     public Ast visitReturnF(exprParser.ReturnFContext ctx) {
-        return visitChildren(ctx);
+        return ctx.getChild(0).accept(this);
     }
 
     @Override
     public Ast visitFlushF(exprParser.FlushFContext ctx) {
-        return visitChildren(ctx);
+        return ctx.getChild(0).accept(this);
     }
 
     @Override
     public Ast visitGetCharF(exprParser.GetCharFContext ctx) {
-        return visitChildren(ctx);
+        return ctx.getChild(0).accept(this);
     }
 
     @Override
     public Ast visitOrdF(exprParser.OrdFContext ctx) {
-        return visitChildren(ctx);
+        return ctx.getChild(0).accept(this);
     }
 
     @Override
     public Ast visitCharF(exprParser.CharFContext ctx) {
-        return visitChildren(ctx);
+        return ctx.getChild(0).accept(this);
     }
 
     @Override
     public Ast visitSizeF(exprParser.SizeFContext ctx) {
-        return visitChildren(ctx);
+        return ctx.getChild(0).accept(this);
     }
 
     @Override
     public Ast visitSubstringF(exprParser.SubstringFContext ctx) {
-        return visitChildren(ctx);
+        return ctx.getChild(0).accept(this);
     }
 
     @Override
     public Ast visitConcatenateF(exprParser.ConcatenateFContext ctx) {
-        return visitChildren(ctx);
+        return ctx.getChild(0).accept(this);
     }
 
     @Override
     public Ast visitExitF(exprParser.ExitFContext ctx) {
-        return visitChildren(ctx);
+        return ctx.getChild(0).accept(this);
     }
 
     @Override
@@ -243,77 +258,111 @@ public class AstCreator extends exprBaseVisitor<Ast> {
 
     @Override
     public Ast visitPlus(exprParser.PlusContext ctx) {
-        return visitChildren(ctx);
+        Ast right = ctx.exprplus.accept(this);
+        if (right == null) {
+            return ctx.getChild(0).accept(this);
+        }
+        Ast left = ctx.getChild(0).accept(this);
+        return new Plus(left, right);
     }
 
     @Override
     public Ast visitField_Create(exprParser.Field_CreateContext ctx) {
-        return visitChildren(ctx);
+        ArrayList<Idf> idTypes = new ArrayList<Idf>();
+        ArrayList<Ast> fieldexpr = new ArrayList<Ast>();
+
+        for (Token ids : ctx.fieldid) {
+            idTypes.add(new Idf(ids.toString()));
+        }
+        for (ExprsoloContext field : ctx.fieldex) {
+            fieldexpr.add(field.accept(this));
+        }
+
+        // Création des sous AST
+        return new FieldDecl(idTypes, fieldexpr);
     }
 
     @Override
     public Ast visitFreturn(exprParser.FreturnContext ctx) {
-        return visitChildren(ctx);
+        return new Return(ctx.getChild(2).accept(this));
     }
 
     @Override
     public Ast visitPrints(exprParser.PrintsContext ctx) {
-        return visitChildren(ctx);
+        return new PrintExpr(ctx.getChild(2).accept(this));
     }
 
     @Override
     public Ast visitPrinti(exprParser.PrintiContext ctx) {
-        return visitChildren(ctx);
+        return new PrintInt(ctx.getChild(2).accept(this));
     }
 
     @Override
     public Ast visitFlush(exprParser.FlushContext ctx) {
-        return visitChildren(ctx);
+        return new Flush();
     }
 
     @Override
     public Ast visitGetchar(exprParser.GetcharContext ctx) {
-        return visitChildren(ctx);
+        return new GetChar();
     }
 
     @Override
     public Ast visitOrd(exprParser.OrdContext ctx) {
-        return visitChildren(ctx);
+        return new Ord(ctx.ordel.toString());
     }
 
     @Override
     public Ast visitSize(exprParser.SizeContext ctx) {
-        return visitChildren(ctx);
+        return new Size(ctx.sizeel.toString());
     }
 
     @Override
     public Ast visitSubstring(exprParser.SubstringContext ctx) {
-        return visitChildren(ctx);
+        return new Substring(ctx.sstrel.toString(), ctx.sstrind.toString(), ctx.sstrlen.toString());
     }
 
     @Override
     public Ast visitNotF(exprParser.NotFContext ctx) {
-        return visitChildren(ctx);
+        return ctx.getChild(0).accept(this);
     }
 
     @Override
-    public Ast visitType(exprParser.TypeContext ctx) {
-        return visitChildren(ctx);
+    public Ast visitTypeIdF(exprParser.TypeIdFContext ctx) {
+        return ctx.getChild(0).accept(this);
+    }
+
+    @Override
+    public Ast visitTyfields(exprParser.TyfieldsContext ctx) {
+        if (ctx.tyfield != null) {
+            return ctx.tyfield.accept(this);
+        } else {
+            return visitChildren(ctx);
+        }
+    }
+
+    @Override
+    public Ast visitDeclArrayOfTyfields(exprParser.DeclArrayOfTyfieldsContext ctx) {
+        return new TypeId(ctx.getChild(2).getText());
     }
 
     @Override
     public Ast visitType_Fields(exprParser.Type_FieldsContext ctx) {
-        return visitChildren(ctx);
+        ArrayList<Ast> typefieldList = new ArrayList<Ast>();
+        for (TypefieldContext typefield : ctx.tyfield) {
+            typefieldList.add(typefield.accept(this));
+        }
+        return new TypeFields(typefieldList);
     }
 
     @Override
     public Ast visitType_Field(exprParser.Type_FieldContext ctx) {
-        return visitChildren(ctx);
+        return new TypeField(ctx.getChild(0).getText(), ctx.getChild(2).getText());
     }
 
     @Override
     public Ast visitTypeid(exprParser.TypeidContext ctx) {
-        return visitChildren(ctx);
+        return new TypeId(ctx.getChild(0).toString());
     }
 
     @Override
@@ -369,13 +418,6 @@ public class AstCreator extends exprBaseVisitor<Ast> {
         return exprList;
     }
 
-    // @Override
-    // public Ast visitFieldElement(exprParser.FieldElementContext ctx) {
-    // String idfString = ctx.getChild(0).toString();
-    // Ast expr = ctx.getChild(2).accept(this);
-    // return new FieldElement(idfString, expr);
-    // }
-
     @Override
     public Ast visitFor(exprParser.ForContext ctx) {
         String idfString = ctx.getChild(1).toString();
@@ -388,25 +430,6 @@ public class AstCreator extends exprBaseVisitor<Ast> {
 
         return new For(idf, expr, exprSeq, exprSeq2);
     }
-
-    /*
-     * @Override
-     * public Ast visitFunctionCall(exprParser.FunctionCallContext ctx) {
-     * String idfString = ctx.getChild(0).toString();
-     * ExprList exprList = ctx.getChild(2).accept(this);
-     * 
-     * //Création des sous AST
-     * Idf idf = new Idf(idfString);
-     * return new FunctionCall(idf, exprList);
-     * }
-     */
-
-    /*
-     * @Override
-     * public Ast visitIdentifier(exprParser.IdentifierContext ctx) {
-     * return new Idf(ctx.getChild(0).toString());
-     * }
-     */
 
     @Override
     public Ast visitIfThen(exprParser.IfThenContext ctx) {

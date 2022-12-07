@@ -6,9 +6,9 @@ public class FieldExpr extends LvalueSub {
         return visitor.visit(this);
     }
 
-    public Idf Idf;
+    public String Idf;
 
-    public FieldExpr(Idf Idf) {
+    public FieldExpr(String Idf) {
         this.Idf = Idf;
     }
 }

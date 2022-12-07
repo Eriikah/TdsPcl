@@ -56,11 +56,19 @@ public interface exprVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitLvalue(exprParser.LvalueContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link exprParser#lvalues}.
+	 * Visit a parse tree produced by the {@code SubscriptF}
+	 * labeled alternative in {@link exprParser#lvalues}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitLvalues(exprParser.LvaluesContext ctx);
+	T visitSubscriptF(exprParser.SubscriptFContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code FieldexprF}
+	 * labeled alternative in {@link exprParser#lvalues}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitFieldexprF(exprParser.FieldexprFContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link exprParser#subscript}.
 	 * @param ctx the parse tree
@@ -404,11 +412,26 @@ public interface exprVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitExit(exprParser.ExitContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link exprParser#type}.
+	 * Visit a parse tree produced by the {@code TypeIdF}
+	 * labeled alternative in {@link exprParser#type}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitType(exprParser.TypeContext ctx);
+	T visitTypeIdF(exprParser.TypeIdFContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code Tyfields}
+	 * labeled alternative in {@link exprParser#type}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitTyfields(exprParser.TyfieldsContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code DeclArrayOfTyfields}
+	 * labeled alternative in {@link exprParser#type}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitDeclArrayOfTyfields(exprParser.DeclArrayOfTyfieldsContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code Type_Fields}
 	 * labeled alternative in {@link exprParser#typefields}.

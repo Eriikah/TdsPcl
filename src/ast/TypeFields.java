@@ -1,16 +1,16 @@
 package ast;
 
+import java.util.ArrayList;
+
 public class TypeFields implements Ast {
 
     public <T> T accept(AstVisitor<T> visitor) {
         return visitor.visit(this);
     }
 
-    public TypeDecl typeDecl;
-    public TypeFields typeFields;
+    public ArrayList<Ast> typeField;
 
-    public TypeFields(TypeDecl typeDecl, TypeFields typeFields) {
-        this.typeDecl = typeDecl;
-        this.typeFields = typeFields;
+    public TypeFields(ArrayList<Ast> typeField) {
+        this.typeField = typeField;
     }
 }

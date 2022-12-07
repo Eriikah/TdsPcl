@@ -6,9 +6,9 @@ public class Return implements Ast {
         return visitor.visit(this);
     }
 
-    public ExprList expressions;
+    public Ast expressions;
 
-    public Return(ExprList expressions) {
+    public Return(Ast expressions) {
         this.expressions = expressions;
     }
 }

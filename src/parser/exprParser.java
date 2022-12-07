@@ -557,19 +557,35 @@ public class exprParser extends Parser {
 	}
 
 	public static class LvaluesContext extends ParserRuleContext {
-		public SubscriptContext subscript() {
-			return getRuleContext(SubscriptContext.class,0);
-		}
-		public FieldexprContext fieldexpr() {
-			return getRuleContext(FieldexprContext.class,0);
-		}
 		public LvaluesContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_lvalues; }
+	 
+		public LvaluesContext() { }
+		public void copyFrom(LvaluesContext ctx) {
+			super.copyFrom(ctx);
+		}
+	}
+	public static class SubscriptFContext extends LvaluesContext {
+		public SubscriptContext subscript() {
+			return getRuleContext(SubscriptContext.class,0);
+		}
+		public SubscriptFContext(LvaluesContext ctx) { copyFrom(ctx); }
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof exprVisitor ) return ((exprVisitor<? extends T>)visitor).visitLvalues(this);
+			if ( visitor instanceof exprVisitor ) return ((exprVisitor<? extends T>)visitor).visitSubscriptF(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+	public static class FieldexprFContext extends LvaluesContext {
+		public FieldexprContext fieldexpr() {
+			return getRuleContext(FieldexprContext.class,0);
+		}
+		public FieldexprFContext(LvaluesContext ctx) { copyFrom(ctx); }
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof exprVisitor ) return ((exprVisitor<? extends T>)visitor).visitFieldexprF(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -582,6 +598,7 @@ public class exprParser extends Parser {
 			_errHandler.sync(this);
 			switch (_input.LA(1)) {
 			case T__9:
+				_localctx = new SubscriptFContext(_localctx);
 				enterOuterAlt(_localctx, 1);
 				{
 				setState(131);
@@ -589,6 +606,7 @@ public class exprParser extends Parser {
 				}
 				break;
 			case T__11:
+				_localctx = new FieldexprFContext(_localctx);
 				enterOuterAlt(_localctx, 2);
 				{
 				setState(132);
@@ -2724,20 +2742,47 @@ public class exprParser extends Parser {
 	}
 
 	public static class TypeContext extends ParserRuleContext {
-		public TypefieldsContext tyfield;
-		public TypeidContext typeid() {
-			return getRuleContext(TypeidContext.class,0);
-		}
-		public TypefieldsContext typefields() {
-			return getRuleContext(TypefieldsContext.class,0);
-		}
 		public TypeContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_type; }
+	 
+		public TypeContext() { }
+		public void copyFrom(TypeContext ctx) {
+			super.copyFrom(ctx);
+		}
+	}
+	public static class TyfieldsContext extends TypeContext {
+		public TypefieldsContext tyfield;
+		public TypefieldsContext typefields() {
+			return getRuleContext(TypefieldsContext.class,0);
+		}
+		public TyfieldsContext(TypeContext ctx) { copyFrom(ctx); }
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof exprVisitor ) return ((exprVisitor<? extends T>)visitor).visitType(this);
+			if ( visitor instanceof exprVisitor ) return ((exprVisitor<? extends T>)visitor).visitTyfields(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+	public static class DeclArrayOfTyfieldsContext extends TypeContext {
+		public TypeidContext typeid() {
+			return getRuleContext(TypeidContext.class,0);
+		}
+		public DeclArrayOfTyfieldsContext(TypeContext ctx) { copyFrom(ctx); }
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof exprVisitor ) return ((exprVisitor<? extends T>)visitor).visitDeclArrayOfTyfields(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+	public static class TypeIdFContext extends TypeContext {
+		public TypeidContext typeid() {
+			return getRuleContext(TypeidContext.class,0);
+		}
+		public TypeIdFContext(TypeContext ctx) { copyFrom(ctx); }
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof exprVisitor ) return ((exprVisitor<? extends T>)visitor).visitTypeIdF(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -2753,6 +2798,7 @@ public class exprParser extends Parser {
 			case T__51:
 			case T__52:
 			case ID:
+				_localctx = new TypeIdFContext(_localctx);
 				enterOuterAlt(_localctx, 1);
 				{
 				setState(377);
@@ -2760,6 +2806,7 @@ public class exprParser extends Parser {
 				}
 				break;
 			case T__14:
+				_localctx = new TyfieldsContext(_localctx);
 				enterOuterAlt(_localctx, 2);
 				{
 				setState(378);
@@ -2770,7 +2817,7 @@ public class exprParser extends Parser {
 				if (_la==ID) {
 					{
 					setState(379);
-					((TypeContext)_localctx).tyfield = typefields();
+					((TyfieldsContext)_localctx).tyfield = typefields();
 					}
 				}
 
@@ -2779,6 +2826,7 @@ public class exprParser extends Parser {
 				}
 				break;
 			case T__50:
+				_localctx = new DeclArrayOfTyfieldsContext(_localctx);
 				enterOuterAlt(_localctx, 3);
 				{
 				setState(383);

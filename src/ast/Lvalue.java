@@ -9,9 +9,9 @@ public class Lvalue implements Ast {
     }
 
     public Idf Idf;
-    public ArrayList<LvalueSub> lvalueSubs;
+    public ArrayList<Ast> lvalueSubs;
 
-    public Lvalue(Idf Idf, ArrayList<LvalueSub> lvalueSubs) {
+    public Lvalue(Idf Idf, ArrayList<Ast> lvalueSubs) {
         this.Idf = Idf;
         this.lvalueSubs = lvalueSubs;
     }

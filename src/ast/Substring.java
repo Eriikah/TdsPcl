@@ -6,11 +6,11 @@ public class Substring implements Ast {
         return visitor.visit(this);
     }
 
-    public StringNode string;
-    public IntNode index;
-    public IntNode length;
+    public String string;
+    public String index;
+    public String length;
 
-    public Substring(StringNode string, IntNode index, IntNode length) {
+    public Substring(String string, String index, String length) {
         this.string = string;
         this.index = index;
         this.length = length;

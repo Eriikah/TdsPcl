@@ -12,6 +12,7 @@ import ast.Substring;
 import ast.SupEqNode;
 import ast.SupNode;
 import ast.TypeDecl;
+import ast.TypeField;
 import ast.TypeFields;
 import ast.TypeId;
 import ast.Affect;
@@ -41,8 +42,8 @@ import ast.InfEqNode;
 import ast.InfNode;
 import ast.IntNode;
 import ast.LetNode;
+import ast.List;
 import ast.Lvalue;
-import ast.LvalueSub;
 import ast.Minus;
 import ast.Mult;
 import ast.Not;
@@ -53,7 +54,6 @@ import ast.PrintExpr;
 import ast.VarDecl;
 import ast.While;
 import ast.PrintInt;
-//import ast.Decl;
 
 public class GraphVizVisitor implements AstVisitor<String> {
     private int state;
@@ -383,7 +383,7 @@ public class GraphVizVisitor implements AstVisitor<String> {
         String nodeIdentifier = this.nextState();
         this.addNode(nodeIdentifier, "fieldexpr");
 
-        String IdftState = affect.Idf.accept(this);
+        String IdftState = affect.Idf;
         this.addTransition(nodeIdentifier, IdftState);
 
         return nodeIdentifier;
@@ -559,19 +559,6 @@ public class GraphVizVisitor implements AstVisitor<String> {
     }
 
     @Override
-    public String visit(LvalueSub affect) {
-        String nodeIdentifier = this.nextState();
-
-        // String origExprState = affect.value.accept(this);
-
-        // this.addNode(nodeIdentifier, "lvaluesub");
-
-        // this.addTransition(nodeIdentifier, origExprState);
-
-        return nodeIdentifier;
-    }
-
-    @Override
     public String visit(Not affect) {
         String nodeIdentifier = this.nextState();
 
@@ -588,7 +575,7 @@ public class GraphVizVisitor implements AstVisitor<String> {
     public String visit(Ord affect) {
         String nodeIdentifier = this.nextState();
 
-        String valueState = affect.value.accept(this);
+        String valueState = affect.value;
 
         this.addNode(nodeIdentifier, "ord");
 
@@ -627,7 +614,7 @@ public class GraphVizVisitor implements AstVisitor<String> {
     public String visit(Size affect) {
         String nodeIdentifier = this.nextState();
 
-        String valueState = affect.value.accept(this);
+        String valueState = affect.value;
 
         this.addNode(nodeIdentifier, "size");
 
@@ -664,9 +651,9 @@ public class GraphVizVisitor implements AstVisitor<String> {
     public String visit(Substring affect) {
         String nodeIdentifier = this.nextState();
 
-        String stringState = affect.string.accept(this);
-        String indexState = affect.index.accept(this);
-        String lenghtState = affect.length.accept(this);
+        String stringState = affect.string;
+        String indexState = affect.index;
+        String lenghtState = affect.length;
 
         this.addNode(nodeIdentifier, "substring");
 
@@ -726,14 +713,11 @@ public class GraphVizVisitor implements AstVisitor<String> {
     public String visit(TypeFields affect) {
         String nodeIdentifier = this.nextState();
 
-        String typeDeclState = affect.typeDecl.accept(this);
-        String typeFieldsState = affect.typeFields.accept(this);
-
-        this.addNode(nodeIdentifier, "typefield");
-
-        this.addTransition(nodeIdentifier, typeDeclState);
-        this.addTransition(nodeIdentifier, typeFieldsState);
-
+        for (Ast el : affect.typeField) {
+            String typeFieldState = el.accept(this);
+            this.addNode(nodeIdentifier, "typefield");
+            this.addTransition(nodeIdentifier, typeFieldState);
+        }
         return nodeIdentifier;
     }
 
@@ -756,6 +740,34 @@ public class GraphVizVisitor implements AstVisitor<String> {
 
         this.addTransition(nodeIdentifier, condState);
         this.addTransition(nodeIdentifier, ExprState);
+        return nodeIdentifier;
+    }
+
+    @Override
+    public String visit(TypeField typeField) {
+        String nodeIdentifier = this.nextState();
+
+        String IdState = typeField.Id;
+        String TypeIdState = typeField.typeId;
+
+        this.addNode(nodeIdentifier, "TypeFiel");
+
+        this.addTransition(nodeIdentifier, IdState);
+        this.addTransition(nodeIdentifier, TypeIdState);
+        return nodeIdentifier;
+    }
+
+    @Override
+    public String visit(List list) {
+        String nodeIdentifier = this.nextState();
+
+        String TypeIdState = list.typeid.accept(this);
+        String fieldCreateState = list.fieldCreate.accept(this);
+
+        this.addNode(nodeIdentifier, "List");
+
+        this.addTransition(nodeIdentifier, TypeIdState);
+        this.addTransition(nodeIdentifier, fieldCreateState);
         return nodeIdentifier;
     }
 
