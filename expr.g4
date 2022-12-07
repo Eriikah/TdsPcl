@@ -4,7 +4,7 @@ grammar expr;
 package parser;
 }
 
-program: exprsolo EOF;
+program: first=exprsolo EOF;
 
 decl: typedecl | vardecl | funcdecl;
 
@@ -21,7 +21,7 @@ vardecl:
 funcdecl:
 	'function' ID '(' funcfield = fielddecl? ')' (
 		':' functype = typeid
-	)? '=' exprsolo;
+	)? '=' funcbody = exprsolo;
 
 lvalue: ID (lvalsub += lvalues)*;
 
@@ -36,7 +36,7 @@ expr:
 	| STRING												# StringDecl
 	| '(' expr_list ')'										# Parenthesis
 	| '-' exprsolo											# MinusAffector
-	| lvalue (':=' lavalueexpr = exprsolo)?					# Affect
+	| lvalue 												# Affect
 	| ID '(' exprlist = expr_list? ')'						# FunctionCall
 	| typeid '[' exprsolo ']' 'of' exprsolo					# ListDecl
 	| typeid '{' fieldcreate '}'							# List
@@ -65,7 +65,7 @@ orexpr: andexpr ('|' expror = exprsolo)? # Or;
 andexpr: boolexpr ('&' exprand = exprsolo)? # And;
 boolexpr:
 	minusexpr (
-		('=' | '<>' | '<=' | '>=' | '<' | '>') exprbool = exprsolo
+		op=('=' | '<>' | '<=' | '>=' | '<' | '>') exprbool=exprsolo
 	)?;
 
 minusexpr: addexpr ('-' exprminus = exprsolo)? # Moins;
@@ -121,7 +121,7 @@ type:
 	| 'array' 'of' typeid;
 
 typefields:
-	tyfield += typefield (',' tyfield += typefields)* # Type_Fields;
+	tyfield += typefield (',' tyfield += typefield)* # Type_Fields;
 
 typefield: ID ':' typeid # Type_Field;
 
