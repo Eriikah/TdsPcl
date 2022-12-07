@@ -9,13 +9,8 @@ public class ExprList implements Ast {
     }
 
     public ArrayList<Ast> expressions;
-    // public String sep;
 
-    public ExprList() {
-        this.expressions = new ArrayList<Ast>();
-    }
-
-    public void addExpr(Ast expr) {
-        expressions.add(expr);
+    public ExprList(ArrayList<Ast> expressions) {
+        this.expressions = expressions;
     }
 }

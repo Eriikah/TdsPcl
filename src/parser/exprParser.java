@@ -715,6 +715,17 @@ public class exprParser extends Parser {
 			super.copyFrom(ctx);
 		}
 	}
+	public static class ValContext extends ExprContext {
+		public LvalueContext lvalue() {
+			return getRuleContext(LvalueContext.class,0);
+		}
+		public ValContext(ExprContext ctx) { copyFrom(ctx); }
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof exprVisitor ) return ((exprVisitor<? extends T>)visitor).visitVal(this);
+			else return visitor.visitChildren(this);
+		}
+	}
 	public static class ListDeclContext extends ExprContext {
 		public TypeidContext typeid() {
 			return getRuleContext(TypeidContext.class,0);
@@ -792,17 +803,6 @@ public class exprParser extends Parser {
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof exprVisitor ) return ((exprVisitor<? extends T>)visitor).visitExitF(this);
-			else return visitor.visitChildren(this);
-		}
-	}
-	public static class AffectContext extends ExprContext {
-		public LvalueContext lvalue() {
-			return getRuleContext(LvalueContext.class,0);
-		}
-		public AffectContext(ExprContext ctx) { copyFrom(ctx); }
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof exprVisitor ) return ((exprVisitor<? extends T>)visitor).visitAffect(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -1069,7 +1069,7 @@ public class exprParser extends Parser {
 				}
 				break;
 			case 5:
-				_localctx = new AffectContext(_localctx);
+				_localctx = new ValContext(_localctx);
 				enterOuterAlt(_localctx, 5);
 				{
 				setState(150);
@@ -1350,7 +1350,7 @@ public class exprParser extends Parser {
 			super.copyFrom(ctx);
 		}
 	}
-	public static class Affect2Context extends ExprsoloContext {
+	public static class AffectContext extends ExprsoloContext {
 		public ExprsoloContext affexpr;
 		public OrexprContext orexpr() {
 			return getRuleContext(OrexprContext.class,0);
@@ -1358,10 +1358,10 @@ public class exprParser extends Parser {
 		public ExprsoloContext exprsolo() {
 			return getRuleContext(ExprsoloContext.class,0);
 		}
-		public Affect2Context(ExprsoloContext ctx) { copyFrom(ctx); }
+		public AffectContext(ExprsoloContext ctx) { copyFrom(ctx); }
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof exprVisitor ) return ((exprVisitor<? extends T>)visitor).visitAffect2(this);
+			if ( visitor instanceof exprVisitor ) return ((exprVisitor<? extends T>)visitor).visitAffect(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -1370,7 +1370,7 @@ public class exprParser extends Parser {
 		ExprsoloContext _localctx = new ExprsoloContext(_ctx, getState());
 		enterRule(_localctx, 22, RULE_exprsolo);
 		try {
-			_localctx = new Affect2Context(_localctx);
+			_localctx = new AffectContext(_localctx);
 			enterOuterAlt(_localctx, 1);
 			{
 			setState(218);
@@ -1383,7 +1383,7 @@ public class exprParser extends Parser {
 				setState(219);
 				match(T__5);
 				setState(220);
-				((Affect2Context)_localctx).affexpr = exprsolo();
+				((AffectContext)_localctx).affexpr = exprsolo();
 				}
 				break;
 			}

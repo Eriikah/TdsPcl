@@ -10,8 +10,8 @@ public class DeclList extends Decl implements Ast {
 
     public ArrayList<Ast> declElement;
 
-    public DeclList() {
-        this.declElement = new ArrayList<>();
+    public DeclList(ArrayList<Ast> declElement) {
+        this.declElement = declElement;
     }
 
     public void addDecl(Ast elem) {

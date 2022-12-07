@@ -110,12 +110,12 @@ public interface exprVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitMinusAffector(exprParser.MinusAffectorContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code Affect}
+	 * Visit a parse tree produced by the {@code Val}
 	 * labeled alternative in {@link exprParser#expr}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitAffect(exprParser.AffectContext ctx);
+	T visitVal(exprParser.ValContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code FunctionCall}
 	 * labeled alternative in {@link exprParser#expr}.
@@ -264,12 +264,12 @@ public interface exprVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitExitF(exprParser.ExitFContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code Affect2}
+	 * Visit a parse tree produced by the {@code Affect}
 	 * labeled alternative in {@link exprParser#exprsolo}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitAffect2(exprParser.Affect2Context ctx);
+	T visitAffect(exprParser.AffectContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code Or}
 	 * labeled alternative in {@link exprParser#orexpr}.

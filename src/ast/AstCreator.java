@@ -2,7 +2,6 @@ package ast;
 
 import parser.exprParser;
 import parser.exprParser.ExprsoloContext;
-import parser.exprParser.Type_FieldContext;
 import parser.exprParser.TypefieldContext;
 import parser.exprParser.TypeidContext;
 
@@ -25,11 +24,11 @@ public class AstCreator extends exprBaseVisitor<Ast> {
 
     @Override
     public Ast visitFielddecl(exprParser.FielddeclContext ctx) {
-        ArrayList<Idf> idTypes = new ArrayList<Idf>();
+        ArrayList<String> idTypes = new ArrayList<String>();
         ArrayList<Ast> fieldTypes = new ArrayList<Ast>();
 
         for (Token ids : ctx.fieldid) {
-            idTypes.add(new Idf(ids.toString()));
+            idTypes.add(ids.getText());
         }
         for (TypeidContext field : ctx.fieldtype) {
             fieldTypes.add(field.accept(this));
@@ -42,13 +41,29 @@ public class AstCreator extends exprBaseVisitor<Ast> {
     @Override
     public Ast visitFuncdecl(exprParser.FuncdeclContext ctx) {
         String idfString = ctx.getChild(1).toString();
-        Ast exprSeq = ctx.funcfield.accept(this);
-        Ast exprSeq2 = ctx.functype.accept(this);
-        Ast exprSeq3 = ctx.funcbody.accept(this);
-
-        // Création des sous AST
         Idf idf = new Idf(idfString);
-        return new FuncDecl(idf, exprSeq, exprSeq2, exprSeq3);
+        Ast exprSeq3 = ctx.funcbody.accept(this);
+        if (ctx.funcfield == null) {
+            if (ctx.functype == null) {
+                return new FuncDecl(idf, null, null, exprSeq3);
+            } else {
+                Ast exprSeq2 = ctx.functype.accept(this);
+                return new FuncDecl(idf, null, exprSeq2, exprSeq3);
+            }
+        } else {
+            Ast exprSeq = ctx.funcfield.accept(this);
+            if (ctx.functype == null) {
+                return new FuncDecl(idf, exprSeq, null, exprSeq3);
+            } else {
+                Ast exprSeq2 = ctx.functype.accept(this);
+                return new FuncDecl(idf, exprSeq, exprSeq2, exprSeq3);
+            }
+        }
+        // Ast exprSeq = ctx.funcfield.accept(this);
+        // Ast exprSeq2 = ctx.functype.accept(this);
+
+        // // Création des sous AST
+        // return new FuncDecl(idf, exprSeq, exprSeq2, exprSeq3);
     }
 
     @Override
@@ -103,32 +118,31 @@ public class AstCreator extends exprBaseVisitor<Ast> {
     }
 
     @Override
-    public Ast visitAffect(exprParser.AffectContext ctx) {
-        Ast left = ctx.getChild(0).accept(this);
-        Ast right = ctx.getChild(2).accept(this);
-
-        // Création des sous AST
-        return new Affect(left, right);
+    public Ast visitVal(exprParser.ValContext ctx) {
+        return ctx.getChild(0).accept(this);
     }
 
     @Override
     public Ast visitFunctionCall(exprParser.FunctionCallContext ctx) {
         String idfString = ctx.getChild(0).toString();
-        Ast exprList = ctx.getChild(2).accept(this);
+        Idf idf = new Idf(idfString);
+        if (ctx.getChild(2) == null) {
+            return new FunctionCall(idf, null);
+        } else {
+            Ast exprList = ctx.getChild(2).accept(this);
+            return new FunctionCall(idf, exprList);
+        }
 
         // Création des sous AST
-        Idf idf = new Idf(idfString);
-        return new FunctionCall(idf, exprList);
     }
 
     @Override
     public Ast visitListDecl(exprParser.ListDeclContext ctx) {
-        DeclList declList = new DeclList();
+        ArrayList<Ast> declList = new ArrayList<Ast>();
         for (int i = 0; i < ctx.getChildCount(); i++) {
-            declList.addDecl(ctx.getChild(i).accept(this));
+            declList.add(ctx.getChild(i).accept(this));
         }
-
-        return declList;
+        return new DeclList(declList);
     }
 
     @Override
@@ -157,6 +171,15 @@ public class AstCreator extends exprBaseVisitor<Ast> {
         Ast declList = ctx.getChild(1).accept(this);
         Ast exprSeq = ctx.getChild(3).accept(this);
         return new LetNode(declList, exprSeq);
+    }
+
+    @Override
+    public Ast visitDeclList(exprParser.DeclListContext ctx) {
+        ArrayList<Ast> declList = new ArrayList<Ast>();
+        for (int i = 0; i < ctx.getChildCount(); i++) {
+            declList.add(ctx.getChild(i).accept(this));
+        }
+        return new DeclList(declList);
     }
 
     @Override
@@ -210,7 +233,7 @@ public class AstCreator extends exprBaseVisitor<Ast> {
     }
 
     @Override
-    public Ast visitAffect2(exprParser.Affect2Context ctx) {
+    public Ast visitAffect(exprParser.AffectContext ctx) {
         Ast left = ctx.getChild(0).accept(this);
         if (ctx.affexpr == null) {
             return left;
@@ -258,21 +281,21 @@ public class AstCreator extends exprBaseVisitor<Ast> {
 
     @Override
     public Ast visitPlus(exprParser.PlusContext ctx) {
-        Ast right = ctx.exprplus.accept(this);
-        if (right == null) {
+        if (ctx.exprplus == null) {
             return ctx.getChild(0).accept(this);
         }
+        Ast right = ctx.exprplus.accept(this);
         Ast left = ctx.getChild(0).accept(this);
         return new Plus(left, right);
     }
 
     @Override
     public Ast visitField_Create(exprParser.Field_CreateContext ctx) {
-        ArrayList<Idf> idTypes = new ArrayList<Idf>();
+        ArrayList<String> idTypes = new ArrayList<String>();
         ArrayList<Ast> fieldexpr = new ArrayList<Ast>();
 
         for (Token ids : ctx.fieldid) {
-            idTypes.add(new Idf(ids.toString()));
+            idTypes.add(ids.getText());
         }
         for (ExprsoloContext field : ctx.fieldex) {
             fieldexpr.add(field.accept(this));
@@ -411,11 +434,11 @@ public class AstCreator extends exprBaseVisitor<Ast> {
 
     @Override
     public Ast visitExprList(exprParser.ExprListContext ctx) {
-        ExprList exprList = new ExprList();
-        for (int i = 0; i < ctx.getChildCount(); i++) {
-            exprList.addExpr(ctx.getChild(i).accept(this));
+        ArrayList<Ast> exprList = new ArrayList<Ast>();
+        for (ExprsoloContext expr : ctx.exprlist) {
+            exprList.add(expr.accept(this));
         }
-        return exprList;
+        return new ExprList(exprList);
     }
 
     @Override

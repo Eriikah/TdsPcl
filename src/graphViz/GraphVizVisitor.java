@@ -116,9 +116,9 @@ public class GraphVizVisitor implements AstVisitor<String> {
         String idfState = varDecl.Idf.accept(this);
 
         this.addNode(nodeIdentifier, "VarDecl");
-        this.addTransition(nodeIdentifier, exprState);
         this.addTransition(nodeIdentifier, idfState);
-
+        this.addTransition(nodeIdentifier, exprState);
+    
         return nodeIdentifier;
     }
 
@@ -272,7 +272,7 @@ public class GraphVizVisitor implements AstVisitor<String> {
     @Override
     public String visit(DeclList affect) {
         String nodeIdentifier = this.nextState();
-        this.addNode(nodeIdentifier, "concat");
+        this.addNode(nodeIdentifier, "DeclList");
 
         for (Ast declElement : affect.declElement) {
             String declElementState = declElement.accept(this);
@@ -356,7 +356,7 @@ public class GraphVizVisitor implements AstVisitor<String> {
         this.addNode(nodeIdentifier, "fielddecl");
 
         for (int i = 0; i < affect.fieldIds.size(); i++) {
-            String id = affect.fieldIds.get(i).accept(this);
+            String id = affect.fieldIds.get(i);
             String type = affect.fieldTypes.get(i).accept(this);
             this.addTransition(nodeIdentifier, id);
             this.addTransition(nodeIdentifier, type);
@@ -422,15 +422,21 @@ public class GraphVizVisitor implements AstVisitor<String> {
         String nodeIdentifier = this.nextState();
 
         String IdfState = affect.Idf.accept(this);
-        String fieldDeclState = affect.fieldDecl.accept(this);
-        String TypeIdState = affect.typeId.accept(this);
+        this.addTransition(nodeIdentifier, IdfState);
+
+        if (affect.fieldDecl != null) {
+            String fieldDeclState = affect.fieldDecl.accept(this);
+            this.addTransition(nodeIdentifier, fieldDeclState);
+        }
+
+        if (affect.typeId != null) {
+            String TypeIdState = affect.typeId.accept(this);
+            this.addTransition(nodeIdentifier, TypeIdState);
+        }
         String expressionsState = affect.expressions.accept(this);
 
-        this.addNode(nodeIdentifier, "For");
+        this.addNode(nodeIdentifier, "Funcdecl");
 
-        this.addTransition(nodeIdentifier, IdfState);
-        this.addTransition(nodeIdentifier, fieldDeclState);
-        this.addTransition(nodeIdentifier, TypeIdState);
         this.addTransition(nodeIdentifier, expressionsState);
 
         return nodeIdentifier;
@@ -440,13 +446,11 @@ public class GraphVizVisitor implements AstVisitor<String> {
     public String visit(FunctionCall affect) {
         String nodeIdentifier = this.nextState();
 
-        String IdfState = affect.Idf.accept(this);
-        String exprListState = affect.exprList.accept(this);
-
-        this.addNode(nodeIdentifier, "For");
-
-        this.addTransition(nodeIdentifier, IdfState);
-        this.addTransition(nodeIdentifier, exprListState);
+        this.addNode(nodeIdentifier, affect.Idf.name);
+        if (affect.exprList != null) {
+            String exprListState = affect.exprList.accept(this);
+            this.addTransition(nodeIdentifier, exprListState);
+        }
 
         return nodeIdentifier;
     }

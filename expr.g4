@@ -37,7 +37,7 @@ expr:
 	| STRING												# StringDecl
 	| '(' expr_list ')'										# Parenthesis
 	| '-' exprsolo											# MinusAffector
-	| lvalue 												# Affect
+	| lvalue 												# Val
 	| ID '(' exprlist = expr_list? ')'						# FunctionCall
 	| typeid '[' exprsolo ']' 'of' exprsolo					# ListDecl
 	| typeid '{' fieldcreate '}'							# List
@@ -60,7 +60,7 @@ expr:
 	| not													# NotF
 	| exit													# ExitF;
 
-exprsolo: orexpr (':=' affexpr = exprsolo)? # Affect2;
+exprsolo: orexpr (':=' affexpr = exprsolo)? # Affect;
 
 orexpr: andexpr ('|' expror = exprsolo)? # Or;
 andexpr: boolexpr ('&' exprand = exprsolo)? # And;

@@ -8,10 +8,10 @@ public class FieldDecl implements Ast {
         return visitor.visit(this);
     }
 
-    public ArrayList<Idf> fieldIds;
+    public ArrayList<String> fieldIds;
     public ArrayList<Ast> fieldTypes;
 
-    public FieldDecl(ArrayList<Idf> fieldIds, ArrayList<Ast> fieldTypes) {
+    public FieldDecl(ArrayList<String> fieldIds, ArrayList<Ast> fieldTypes) {
         this.fieldIds = fieldIds;
         this.fieldTypes = fieldTypes;
     }
