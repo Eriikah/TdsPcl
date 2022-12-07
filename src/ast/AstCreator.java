@@ -70,7 +70,7 @@ public class AstCreator extends exprBaseVisitor<Ast> {
 
     @Override
     public Ast visitInteger(exprParser.IntegerContext ctx) {
-        return new IntNode(Integer.parseInt(ctx.getChild(0))) ;
+        return new IntNode(ctx.getChild(0).toString());
     }
     // ??
 
@@ -97,7 +97,6 @@ public class AstCreator extends exprBaseVisitor<Ast> {
         // Création des sous AST
         return new Affect(left, right);
     }
-
 
     @Override
     public Ast visitFunctionCall(exprParser.FunctionCallContext ctx) {
