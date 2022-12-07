@@ -56,6 +56,12 @@ public interface exprVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitLvalue(exprParser.LvalueContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link exprParser#lvalues}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitLvalues(exprParser.LvaluesContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link exprParser#subscript}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
@@ -304,13 +310,6 @@ public interface exprVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitMult(exprParser.MultContext ctx);
-	/**
-	 * Visit a parse tree produced by the {@code ExprSeq}
-	 * labeled alternative in {@link exprParser#expr_seq}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitExprSeq(exprParser.ExprSeqContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code ExprList}
 	 * labeled alternative in {@link exprParser#expr_list}.
