@@ -19,6 +19,7 @@ import ast.Affect;
 import ast.AndNode;
 import ast.Ast;
 import ast.AstVisitor;
+import ast.Break;
 import ast.Chr;
 import ast.Concat;
 import ast.DeclList;
@@ -43,6 +44,7 @@ import ast.InfNode;
 import ast.IntNode;
 import ast.LetNode;
 import ast.List;
+import ast.ListDecl;
 import ast.Lvalue;
 import ast.Minus;
 import ast.Mult;
@@ -112,13 +114,12 @@ public class GraphVizVisitor implements AstVisitor<String> {
     public String visit(VarDecl varDecl) {
         String nodeIdentifier = this.nextState();
 
-        String exprState = varDecl.expressions.accept(this);
         String idfState = varDecl.Idf.accept(this);
-
+        String exprState = varDecl.expressions.accept(this);
         this.addNode(nodeIdentifier, "VarDecl");
         this.addTransition(nodeIdentifier, idfState);
         this.addTransition(nodeIdentifier, exprState);
-    
+
         return nodeIdentifier;
     }
 
@@ -420,6 +421,7 @@ public class GraphVizVisitor implements AstVisitor<String> {
     @Override
     public String visit(FuncDecl affect) {
         String nodeIdentifier = this.nextState();
+        this.addNode(nodeIdentifier, "Funcdecl");
 
         String IdfState = affect.Idf.accept(this);
         this.addTransition(nodeIdentifier, IdfState);
@@ -434,9 +436,6 @@ public class GraphVizVisitor implements AstVisitor<String> {
             this.addTransition(nodeIdentifier, TypeIdState);
         }
         String expressionsState = affect.expressions.accept(this);
-
-        this.addNode(nodeIdentifier, "Funcdecl");
-
         this.addTransition(nodeIdentifier, expressionsState);
 
         return nodeIdentifier;
@@ -489,9 +488,20 @@ public class GraphVizVisitor implements AstVisitor<String> {
     }
 
     @Override
-    public String visit(IfThenElse affect) {
-        // TODO Auto-generated method stub
-        return null;
+    public String visit(IfThenElse ifThenElse) {
+        String nodeIdentifier = this.nextState();
+
+        String conditionState = ifThenElse.ifExpr.accept(this);
+        String thenBlockState = ifThenElse.expressions.accept(this);
+        String elseBlockState = ifThenElse.elseExpr.accept(this);
+
+        this.addNode(nodeIdentifier, "IfThenElse");
+
+        this.addTransition(nodeIdentifier, conditionState);
+        this.addTransition(nodeIdentifier, thenBlockState);
+        this.addTransition(nodeIdentifier, elseBlockState);
+
+        return nodeIdentifier;
     }
 
     @Override
@@ -772,6 +782,31 @@ public class GraphVizVisitor implements AstVisitor<String> {
 
         this.addTransition(nodeIdentifier, TypeIdState);
         this.addTransition(nodeIdentifier, fieldCreateState);
+        return nodeIdentifier;
+    }
+
+    @Override
+    public String visit(ListDecl listDecl) {
+        String nodeIdentifier = this.nextState();
+
+        String TypeIdState = listDecl.typeId.accept(this);
+        String listCreateState = listDecl.list.accept(this);
+        String oftypeState = listDecl.ofexpr.accept(this);
+
+        this.addNode(nodeIdentifier, "ListDecl");
+
+        this.addTransition(nodeIdentifier, TypeIdState);
+        this.addTransition(nodeIdentifier, listCreateState);
+        this.addTransition(nodeIdentifier, oftypeState);
+        return nodeIdentifier;
+    }
+
+    @Override
+    public String visit(Break break1) {
+        String nodeIdentifier = this.nextState();
+
+        this.addNode(nodeIdentifier, "Break");
+
         return nodeIdentifier;
     }
 

@@ -100,4 +100,8 @@ public interface AstVisitor<T> {
 
     public T visit(List list);
 
+    public T visit(ListDecl listDecl);
+
+    public T visit(Break break1);
+
 }

@@ -1,7 +1,12 @@
 package ast;
 
 import parser.exprParser;
+import parser.exprParser.AddexprContext;
+import parser.exprParser.AndexprContext;
+import parser.exprParser.BoolexprContext;
+import parser.exprParser.DivexprContext;
 import parser.exprParser.ExprsoloContext;
+import parser.exprParser.MultexprContext;
 import parser.exprParser.TypefieldContext;
 import parser.exprParser.TypeidContext;
 
@@ -138,11 +143,11 @@ public class AstCreator extends exprBaseVisitor<Ast> {
 
     @Override
     public Ast visitListDecl(exprParser.ListDeclContext ctx) {
-        ArrayList<Ast> declList = new ArrayList<Ast>();
-        for (int i = 0; i < ctx.getChildCount(); i++) {
-            declList.add(ctx.getChild(i).accept(this));
-        }
-        return new DeclList(declList);
+        Ast typeId = ctx.getChild(0).accept(this);
+        Ast list = ctx.getChild(2).accept(this);
+        Ast ofexpr = ctx.getChild(5).accept(this);
+
+        return new ListDecl(typeId, list, ofexpr);
     }
 
     @Override
@@ -163,7 +168,7 @@ public class AstCreator extends exprBaseVisitor<Ast> {
 
     @Override
     public Ast visitBreak(exprParser.BreakContext ctx) {
-        return visitChildren(ctx);
+        return new Break();
     }
 
     @Override
@@ -244,14 +249,13 @@ public class AstCreator extends exprBaseVisitor<Ast> {
 
     @Override
     public Ast visitOr(exprParser.OrContext ctx) {
-        Ast left = ctx.getChild(0).accept(this);
-        if (ctx.getChild(2) == null) {
-            return left;
-        }
-        Ast right = ctx.getChild(2).accept(this);
+        Ast tempNode = ctx.getChild(0).accept(this);
+        for (AndexprContext el : ctx.expror) {
+            Ast right = el.accept(this);
+            tempNode = new OrNode(tempNode, right);
 
-        // Création des sous AST
-        return new OrNode(left, right);
+        }
+        return tempNode;
     }
 
     @Override
@@ -281,12 +285,13 @@ public class AstCreator extends exprBaseVisitor<Ast> {
 
     @Override
     public Ast visitPlus(exprParser.PlusContext ctx) {
-        if (ctx.exprplus == null) {
-            return ctx.getChild(0).accept(this);
+        Ast tempNode = ctx.getChild(0).accept(this);
+        for (DivexprContext el : ctx.exprplus) {
+            Ast right = el.accept(this);
+            tempNode = new Plus(tempNode, right);
+
         }
-        Ast right = ctx.exprplus.accept(this);
-        Ast left = ctx.getChild(0).accept(this);
-        return new Plus(left, right);
+        return tempNode;
     }
 
     @Override
@@ -390,12 +395,13 @@ public class AstCreator extends exprBaseVisitor<Ast> {
 
     @Override
     public Ast visitAnd(exprParser.AndContext ctx) {
-        Ast left = ctx.getChild(0).accept(this);
-        if (ctx.getChild(2) == null) {
-            return left;
+        Ast tempNode = ctx.getChild(0).accept(this);
+        for (BoolexprContext el : ctx.exprand) {
+            Ast right = el.accept(this);
+            tempNode = new AndNode(tempNode, right);
+
         }
-        Ast right = ctx.getChild(2).accept(this);
-        return new AndNode(left, right);
+        return tempNode;
     }
 
     @Override
@@ -418,12 +424,13 @@ public class AstCreator extends exprBaseVisitor<Ast> {
 
     @Override
     public Ast visitDiv(exprParser.DivContext ctx) {
-        Ast left = ctx.getChild(0).accept(this);
-        if (ctx.getChild(2) == null) {
-            return left;
+        Ast tempNode = ctx.getChild(0).accept(this);
+        for (MultexprContext el : ctx.exprdiv) {
+            Ast right = el.accept(this);
+            tempNode = new Div(tempNode, right);
+
         }
-        Ast right = ctx.getChild(2).accept(this);
-        return new Div(left, right);
+        return tempNode;
     }
 
     @Override
@@ -471,12 +478,13 @@ public class AstCreator extends exprBaseVisitor<Ast> {
 
     @Override
     public Ast visitMoins(exprParser.MoinsContext ctx) {
-        Ast left = ctx.getChild(0).accept(this);
-        if (ctx.getChild(2) == null) {
-            return left;
+        Ast tempNode = ctx.getChild(0).accept(this);
+        for (AddexprContext el : ctx.exprminus) {
+            Ast right = el.accept(this);
+            tempNode = new Minus(tempNode, right);
+
         }
-        Ast right = ctx.getChild(2).accept(this);
-        return new Minus(left, right);
+        return tempNode;
     }
 
     @Override

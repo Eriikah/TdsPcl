@@ -60,19 +60,19 @@ expr:
 	| not													# NotF
 	| exit													# ExitF;
 
-exprsolo: orexpr (':=' affexpr = exprsolo)? # Affect;
+exprsolo: orexpr (':=' affexpr = orexpr)? # Affect;
 
-orexpr: andexpr ('|' expror = exprsolo)? # Or;
-andexpr: boolexpr ('&' exprand = exprsolo)? # And;
+orexpr: andexpr ('|' expror += andexpr)* # Or;
+andexpr: boolexpr ('&' exprand += boolexpr)* # And;
 boolexpr:
 	minusexpr (
-		op=('=' | '<>' | '<=' | '>=' | '<' | '>') exprbool=exprsolo
+		op=('=' | '<>' | '<=' | '>=' | '<' | '>') exprbool=minusexpr
 	)?;
 
-minusexpr: addexpr ('-' exprminus = exprsolo)? # Moins;
-addexpr: divexpr ('+' exprplus = exprsolo)? # Plus;
-divexpr: multexpr ('/' exprdiv = exprsolo)? # Div;
-multexpr: expr ('*' exprmult = exprsolo)? # Mult;
+minusexpr: addexpr ('-' exprminus += addexpr)* # Moins;
+addexpr: divexpr ('+' exprplus += divexpr)* # Plus;
+divexpr: multexpr ('/' exprdiv += multexpr)* # Div;
+multexpr: expr ('*' exprmult = expr)? # Mult;
 
 expr_list:
 	exprlist += exprsolo (sep = (',' | ';') exprlist += exprsolo)* # ExprList;
