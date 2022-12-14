@@ -358,10 +358,19 @@ public class GraphVizVisitor implements AstVisitor<String> {
 
         for (int i = 0; i < affect.fieldIds.size(); i++) {
             String id = affect.fieldIds.get(i);
-            String type = affect.fieldTypes.get(i).accept(this);
-            this.addTransition(nodeIdentifier, id);
-            this.addTransition(nodeIdentifier, type);
+            Ast type = affect.fieldTypes.get(i);
+            this.addTransition(nodeIdentifier, FieldElement(id, type));
         }
+
+        return nodeIdentifier;
+    }
+
+    public String FieldElement(String Id, Ast Type) {
+        String nodeIdentifier = this.nextState();
+        this.addNode(nodeIdentifier, "FieldElement");
+
+        this.addTransition(nodeIdentifier, Id);
+        this.addTransition(nodeIdentifier, Type.accept(this));
 
         return nodeIdentifier;
     }
@@ -417,7 +426,7 @@ public class GraphVizVisitor implements AstVisitor<String> {
         return nodeIdentifier;
     }
 
-    public String ForInitNode(Idf Idf, Ast origExpr){
+    public String ForInitNode(Idf Idf, Ast origExpr) {
         String nodeIdentifier = this.nextState();
 
         String IdfState = Idf.accept(this);
@@ -459,12 +468,11 @@ public class GraphVizVisitor implements AstVisitor<String> {
             String fieldDeclState = affect.fieldDecl.accept(this);
             this.addTransition(nodeIdentifier, fieldDeclState);
         }
-        
+
         if (affect.typeId != null) {
             String TypeIdState = affect.typeId.accept(this);
             this.addTransition(nodeIdentifier, TypeIdState);
-        }
-        else{
+        } else {
             this.addTransition(nodeIdentifier, typevoid());
         }
         String expressionsState = affect.expressions.accept(this);
@@ -473,8 +481,8 @@ public class GraphVizVisitor implements AstVisitor<String> {
         return nodeIdentifier;
     }
 
-    
-    public String typevoid(){
+
+    public String typevoid() {
         String nodeIdentifier = this.nextState();
 
         this.addNode(nodeIdentifier, "void");
@@ -548,7 +556,7 @@ public class GraphVizVisitor implements AstVisitor<String> {
     public String CondNode(Ast condition) {
         String nodeIdentifier = this.nextState();
         String conditionState = condition.accept(this);
-        
+
         this.addNode(nodeIdentifier, "Condition");
         this.addTransition(nodeIdentifier, conditionState);
 
@@ -569,7 +577,7 @@ public class GraphVizVisitor implements AstVisitor<String> {
         String nodeIdentifier = this.nextState();
         String elseBlockState = elseBlock.accept(this);
 
-        this.addNode(nodeIdentifier, "Condition");
+        this.addNode(nodeIdentifier, "Else");
         this.addTransition(nodeIdentifier, elseBlockState);
 
         return nodeIdentifier;
