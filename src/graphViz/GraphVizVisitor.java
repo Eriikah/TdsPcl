@@ -435,6 +435,9 @@ public class GraphVizVisitor implements AstVisitor<String> {
             String TypeIdState = affect.typeId.accept(this);
             this.addTransition(nodeIdentifier, TypeIdState);
         }
+        else {
+            this.addTransition(nodeIdentifier, "void");
+        }
         String expressionsState = affect.expressions.accept(this);
         this.addTransition(nodeIdentifier, expressionsState);
 
