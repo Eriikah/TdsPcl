@@ -403,17 +403,42 @@ public class GraphVizVisitor implements AstVisitor<String> {
     public String visit(For affect) {
         String nodeIdentifier = this.nextState();
 
-        String IdfState = affect.Idf.accept(this);
-        String origExprState = affect.origExpr.accept(this);
-        String goalExprState = affect.goalExpr.accept(this);
+        Idf Idf = affect.Idf;
+        Ast origExpr = affect.origExpr;
+        Ast goalExpr = affect.goalExpr;
         String expressionsState = affect.expressions.accept(this);
 
         this.addNode(nodeIdentifier, "For");
 
+        this.addTransition(nodeIdentifier, ForInitNode(Idf, origExpr));
+        this.addTransition(nodeIdentifier, ForLimitNode(goalExpr));
+        this.addTransition(nodeIdentifier, expressionsState);
+
+        return nodeIdentifier;
+    }
+
+    public String ForInitNode(Idf Idf, Ast origExpr){
+        String nodeIdentifier = this.nextState();
+
+        String IdfState = Idf.accept(this);
+        String origExprState = origExpr.accept(this);
+
+        this.addNode(nodeIdentifier, "Init");
+
         this.addTransition(nodeIdentifier, IdfState);
         this.addTransition(nodeIdentifier, origExprState);
+
+        return nodeIdentifier;
+    }
+
+    public String ForLimitNode(Ast goalExpr) {
+        String nodeIdentifier = this.nextState();
+
+        String goalExprState = goalExpr.accept(this);
+
+        this.addNode(nodeIdentifier, "Limit");
+
         this.addTransition(nodeIdentifier, goalExprState);
-        this.addTransition(nodeIdentifier, expressionsState);
 
         return nodeIdentifier;
     }
@@ -421,6 +446,10 @@ public class GraphVizVisitor implements AstVisitor<String> {
     @Override
     public String visit(FuncDecl affect) {
         String nodeIdentifier = this.nextState();
+
+        Idf Idf = affect.Idf;
+        Ast typeId = affect.typeId;
+
         this.addNode(nodeIdentifier, "Funcdecl");
 
         String IdfState = affect.Idf.accept(this);
@@ -430,16 +459,25 @@ public class GraphVizVisitor implements AstVisitor<String> {
             String fieldDeclState = affect.fieldDecl.accept(this);
             this.addTransition(nodeIdentifier, fieldDeclState);
         }
-
+        
         if (affect.typeId != null) {
             String TypeIdState = affect.typeId.accept(this);
             this.addTransition(nodeIdentifier, TypeIdState);
         }
-        else {
-            this.addTransition(nodeIdentifier, "void");
+        else{
+            this.addTransition(nodeIdentifier, typevoid());
         }
         String expressionsState = affect.expressions.accept(this);
         this.addTransition(nodeIdentifier, expressionsState);
+
+        return nodeIdentifier;
+    }
+
+    
+    public String typevoid(){
+        String nodeIdentifier = this.nextState();
+
+        this.addNode(nodeIdentifier, "void");
 
         return nodeIdentifier;
     }
@@ -479,13 +517,13 @@ public class GraphVizVisitor implements AstVisitor<String> {
     public String visit(IfThen ifThen) {
         String nodeIdentifier = this.nextState();
 
-        String conditionState = ifThen.ifExpr.accept(this);
-        String thenBlockState = ifThen.expressions.accept(this);
+        Ast conditionState = ifThen.ifExpr;
+        Ast thenBlockState = ifThen.expressions;
 
         this.addNode(nodeIdentifier, "IfThen");
 
-        this.addTransition(nodeIdentifier, conditionState);
-        this.addTransition(nodeIdentifier, thenBlockState);
+        this.addTransition(nodeIdentifier, CondNode(conditionState));
+        this.addTransition(nodeIdentifier, ThenNode(thenBlockState));
 
         return nodeIdentifier;
     }
@@ -494,14 +532,44 @@ public class GraphVizVisitor implements AstVisitor<String> {
     public String visit(IfThenElse ifThenElse) {
         String nodeIdentifier = this.nextState();
 
-        String conditionState = ifThenElse.ifExpr.accept(this);
-        String thenBlockState = ifThenElse.expressions.accept(this);
-        String elseBlockState = ifThenElse.elseExpr.accept(this);
+        Ast conditionState = ifThenElse.ifExpr;
+        Ast thenBlockState = ifThenElse.expressions;
+        Ast elseBlockState = ifThenElse.elseExpr;
 
         this.addNode(nodeIdentifier, "IfThenElse");
 
+        this.addTransition(nodeIdentifier, CondNode(conditionState));
+        this.addTransition(nodeIdentifier, ThenNode(thenBlockState));
+        this.addTransition(nodeIdentifier, ElseNode(elseBlockState));
+
+        return nodeIdentifier;
+    }
+
+    public String CondNode(Ast condition) {
+        String nodeIdentifier = this.nextState();
+        String conditionState = condition.accept(this);
+        
+        this.addNode(nodeIdentifier, "Condition");
         this.addTransition(nodeIdentifier, conditionState);
+
+        return nodeIdentifier;
+    }
+
+    public String ThenNode(Ast thenBlock) {
+        String nodeIdentifier = this.nextState();
+        String thenBlockState = thenBlock.accept(this);
+
+        this.addNode(nodeIdentifier, "Then");
         this.addTransition(nodeIdentifier, thenBlockState);
+
+        return nodeIdentifier;
+    }
+
+    public String ElseNode(Ast elseBlock) {
+        String nodeIdentifier = this.nextState();
+        String elseBlockState = elseBlock.accept(this);
+
+        this.addNode(nodeIdentifier, "Condition");
         this.addTransition(nodeIdentifier, elseBlockState);
 
         return nodeIdentifier;
@@ -644,9 +712,7 @@ public class GraphVizVisitor implements AstVisitor<String> {
     public String visit(StringNode affect) {
         String nodeIdentifier = this.nextState();
 
-        this.addNode(nodeIdentifier, "string");
-
-        this.addTransition(nodeIdentifier, affect.value);
+        this.addNode(nodeIdentifier, "String : " + affect.value.split("\"")[1]);
 
         return nodeIdentifier;
     }

@@ -390,6 +390,9 @@ public class AstCreator extends exprBaseVisitor<Ast> {
 
     @Override
     public Ast visitTypeid(exprParser.TypeidContext ctx) {
+        if (ctx.getChild(0) == null){
+            return new TypeId("void");
+        }
         return new TypeId(ctx.getChild(0).toString());
     }
 
