@@ -456,9 +456,6 @@ public class GraphVizVisitor implements AstVisitor<String> {
     public String visit(FuncDecl affect) {
         String nodeIdentifier = this.nextState();
 
-        Idf Idf = affect.Idf;
-        Ast typeId = affect.typeId;
-
         this.addNode(nodeIdentifier, "Funcdecl");
 
         String IdfState = affect.Idf.accept(this);
@@ -494,11 +491,26 @@ public class GraphVizVisitor implements AstVisitor<String> {
     public String visit(FunctionCall affect) {
         String nodeIdentifier = this.nextState();
 
-        this.addNode(nodeIdentifier, affect.Idf.name);
+        //Ast expr = affect.exprList;
+
+        this.addNode(nodeIdentifier, "FunctionCall");
+
+        //this.addNode(nodeIdentifier, affect.Idf.name);
         if (affect.exprList != null) {
-            String exprListState = affect.exprList.accept(this);
-            this.addTransition(nodeIdentifier, exprListState);
+            Ast exprListState = affect.exprList;
+            Idf IdfState = affect.Idf;
+            this.addTransition(nodeIdentifier, FunctionCallNode(IdfState, exprListState));
         }
+
+        return nodeIdentifier;
+    }
+
+    public String FunctionCallNode(Idf idf,Ast FunctionName) {
+        String nodeIdentifier = this.nextState();
+        String FunctionNameState = FunctionName.accept(this);
+
+        this.addNode(nodeIdentifier, idf.name);
+        this.addTransition(nodeIdentifier, FunctionNameState);
 
         return nodeIdentifier;
     }
