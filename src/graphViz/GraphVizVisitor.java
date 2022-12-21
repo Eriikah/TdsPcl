@@ -499,18 +499,29 @@ public class GraphVizVisitor implements AstVisitor<String> {
         if (affect.exprList != null) {
             Ast exprListState = affect.exprList;
             Idf IdfState = affect.Idf;
-            this.addTransition(nodeIdentifier, FunctionCallNode(IdfState, exprListState));
+            this.addTransition(nodeIdentifier, FunctionNameNode(IdfState));
+            this.addTransition(nodeIdentifier, FunctionArgNode(exprListState));
         }
 
         return nodeIdentifier;
     }
 
-    public String FunctionCallNode(Idf idf,Ast FunctionName) {
+    public String FunctionNameNode(Idf idf) {
         String nodeIdentifier = this.nextState();
-        String FunctionNameState = FunctionName.accept(this);
+        //String FunctionNameState = FunctionName.accept(this);
 
-        this.addNode(nodeIdentifier, idf.name);
-        this.addTransition(nodeIdentifier, FunctionNameState);
+        this.addNode(nodeIdentifier, "FunctionName");
+        this.addTransition(nodeIdentifier, idf.accept(this));
+
+        return nodeIdentifier;
+    }
+
+    public String FunctionArgNode(Ast exprList) {
+        String nodeIdentifier = this.nextState();
+        String exprListState = exprList.accept(this);
+
+        this.addNode(nodeIdentifier, "FunctionArgs");
+        this.addTransition(nodeIdentifier, exprListState);
 
         return nodeIdentifier;
     }
