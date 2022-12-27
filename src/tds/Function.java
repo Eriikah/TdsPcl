@@ -37,4 +37,8 @@ public class Function extends Symbol {
     public int getDepl() {
         return this.depl;
     }
+
+    public void setType(String value) {
+        this.returnType = value;
+    }
 }

@@ -168,6 +168,7 @@ public class TdsCreator implements AstVisitor<Tds> {
     @Override
     public Tds visit(FuncDecl affect) {
         Tds func = new Tds(imbrication, new ArrayList<Symbol>(), bloc);
+
         func.setParent(allTds.get(bloc - 1));
         func.setName(affect.Idf.name);
         allTds.add(func);
@@ -180,6 +181,24 @@ public class TdsCreator implements AstVisitor<Tds> {
             affect.expressions.accept(this);
         }
         imbrication--;
+        ArrayList<Param> params = new ArrayList<Param>();
+        for (Symbol el : func.getSymbols()) {
+            if (el instanceof Param) {
+                params.add((Param) el);
+            }
+        }
+        bloc--;
+        if (affect.typeId != null) {
+            Function function = new Function(affect.Idf.name, params, imbrication, "", bloc);
+            allTds.get(bloc - 1).addSymbol(function);
+            System.out.println(affect.typeId.toString());
+            affect.typeId.accept(this);
+
+        } else {
+            Function function = new Function(affect.Idf.name, params, imbrication, "void", bloc);
+            allTds.get(bloc - 1).addSymbol(function);
+        }
+        bloc++;
         return func;
     }
 
@@ -325,7 +344,7 @@ public class TdsCreator implements AstVisitor<Tds> {
         bloc++;
         imbrication++;
 
-        Tds enfant = affect.expressions.accept(this);
+        affect.expressions.accept(this);
 
         imbrication--;
         return origin;
@@ -375,9 +394,10 @@ public class TdsCreator implements AstVisitor<Tds> {
     public Tds visit(TypeDecl affect) {
         // TODO faire en sorte que la déclaratoin de type puisse etre affiché dans la
         // tds
-        System.out.println("Salut \n");
         Type type = new Type(affect.typeid.toString(), affect.type.toString(), bloc);
         this.allTds.get(bloc - 1).addSymbol(type);
+        System.out.println("Salut");
+
         // affect.typeid.accept(this);
         // affect.type.accept(this);
         return null;
@@ -399,10 +419,10 @@ public class TdsCreator implements AstVisitor<Tds> {
     @Override
     public Tds visit(VarDecl affect) {
         if (affect.typeId != null) {
-            Param var = new Param(affect.Idf.name, affect.typeId.value, bloc);
+            Var var = new Var(affect.Idf.name, affect.typeId.value, bloc);
             this.allTds.get(bloc - 1).addSymbol(var);
         } else {
-            Param var = new Param(affect.Idf.name, "int", bloc);
+            Var var = new Var(affect.Idf.name, "int", bloc);
             this.allTds.get(bloc - 1).addSymbol(var);
         }
 

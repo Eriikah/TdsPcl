@@ -78,8 +78,8 @@ public class Tds {
                 table.append(ligne).append("\n");
             } else if (symbol instanceof Function) {
                 Function function = (Function) symbol;
-                String ligne = String.format("Fonction : %s // Type de retour : %s // Déplacement : %d",
-                        function.getName(), function.getReturnType(), function.getParams());
+                String ligne = String.format("Fonction : %s // Type de retour : %s // Déplacement : %d ///  \n ",
+                        function.getName(), function.getReturnType(), function.getParams().size());
                 if (function.getParams() != null) {
                     for (Param param : function.getParams()) {
                         ligne += String.format("Paramètre : %s // Type : %s // Déplacement : %d", param.getName(),
@@ -94,6 +94,11 @@ public class Tds {
                 Var var = (Var) symbol;
                 String ligne = String.format("Variable : %s // Type : %s // Déplacement : %d", var.getName(),
                         var.getType(), var.getDepl());
+                table.append(ligne).append("\n");
+            } else if (symbol instanceof Type) {
+                Type type = (Type) symbol;
+                String ligne = String.format("type : %s // Type : %s // Déplacement : %d", type.getName(),
+                        type.getType(), type.getDepl());
                 table.append(ligne).append("\n");
             }
         }
