@@ -11,4 +11,7 @@ public abstract class Symbol {
     public String getName() {
         return this.name;
     }
+
+    public void setType(String value) {
+    }
 }

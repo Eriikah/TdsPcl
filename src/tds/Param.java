@@ -18,4 +18,12 @@ public class Param extends Symbol {
     public int getDepl() {
         return depl;
     }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public void setDepl(int depl) {
+        this.depl = depl;
+    }
 }

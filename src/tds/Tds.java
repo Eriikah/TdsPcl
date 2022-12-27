@@ -18,7 +18,7 @@ public class Tds {
 
         this.parent = null;
         this.enfants = new ArrayList<>();
-        //this.name = name;
+        // this.name = name;
         this.bloc = bloc;
     }
 
@@ -64,38 +64,45 @@ public class Tds {
         StringBuilder table = new StringBuilder();
         Tds pere = this.getParent();
         if (pere != null) {
-            table.append(String.format("_ %s - Imbrication : %s - Bloc : %s - Parent : %s _\n", this.getName(), this.getImbric(), this.getBloc(), pere.getBloc()));
-        }
-        else {
-            table.append(String.format("_ %s - Imbrication : %s - Bloc : %s - Parent : null _\n", this.getName(), this.getImbric(), this.getBloc()));
+            table.append(String.format("_ %s - Imbrication : %s - Bloc : %s - Parent : %s _\n", this.getName(),
+                    this.getImbric(), this.getBloc(), pere.getBloc()));
+        } else {
+            table.append(String.format("_ %s - Imbrication : %s - Bloc : %s - Parent : null _\n", this.getName(),
+                    this.getImbric(), this.getBloc()));
         }
         for (Symbol symbol : this.getSymbols()) {
-            if (symbol instanceof Param){
+            if (symbol instanceof Param) {
                 Param param = (Param) symbol;
-                String ligne = String.format("Paramètre : %s // Type : %s // Déplacement : %d", param.getName(), param.getType(), param.getDepl());
+                String ligne = String.format("Paramètre : %s // Type : %s // Déplacement : %d", param.getName(),
+                        param.getType(), param.getDepl());
                 table.append(ligne).append("\n");
-            }
-            else if (symbol instanceof Function){
+            } else if (symbol instanceof Function) {
                 Function function = (Function) symbol;
-                String ligne = String.format("Fonction : %s // Type de retour : %s // Déplacement : %d", function.getName(), function.getReturnType(), function.getParams());
+                String ligne = String.format("Fonction : %s // Type de retour : %s // Déplacement : %d",
+                        function.getName(), function.getReturnType(), function.getParams());
                 if (function.getParams() != null) {
                     for (Param param : function.getParams()) {
-                        ligne += String.format("Paramètre : %s // Type : %s // Déplacement : %d", param.getName(), param.getType(), param.getDepl());
+                        ligne += String.format("Paramètre : %s // Type : %s // Déplacement : %d", param.getName(),
+                                param.getType(), param.getDepl());
                     }
-                }
-                else {
+                } else {
                     ligne += "Pas de paramètres";
                 }
-                
+
                 table.append(ligne).append("\n");
-            }
-            else if (symbol instanceof Var){
+            } else if (symbol instanceof Var) {
                 Var var = (Var) symbol;
-                String ligne = String.format("Variable : %s // Type : %s // Déplacement : %d", var.getName(), var.getType(), var.getDepl());
+                String ligne = String.format("Variable : %s // Type : %s // Déplacement : %d", var.getName(),
+                        var.getType(), var.getDepl());
                 table.append(ligne).append("\n");
             }
         }
         table.append("---END---\n");
         return table.toString();
     }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
 }

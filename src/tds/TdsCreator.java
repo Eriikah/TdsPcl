@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import ast.Affect;
 import ast.AndNode;
+import ast.Ast;
 import ast.AstVisitor;
 import ast.Break;
 import ast.Chr;
@@ -69,12 +70,16 @@ public class TdsCreator implements AstVisitor<Tds> {
 
     @Override
     public Tds visit(Affect affect) {
+        affect.accept(this);
         return null;
+
     }
 
     @Override
     public Tds visit(AndNode affect) {
+        affect.left.accept(this);
         return null;
+
     }
 
     @Override
@@ -89,7 +94,12 @@ public class TdsCreator implements AstVisitor<Tds> {
 
     @Override
     public Tds visit(DeclList affect) {
-        // TODO Auto-generated method stub
+        for (Ast ast : affect.declElement) {
+            Tds declaration = ast.accept(this);
+            if (declaration != null) {
+
+            }
+        }
         return null;
     }
 
@@ -100,12 +110,15 @@ public class TdsCreator implements AstVisitor<Tds> {
 
     @Override
     public Tds visit(Div affect) {
+        affect.accept(this);
         return null;
+
     }
 
     @Override
     public Tds visit(EqNode affect) {
         return null;
+
     }
 
     @Override
@@ -121,7 +134,13 @@ public class TdsCreator implements AstVisitor<Tds> {
 
     @Override
     public Tds visit(FieldDecl affect) {
-        // TODO Auto-generated method stub
+        int shift = -affect.fieldIds.size();
+        for (int i = 0; i < affect.fieldIds.size(); i++) {
+            Param par = new Param(affect.fieldIds.get(i), "", shift + i);
+            allTds.get(bloc - 1).addSymbol(par);
+            affect.fieldTypes.get(i).accept(this);
+
+        }
         return null;
     }
 
@@ -133,7 +152,6 @@ public class TdsCreator implements AstVisitor<Tds> {
 
     @Override
     public Tds visit(FieldExpr affect) {
-        // TODO Auto-generated method stub
         return null;
     }
 
@@ -144,13 +162,25 @@ public class TdsCreator implements AstVisitor<Tds> {
 
     @Override
     public Tds visit(For affect) {
-        return null;
+        return affect.expressions.accept(this);
     }
 
     @Override
     public Tds visit(FuncDecl affect) {
-        // TODO Auto-generated method stub
-        return null;
+        Tds func = new Tds(imbrication, new ArrayList<Symbol>(), bloc);
+        func.setParent(allTds.get(bloc - 1));
+        func.setName(affect.Idf.name);
+        allTds.add(func);
+        bloc++;
+        imbrication++;
+        if (affect.fieldDecl != null) {
+            affect.fieldDecl.accept(this);
+        }
+        if (affect.expressions != null) {
+            affect.expressions.accept(this);
+        }
+        imbrication--;
+        return func;
     }
 
     @Override
@@ -171,24 +201,52 @@ public class TdsCreator implements AstVisitor<Tds> {
 
     @Override
     public Tds visit(IfThen affect) {
-        // TODO Auto-generated method stub
-        return null;
+        return affect.ifExpr.accept(this);
     }
 
     @Override
     public Tds visit(IfThenElse affect) {
-        // TODO Auto-generated method stub
-        return null;
+        Tds ifTds = affect.ifExpr.accept(this);
+        Tds elseTds = affect.elseExpr.accept(this);
+
+        if (ifTds != null && elseTds != null) {
+            Tds pere = allTds.get(bloc - 1);
+            for (int k = 0; k < allTds.size(); k++) {
+                Tds temp = allTds.get(k);
+                if (temp.getImbric() == elseTds.getImbric() - 1) {
+                    if (temp.getBloc() > pere.getBloc()) {
+                        pere = temp;
+                    }
+                }
+            }
+            elseTds.setParent(pere);
+            pere.addEnfant(elseTds);
+
+            return ifTds;
+
+        } else if (ifTds != null) {
+            allTds.add(ifTds);
+            return ifTds;
+        } else if (elseTds != null) {
+            allTds.add(elseTds);
+            return elseTds;
+        } else {
+            return null;
+        }
     }
 
     @Override
     public Tds visit(InfEqNode affect) {
+        affect.accept(this);
         return null;
+
     }
 
     @Override
     public Tds visit(InfNode affect) {
+        affect.accept(this);
         return null;
+
     }
 
     @Override
@@ -198,7 +256,8 @@ public class TdsCreator implements AstVisitor<Tds> {
 
     @Override
     public Tds visit(LetNode affect) {
-        // TODO Auto-generated method stub
+        affect.declList.accept(this);
+        affect.exprSeq.accept(this);
         return null;
     }
 
@@ -210,17 +269,23 @@ public class TdsCreator implements AstVisitor<Tds> {
 
     @Override
     public Tds visit(Minus affect) {
+        affect.accept(this);
         return null;
+
     }
 
     @Override
     public Tds visit(Mult affect) {
+        affect.left.accept(this);
         return null;
+
     }
 
     @Override
     public Tds visit(Not affect) {
+        affect.accept(this);
         return null;
+
     }
 
     @Override
@@ -230,12 +295,16 @@ public class TdsCreator implements AstVisitor<Tds> {
 
     @Override
     public Tds visit(OrNode affect) {
+        affect.accept(this);
         return null;
+
     }
 
     @Override
     public Tds visit(Plus affect) {
+        affect.left.accept(this);
         return null;
+
     }
 
     @Override
@@ -250,14 +319,13 @@ public class TdsCreator implements AstVisitor<Tds> {
 
     @Override
     public Tds visit(Program affect) {
-        Tds origin = new Tds(imbrication, null, bloc);
+        Tds origin = new Tds(imbrication, new ArrayList<Symbol>(), bloc);
+        origin.setName("Main");
         allTds.add(origin);
         bloc++;
         imbrication++;
 
         Tds enfant = affect.expressions.accept(this);
-        origin.addEnfant(enfant);
-        enfant.setParent(origin);
 
         imbrication--;
         return origin;
@@ -292,18 +360,25 @@ public class TdsCreator implements AstVisitor<Tds> {
 
     @Override
     public Tds visit(SupEqNode affect) {
+        affect.accept(this);
         return null;
     }
 
     @Override
     public Tds visit(SupNode affect) {
+        affect.accept(this);
         return null;
+
     }
 
     @Override
     public Tds visit(TypeDecl affect) {
-        Param type = new Param(affect.typeid.toString(), "type", bloc);
-        this.allTds.get(bloc).addSymbol(type);
+        // TODO faire en sorte que la déclaratoin de type puisse etre affiché dans la
+        // tds
+        Param type = new Param("", "", bloc);
+        this.allTds.get(bloc - 1).addSymbol(type);
+        affect.typeid.accept(this);
+        affect.type.accept(this);
         return null;
     }
 
@@ -315,21 +390,27 @@ public class TdsCreator implements AstVisitor<Tds> {
 
     @Override
     public Tds visit(TypeId affect) {
-        // TODO Auto-generated method stub
+        this.allTds.get(bloc - 1).getSymbols().get(this.allTds.get(bloc - 1).getSymbols().size() - 1)
+                .setType(affect.value);
         return null;
     }
 
     @Override
     public Tds visit(VarDecl affect) {
-        Param var = new Param(affect.Idf.name, "var", bloc);
-        this.allTds.get(bloc).addSymbol(var);
+        if (affect.typeId != null) {
+            Param var = new Param(affect.Idf.name, affect.typeId.value, bloc);
+            this.allTds.get(bloc - 1).addSymbol(var);
+        } else {
+            Param var = new Param(affect.Idf.name, "int", bloc);
+            this.allTds.get(bloc - 1).addSymbol(var);
+        }
+
         return null;
     }
 
     @Override
     public Tds visit(While affect) {
-        // TODO Auto-generated method stub
-        return null;
+        return affect.expressions.accept(this);
     }
 
     @Override
