@@ -1,4 +1,5 @@
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -16,6 +17,8 @@ import ast.AstCreator;
 import graphViz.GraphVizVisitor;
 import parser.*;
 import parser.exprParser.ProgramContext;
+import tds.TdsCreator;
+import tds.Tds;
 
 public class Main {
 
@@ -49,6 +52,10 @@ public class Main {
             ast.accept(graphViz);
 
             graphViz.dumpGraph("./out/tree.dot");
+            TdsCreator tdsCreator = new TdsCreator();
+            ast.accept(tdsCreator);
+            ArrayList<Tds> allTDS = tdsCreator.allTds;
+            System.out.println(allTDS);
 
         } catch (IOException e) {
             e.printStackTrace();
