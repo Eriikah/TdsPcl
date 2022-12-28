@@ -172,7 +172,6 @@ public class TdsCreator implements AstVisitor<Tds> {
         func.setParent(allTds.get(bloc - 1));
         func.setName(affect.Idf.name);
         allTds.add(func);
-        bloc++;
         imbrication++;
         if (affect.fieldDecl != null) {
             affect.fieldDecl.accept(this);
@@ -187,7 +186,6 @@ public class TdsCreator implements AstVisitor<Tds> {
                 params.add((Param) el);
             }
         }
-        bloc--;
         if (affect.typeId != null) {
             Function function = new Function(affect.Idf.name, params, imbrication, "", bloc);
             allTds.get(bloc - 1).addSymbol(function);
@@ -198,7 +196,6 @@ public class TdsCreator implements AstVisitor<Tds> {
             Function function = new Function(affect.Idf.name, params, imbrication, "void", bloc);
             allTds.get(bloc - 1).addSymbol(function);
         }
-        bloc++;
         return func;
     }
 
