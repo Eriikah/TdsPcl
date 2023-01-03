@@ -110,4 +110,13 @@ public class Tds {
         this.name = name;
     }
 
+    public Symbol getSymbol(String name) {
+        for (Symbol symbol : this.getSymbols()) {
+            if (symbol.getName().equals(name)) {
+                return symbol;
+            }
+        }
+        return null;
+    }
+
 }
