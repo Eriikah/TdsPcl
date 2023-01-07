@@ -5,14 +5,18 @@ import tds.*;
 import ast.*;
 
 public class Control {
-    private Tds tds;
-    private Ast ast;
-    private ArrayList<Tds> tdsList;
+    protected Tds tds;
+    protected Ast ast;
+    protected ArrayList<Tds> tdsList;
 
     public Control(Ast ast, Tds tds, ArrayList<Tds> tdsList) {
         this.ast = ast;
         this.tds = tds;
         this.tdsList = tdsList;
+    }
+
+    public int control() {
+        return 0;
     }
 
     public String getType(String name){
@@ -57,7 +61,7 @@ public class Control {
         return null;
     }
 
-    public String getType(Ast ast){
+    /*public String getType(Ast ast){
         //todo
-    }
+    }*/
 }
