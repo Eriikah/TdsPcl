@@ -5,7 +5,7 @@ import tds.*;
 
 import java.util.ArrayList;
 
-public class ControlVisitor implements AstVisitor<Integer>{
+public class ControlVisitor implements AstVisitor<Integer> {
     private Tds currentTds;
     private ArrayList<Tds> tdsList;
     private ArrayList<String> visitedTds;
@@ -18,7 +18,7 @@ public class ControlVisitor implements AstVisitor<Integer>{
 
     public Tds getFirstTds() {
         for (Tds tds : this.tdsList) {
-            if (tds.getName().equals("main")) {
+            if (tds.getName().equals("Main")) {
                 return tds;
             }
         }
@@ -55,210 +55,343 @@ public class ControlVisitor implements AstVisitor<Integer>{
     }
 
     public Integer visit(Affect affect) {
-        affect.accept(this);
-        return null;
+        int error = affect.left.accept(this);
+        error += affect.right.accept(this);
+
+        return error;
     }
 
     public Integer visit(AndNode affect) {
-        affect.left.accept(this);
-        return null;
+        int error = affect.left.accept(this);
+        error += affect.right.accept(this);
+
+        return error;
     }
 
     public Integer visit(Chr affect) {
-        return null;
+        int error = 0;
+        // TODO tests de retours de fonction
+        return error;
     }
 
     public Integer visit(Concat affect) {
-        return null;
+        int error = 0;
+        // TODO tests de retours de fonction
+        return error;
     }
 
     public Integer visit(DeclList affect) {
-        return null;
+        int error = 0;
+        for (Ast el : affect.declElement) {
+            error += el.accept(this);
+        }
+        return error;
     }
 
     public Integer visit(DiffNode affect) {
-        return null;
+        int error = affect.left.accept(this);
+        error += affect.right.accept(this);
+        return error;
     }
 
     public Integer visit(Div affect) {
-        affect.accept(this);
-        return null;
+        int error = affect.left.accept(this);
+        error += affect.right.accept(this);
+        return error;
     }
 
     public Integer visit(EqNode affect) {
-        return null;
+        int error = affect.left.accept(this);
+        error += affect.right.accept(this);
+        return error;
     }
 
     public Integer visit(Exit affect) {
-        return null;
+        int error = 0;
+        // TODO tests de retours de fonction
+        return error;
     }
 
     public Integer visit(ExprList affect) {
-        return null;
+        int error = 0;
+        for (Ast elAst : affect.expressions) {
+            error += elAst.accept(this);
+        }
+        return error;
     }
 
     public Integer visit(FieldDecl affect) {
-        return null;
+        int error = 0;
+        for (Ast fieldDecl : affect.fieldTypes) {
+            error += ((TypeId) fieldDecl).accept(this);
+        }
+        return error;
     }
 
     public Integer visit(FieldElement affect) {
-        return null;
+        int error = 0;
+        error += affect.typeid.accept(this);
+        return error;
     }
 
     public Integer visit(FieldExpr affect) {
-        return null;
+        int error = 0;
+        // TODO Vérifier que ca sert a rien
+        return error;
     }
 
     public Integer visit(Flush affect) {
-        return null;
+        int error = 0;
+        // TODO tests de retours de fonction
+        return error;
     }
 
     public Integer visit(For affect) {
-        return null;
+        int error = 0;
+        error += affect.expressions.accept(this);
+        error += affect.goalExpr.accept(this);
+        error += affect.origExpr.accept(this);
+        return error;
     }
 
     public Integer visit(FuncDecl affect) {
-        return null;
+        int error = 0;
+        error += affect.expressions.accept(this);
+        if (affect.fieldDecl != null) {
+            error += affect.fieldDecl.accept(this);
+        }
+        if (affect.typeId != null) {
+            error += affect.typeId.accept(this);
+        }
+        return error;
     }
 
     public Integer visit(FunctionCall affect) {
-        return null;
+        int error = 0;
+        DeclarationControl test = new DeclarationControl(affect, getTds(affect.Idf.name), tdsList);
+        error += test.control();
+        return error;
     }
 
     public Integer visit(GetChar affect) {
-        return null;
+        int error = 0;
+        // TODO tests de retours de fonction
+        return error;
     }
 
     public Integer visit(Idf affect) {
-        return null;
+        return 0;
     }
 
     public Integer visit(IfThen affect) {
-        return null;
+        int error = 0;
+        error += affect.expressions.accept(this);
+        error += affect.ifExpr.accept(this);
+        return error;
     }
 
     public Integer visit(IfThenElse affect) {
-        return null;
+        Control error = new Control(affect, currentTds, tdsList);
+        return error.control();
     }
 
     public Integer visit(InfEqNode affect) {
-        return null;
+        int error = affect.left.accept(this);
+        error += affect.right.accept(this);
+
+        return error;
     }
 
     public Integer visit(InfNode affect) {
-        return null;
+        int error = affect.left.accept(this);
+        error += affect.right.accept(this);
+
+        return error;
     }
 
     public Integer visit(IntNode affect) {
-        return null;
+        return 0;
     }
 
     public Integer visit(LetNode affect) {
-        return null;
+        int error = 0;
+        error += affect.declList.accept(this);
+        error += affect.exprSeq.accept(this);
+        return error;
     }
 
     public Integer visit(Lvalue affect) {
-        return null;
+        return 0;
     }
 
     public Integer visit(Minus affect) {
-        return null;
+        int error = affect.left.accept(this);
+        error += affect.right.accept(this);
+
+        return error;
     }
 
     public Integer visit(Mult affect) {
-        return null;
+        int error = affect.left.accept(this);
+        error += affect.right.accept(this);
+
+        return error;
     }
 
     public Integer visit(Not affect) {
-        return null;
+        int error = 0;
+        // TODO tests de retours de fonction
+        return error;
     }
 
     public Integer visit(Ord affect) {
-        return null;
+        int error = 0;
+        // TODO tests de retours de fonction
+        return error;
     }
 
     public Integer visit(OrNode affect) {
-        return null;
+        int error = affect.left.accept(this);
+        error += affect.right.accept(this);
+
+        return error;
     }
 
     public Integer visit(Plus affect) {
-        return null;
+        int error = affect.left.accept(this);
+        error += affect.right.accept(this);
+
+        return error;
     }
 
     public Integer visit(PrintExpr affect) {
-        return null;
+        int error = 0;
+        // TODO tests de retours de fonction
+        return error;
     }
 
     public Integer visit(PrintInt affect) {
-        return null;
+        int error = 0;
+        // TODO tests de retours de fonction
+        return error;
     }
 
     public Integer visit(Program affect) {
-        return null;
+        this.currentTds = getFirstTds();
+        NoMultipleDeclControl test = new NoMultipleDeclControl(affect, currentTds, tdsList);
+        int error = test.control();
+        error += affect.expressions.accept(this);
+        return error;
     }
 
     public Integer visit(Return affect) {
-        return null;
+        int error = 0;
+        // TODO tests de retours de fonction
+        return error;
     }
 
     public Integer visit(Size affect) {
-        return null;
+        int error = 0;
+        // TODO tests de retours de fonction
+        return error;
     }
 
     public Integer visit(StringNode affect) {
-        return null;
+        return 0;
     }
 
     public Integer visit(Subscript affect) {
-        return null;
+        return 0;
     }
 
     public Integer visit(Substring affect) {
-        return null;
+        int error = 0;
+        // TODO tests de retours de fonction
+        return error;
     }
 
     public Integer visit(SupEqNode affect) {
-        return null;
+        int error = affect.left.accept(this);
+        error += affect.right.accept(this);
+
+        return error;
     }
 
     public Integer visit(SupNode affect) {
-        return null;
+        int error = affect.left.accept(this);
+        error += affect.right.accept(this);
+
+        return error;
     }
 
     public Integer visit(TypeDecl affect) {
-        return null;
+        int error = 0;
+        error += affect.typeid.accept(this);
+        return error;
     }
 
     public Integer visit(TypeFields affect) {
-        return null;
+        int error = 0;
+        for (Ast typeField : affect.typeField) {
+            error += ((TypeField) typeField).accept(this);
+        }
+        return error;
     }
 
     public Integer visit(TypeId affect) {
-        return null;
+        int error = 0;
+
+        DeclarationControl declCont = new DeclarationControl(affect, currentTds, tdsList);
+        error += declCont.control();
+        return error;
     }
 
     public Integer visit(VarDecl affect) {
-        return null;
+        int error = 0;
+        error += affect.expressions.accept(this);
+        if (affect.fieldDecl != null) {
+            error += affect.fieldDecl.accept(this);
+
+        }
+        if (affect.typeId != null) {
+            error += affect.typeId.accept(this);
+        }
+        return error;
     }
 
     public Integer visit(While affect) {
-        return null;
+        int error = 0;
+        error += affect.cond.accept(this);
+        error += affect.expressions.accept(this);
+        return error;
     }
 
     public Integer visit(TypeField affect) {
-        return null;
+        int error = 0;
+        DeclarationControl declCont = new DeclarationControl(affect, currentTds, tdsList);
+        error += declCont.control();
+        return error;
     }
 
     public Integer visit(List affect) {
-        return null;
+        int error = 0;
+        error += affect.fieldCreate.accept(this);
+        error += affect.typeid.accept(this);
+        return error;
     }
 
     public Integer visit(ListDecl affect) {
-        return null;
+        int error = 0;
+        error += affect.ofexpr.accept(this);
+        error += affect.typeId.accept(this);
+        error += affect.list.accept(this);
+        return error;
     }
 
     public Integer visit(Break affect) {
-        return null;
+        int error = 0;
+        // TODO tests de retours de fonction
+        return error;
     }
-    
+
 }

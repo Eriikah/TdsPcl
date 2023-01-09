@@ -391,7 +391,7 @@ public class TdsCreator implements AstVisitor<Tds> {
     public Tds visit(TypeDecl affect) {
         // TODO faire en sorte que la déclaratoin de type puisse etre affiché dans la
         // tds
-        Type type = new Type(affect.typeid.toString(), affect.type.toString(), bloc);
+        Type type = new Type(((TypeId) affect.typeid).value, affect.type.toString(), bloc);
         this.allTds.get(bloc - 1).addSymbol(type);
         System.out.println("Salut");
 
