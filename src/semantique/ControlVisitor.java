@@ -56,6 +56,8 @@ public class ControlVisitor implements AstVisitor<Integer> {
 
     public Integer visit(Affect affect) {
         int error = affect.left.accept(this);
+        System.out.println("aeriiearjpeaijapefijapijpaij");
+
         error += affect.right.accept(this);
 
         return error;
@@ -180,7 +182,10 @@ public class ControlVisitor implements AstVisitor<Integer> {
     }
 
     public Integer visit(Idf affect) {
-        return 0;
+        System.out.println("uytrza");
+        int error = 0;
+        error += (new DeclarationControl(affect, currentTds, tdsList)).control();
+        return error;
     }
 
     public Integer visit(IfThen affect) {
@@ -221,7 +226,13 @@ public class ControlVisitor implements AstVisitor<Integer> {
     }
 
     public Integer visit(Lvalue affect) {
-        return 0;
+        int error = 0;
+        // TODO trouver pourquoi le visiteur passe pas par la
+        error += affect.Idf.accept(this);
+        for (Ast el : affect.lvalueSubs) {
+            error += el.accept(this);
+        }
+        return error;
     }
 
     public Integer visit(Minus affect) {
@@ -232,9 +243,9 @@ public class ControlVisitor implements AstVisitor<Integer> {
     }
 
     public Integer visit(Mult affect) {
+        System.out.println('e');
         int error = affect.left.accept(this);
         error += affect.right.accept(this);
-
         return error;
     }
 
@@ -286,7 +297,7 @@ public class ControlVisitor implements AstVisitor<Integer> {
 
     public Integer visit(Return affect) {
         int error = 0;
-        // TODO tests de retours de fonction
+        error += affect.expressions.accept(this);
         return error;
     }
 
