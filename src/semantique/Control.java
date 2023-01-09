@@ -61,11 +61,15 @@ public class Control {
     public String getType(Ast ast) {
 
         if (ast instanceof Div || ast instanceof Plus || ast instanceof Minus || ast instanceof Mult) {
-            return "String";
+            return "int";
         }
         if (ast instanceof InfEqNode || ast instanceof InfNode
-                || ast instanceof SupEqNode || ast instanceof SupNode) {
+                || ast instanceof SupEqNode || ast instanceof SupNode
+                || ast instanceof EqNode || ast instanceof DiffNode) {
             return getType(((InfEqNode) ast).left);
+        }
+        if (ast instanceof AndNode || ast instanceof OrNode) {
+            return "boolean";
         }
         if (ast instanceof FunctionCall) {
             FunctionCall call = (FunctionCall) ast;

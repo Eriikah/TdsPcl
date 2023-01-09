@@ -69,60 +69,26 @@ public class BinOpTypeControl extends Control{
 
         if (this.ast instanceof EqNode){
             String type_left = getType(((EqNode) this.ast).left);
-            if (type_left != null){
-                if (!type_left.equals("int")){
-                    nb_error++;
-                }
-            }
             String type_right = getType(((EqNode) this.ast).right);
-            if (type_right != null){
-                if (!type_right.equals("int")){
-                    nb_error++;
-                }
-            }
-
-            if (nb_error == 2){
-                System.out.println("Error: EqNode must have two int operands");
-                nb_error++;
-            }
-            if (nb_error == 1){
-                if (type_left != "int"){
-                    System.out.println("Error: left operand of EqNode must be int");
-                    nb_error++;
-                }
-                if (type_right != "int"){
-                    System.out.println("Error: right operand of EqNode must be int");
-                    nb_error++;
+            
+            if (type_right != null && type_left != null){
+                if (!type_right.equals("int") || !type_right.equals("String") || !type_left.equals("int") || !type_left.equals("String")){
+                    if (!type_right.equals(type_left)){
+                        System.out.println("Error: EqNode must have two operands of the same type");
+                    }
                 }
             }
         }
 
         if (this.ast instanceof DiffNode){
             String type_left = getType(((DiffNode) this.ast).left);
-            if (type_left != null){
-                if (!type_left.equals("int")){
-                    nb_error++;
-                }
-            }
             String type_right = getType(((DiffNode) this.ast).right);
-            if (type_right != null){
-                if (!type_right.equals("int")){
-                    nb_error++;
-                }
-            }
-
-            if (nb_error == 2){
-                System.out.println("Error: DiffNode must have two int operands");
-                nb_error++;
-            }
-            if (nb_error == 1){
-                if (type_left != "int"){
-                    System.out.println("Error: left operand of DiffNode must be int");
-                    nb_error++;
-                }
-                if (type_right != "int"){
-                    System.out.println("Error: right operand of DiffNode must be int");
-                    nb_error++;
+            
+            if (type_right != null && type_left != null){
+                if (!type_right.equals("int") || !type_right.equals("String") || !type_left.equals("int") || !type_left.equals("String")){
+                    if (!type_right.equals(type_left)){
+                        System.out.println("Error: DiffNode must have two operands of the same type");
+                    }
                 }
             }
         }
