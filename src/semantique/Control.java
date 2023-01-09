@@ -19,7 +19,7 @@ public class Control {
         return 0;
     }
 
-    public String getType(String name){
+    public String getType(String name) {
         Tds tds_current = this.tds;
 
         if (tds_current == null) {
@@ -38,16 +38,13 @@ public class Control {
             symbol = tds_current.getSymbol(name);
         }
 
-        if (symbol instanceof Function){
+        if (symbol instanceof Function) {
             return ((Function) symbol).getReturnType();
-        } 
-        else if (symbol instanceof Var){
+        } else if (symbol instanceof Var) {
             return ((Var) symbol).getType();
-        } 
-        else if (symbol instanceof Param){
+        } else if (symbol instanceof Param) {
             return ((Param) symbol).getType();
-        } 
-        else {
+        } else {
             return null;
         }
     }
@@ -61,7 +58,32 @@ public class Control {
         return null;
     }
 
-    /*public String getType(Ast ast){
-        //todo
-    }*/
+    public String getType(Ast ast) {
+
+        if (ast instanceof Div || ast instanceof Plus || ast instanceof Minus || ast instanceof Mult) {
+            return "String";
+        }
+        if (ast instanceof InfEqNode || ast instanceof InfNode
+                || ast instanceof SupEqNode || ast instanceof SupNode) {
+            return getType(((InfEqNode) ast).left);
+        }
+        if (ast instanceof FunctionCall) {
+            FunctionCall call = (FunctionCall) ast;
+            return getType(call.Idf.name);
+        }
+        if (ast instanceof PrintExpr || ast instanceof PrintInt || ast instanceof Flush || ast instanceof Exit) {
+            return "void";
+        }
+        if (ast instanceof GetChar || ast instanceof Chr || ast instanceof Substring || ast instanceof Concat) {
+            return "String";
+        }
+        if (ast instanceof Ord || ast instanceof Size || ast instanceof Not) {
+            return "int";
+        }
+        if (ast instanceof Affect) {
+            Affect affect = (Affect) ast;
+            return getType(affect.left);
+        }
+        return null;
+    }
 }
