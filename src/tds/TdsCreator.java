@@ -189,7 +189,6 @@ public class TdsCreator implements AstVisitor<Tds> {
         if (affect.typeId != null) {
             Function function = new Function(affect.Idf.name, params, imbrication, "", bloc);
             allTds.get(bloc - 1).addSymbol(function);
-            System.out.println(affect.typeId.toString());
             affect.typeId.accept(this);
 
         } else {
@@ -393,8 +392,6 @@ public class TdsCreator implements AstVisitor<Tds> {
         // tds
         Type type = new Type(((TypeId) affect.typeid).value, affect.type.toString(), bloc);
         this.allTds.get(bloc - 1).addSymbol(type);
-        System.out.println("Salut");
-
         // affect.typeid.accept(this);
         // affect.type.accept(this);
         return null;
