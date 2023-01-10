@@ -56,8 +56,6 @@ public class ControlVisitor implements AstVisitor<Integer> {
 
     public Integer visit(Affect affect) {
         int error = affect.left.accept(this);
-        System.out.println("aeriiearjpeaijapefijapijpaij");
-
         error += affect.right.accept(this);
 
         return error;
@@ -138,7 +136,6 @@ public class ControlVisitor implements AstVisitor<Integer> {
 
     public Integer visit(FieldExpr affect) {
         int error = 0;
-        // TODO Vérifier que ca sert a rien
         return error;
     }
 
@@ -170,10 +167,14 @@ public class ControlVisitor implements AstVisitor<Integer> {
 
     public Integer visit(FunctionCall affect) {
         int error = 0;
-        ParamNumControl testParamNumControl = new ParamNumControl(affect, currentTds, tdsList);
         DeclarationControl test = new DeclarationControl(affect, getTds(affect.Idf.name), tdsList);
         error += test.control();
-        error += testParamNumControl.control();
+        if (error == 0) {
+            ParamNumControl testParamNumControl = new ParamNumControl(affect, currentTds,
+                    tdsList);
+            error += testParamNumControl.control();
+
+        }
         return error;
     }
 
@@ -184,7 +185,6 @@ public class ControlVisitor implements AstVisitor<Integer> {
     }
 
     public Integer visit(Idf affect) {
-        System.out.println("uytrza");
         int error = 0;
         error += (new DeclarationControl(affect, currentTds, tdsList)).control();
         return error;
@@ -192,14 +192,20 @@ public class ControlVisitor implements AstVisitor<Integer> {
 
     public Integer visit(IfThen affect) {
         int error = 0;
+
         error += affect.expressions.accept(this);
         error += affect.ifExpr.accept(this);
         return error;
     }
 
     public Integer visit(IfThenElse affect) {
-        Control error = new Control(affect, currentTds, tdsList);
-        return error.control();
+        int error = 0;
+        IfThenElseTypeControl ifControl = new IfThenElseTypeControl(affect, currentTds, tdsList);
+        error += affect.elseExpr.accept(this);
+        error += affect.ifExpr.accept(this);
+        error += affect.expressions.accept(this);
+        error += ifControl.control();
+        return error;
     }
 
     public Integer visit(InfEqNode affect) {
@@ -245,7 +251,6 @@ public class ControlVisitor implements AstVisitor<Integer> {
     }
 
     public Integer visit(Mult affect) {
-        System.out.println('e');
         int error = affect.left.accept(this);
         error += affect.right.accept(this);
         return error;
@@ -314,7 +319,8 @@ public class ControlVisitor implements AstVisitor<Integer> {
     }
 
     public Integer visit(Subscript affect) {
-        return 0;
+        int error = affect.expression.accept(this);
+        return error;
     }
 
     public Integer visit(Substring affect) {
@@ -353,7 +359,6 @@ public class ControlVisitor implements AstVisitor<Integer> {
 
     public Integer visit(TypeId affect) {
         int error = 0;
-
         DeclarationControl declCont = new DeclarationControl(affect, currentTds, tdsList);
         error += declCont.control();
         return error;
