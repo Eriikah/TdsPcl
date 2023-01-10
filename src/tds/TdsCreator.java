@@ -187,12 +187,12 @@ public class TdsCreator implements AstVisitor<Tds> {
             }
         }
         if (affect.typeId != null) {
-            Function function = new Function(affect.Idf.name, params, imbrication, "", bloc);
+            Function function = new Function(affect.Idf.name, params, params.size(), "", bloc);
             allTds.get(bloc - 1).addSymbol(function);
             affect.typeId.accept(this);
 
         } else {
-            Function function = new Function(affect.Idf.name, params, imbrication, "void", bloc);
+            Function function = new Function(affect.Idf.name, params, params.size(), "void", bloc);
             allTds.get(bloc - 1).addSymbol(function);
         }
         return func;

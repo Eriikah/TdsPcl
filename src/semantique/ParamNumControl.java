@@ -15,6 +15,7 @@ public class ParamNumControl extends Control {
     }
 
     public int control() {
+        int error = 0;
         if (((FunctionCall) ast).Idf.name == "return") {
             if (((ExprList) (((FunctionCall) ast).exprList)).expressions.size() != 1) {
                 System.out.println(
@@ -114,16 +115,19 @@ public class ParamNumControl extends Control {
         else {
             tds.Function calledFunction =
                     (tds.Function) tds.getSymbol(((FunctionCall) ast).Idf.name);
-            if (calledFunction
-                    .getParamNumber() != ((ExprList) (((FunctionCall) ast).exprList)).expressions
-                            .size()) {
-                System.out.println(((FunctionCall) ast).Idf.name + " takes "
-                        + calledFunction.getParamNumber() + " parametter(s), you submitted "
-                        + ((ExprList) (((FunctionCall) ast).exprList)).expressions.size());
+            int parNum = 0;
+            if ((ExprList) (((FunctionCall) ast).exprList) != null) {
+                parNum = ((ExprList) (((FunctionCall) ast).exprList)).expressions.size();
+            }
+            if (calledFunction.getParamNumber() != parNum) {
+                System.out.println(
+                        ((FunctionCall) ast).Idf.name + " takes " + calledFunction.getParamNumber()
+                                + " parametter(s), you submitted " + parNum);
+                error++;
             }
         }
 
-        return 0;
+        return error;
     }
 
 }
