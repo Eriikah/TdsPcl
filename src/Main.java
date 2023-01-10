@@ -13,6 +13,7 @@ import ast.AstCreator;
 import graphViz.GraphVizVisitor;
 import parser.*;
 import parser.exprParser.ProgramContext;
+import semantique.ControlVisitor;
 import tds.TdsCreator;
 import tds.Tds;
 
@@ -52,6 +53,9 @@ public class Main {
             ast.accept(tdsCreator);
             ArrayList<Tds> allTDS = tdsCreator.allTds;
             System.out.println(allTDS);
+
+            ControlVisitor tests = new ControlVisitor(allTDS);
+            System.out.println(ast.accept(tests));
 
         } catch (IOException e) {
             e.printStackTrace();

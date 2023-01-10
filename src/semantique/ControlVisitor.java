@@ -170,8 +170,10 @@ public class ControlVisitor implements AstVisitor<Integer> {
 
     public Integer visit(FunctionCall affect) {
         int error = 0;
+        ParamNumControl testParamNumControl = new ParamNumControl(affect, currentTds, tdsList);
         DeclarationControl test = new DeclarationControl(affect, getTds(affect.Idf.name), tdsList);
         error += test.control();
+        error += testParamNumControl.control();
         return error;
     }
 
