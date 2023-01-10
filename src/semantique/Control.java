@@ -88,6 +88,10 @@ public class Control {
             Affect affect = (Affect) ast;
             return getType(affect.left);
         }
+        if (ast instanceof For) {
+            For forAst = (For) ast;
+            return getType(forAst.origExpr);
+        }
         return null;
     }
 }
