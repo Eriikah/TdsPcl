@@ -1,12 +1,12 @@
 package tds;
 
-public class For extends Symbol {
+public class ForTds extends Symbol {
 
     private String iterableId;
     private int startValue;
     private int endValue;
 
-    public For(String iterableId, int startValue, int endValue) {
+    public ForTds(String iterableId, int startValue, int endValue) {
         super("For" + iterableId);
         this.iterableId = iterableId;
         this.startValue = startValue;
@@ -24,6 +24,5 @@ public class For extends Symbol {
     public int getEndValue() {
         return endValue;
     }
-
 
 }

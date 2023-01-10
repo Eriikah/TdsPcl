@@ -2,6 +2,8 @@ package tds;
 
 import java.util.ArrayList;
 
+import ast.For;
+
 public class Tds {
 
     private int imbric;
@@ -99,6 +101,10 @@ public class Tds {
                 Type type = (Type) symbol;
                 String ligne = String.format("type : %s // Type : %s // Déplacement : %d", type.getName(),
                         type.getType(), type.getDepl());
+                table.append(ligne).append("\n");
+            } else if (symbol instanceof ForTds) {
+                ForTds forTds = (ForTds) symbol;
+                String ligne = String.format("type : %s //  // Déplacement :", forTds.getName());
                 table.append(ligne).append("\n");
             }
         }

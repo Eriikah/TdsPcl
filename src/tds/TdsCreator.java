@@ -128,7 +128,9 @@ public class TdsCreator implements AstVisitor<Tds> {
 
     @Override
     public Tds visit(ExprList affect) {
-        // TODO Auto-generated method stub
+        for (Ast expAst : affect.expressions) {
+            expAst.accept(this);
+        }
         return null;
     }
 
@@ -162,14 +164,28 @@ public class TdsCreator implements AstVisitor<Tds> {
 
     @Override
     public Tds visit(For affect) {
-        return affect.expressions.accept(this);
+        Tds forTds = new Tds(imbrication, new ArrayList<Symbol>(), bloc);
+
+        forTds.setParent(allTds.get(imbrication - 1));
+        forTds.setName(affect.Idf.name);
+        allTds.add(forTds);
+        imbrication++;
+        bloc++;
+        if (affect.expressions != null) {
+            affect.expressions.accept(this);
+        }
+        imbrication--;
+        System.out.println(allTds.get(bloc - 1));
+        ForTds forKid = new ForTds(affect.Idf.name, 0, 10);
+        allTds.get(imbrication - 1).addSymbol(forKid);
+        return forTds;
     }
 
     @Override
     public Tds visit(FuncDecl affect) {
         Tds func = new Tds(imbrication, new ArrayList<Symbol>(), bloc);
 
-        func.setParent(allTds.get(bloc - 1));
+        func.setParent(allTds.get(imbrication - 1));
         func.setName(affect.Idf.name);
         allTds.add(func);
         imbrication++;
@@ -181,7 +197,6 @@ public class TdsCreator implements AstVisitor<Tds> {
             affect.expressions.accept(this);
         }
         imbrication--;
-        bloc--;
         ArrayList<Param> params = new ArrayList<Param>();
         for (Symbol el : func.getSymbols()) {
             if (el instanceof Param) {
@@ -190,12 +205,12 @@ public class TdsCreator implements AstVisitor<Tds> {
         }
         if (affect.typeId != null) {
             Function function = new Function(affect.Idf.name, params, params.size(), "", bloc);
-            allTds.get(bloc - 1).addSymbol(function);
+            allTds.get(imbrication - 1).addSymbol(function);
             affect.typeId.accept(this);
 
         } else {
             Function function = new Function(affect.Idf.name, params, params.size(), "void", bloc);
-            allTds.get(bloc - 1).addSymbol(function);
+            allTds.get(imbrication - 1).addSymbol(function);
         }
         return func;
     }
@@ -227,7 +242,7 @@ public class TdsCreator implements AstVisitor<Tds> {
         Tds elseTds = affect.elseExpr.accept(this);
 
         if (ifTds != null && elseTds != null) {
-            Tds pere = allTds.get(bloc - 1);
+            Tds pere = allTds.get(imbrication - 1);
             for (int k = 0; k < allTds.size(); k++) {
                 Tds temp = allTds.get(k);
                 if (temp.getImbric() == elseTds.getImbric() - 1) {
@@ -393,7 +408,7 @@ public class TdsCreator implements AstVisitor<Tds> {
         // TODO faire en sorte que la déclaratoin de type puisse etre affiché dans la
         // tds
         Type type = new Type(((TypeId) affect.typeid).value, affect.type.toString(), bloc);
-        this.allTds.get(bloc - 1).addSymbol(type);
+        this.allTds.get(imbrication - 1).addSymbol(type);
         // affect.typeid.accept(this);
         // affect.type.accept(this);
         return null;
@@ -407,8 +422,9 @@ public class TdsCreator implements AstVisitor<Tds> {
 
     @Override
     public Tds visit(TypeId affect) {
-        this.allTds.get(bloc - 1).getSymbols()
-                .get(this.allTds.get(bloc - 1).getSymbols().size() - 1).setType(affect.value);
+        // this.allTds.get(bloc - 1).getSymbols()
+        // .get(this.allTds.get(bloc - 1).getSymbols().size() -
+        // 1).setType(affect.value);
         return null;
     }
 
@@ -416,10 +432,10 @@ public class TdsCreator implements AstVisitor<Tds> {
     public Tds visit(VarDecl affect) {
         if (affect.typeId != null) {
             Var var = new Var(affect.Idf.name, affect.typeId.value, bloc);
-            this.allTds.get(bloc - 1).addSymbol(var);
+            this.allTds.get(imbrication - 1).addSymbol(var);
         } else {
             Var var = new Var(affect.Idf.name, "int", bloc);
-            this.allTds.get(bloc - 1).addSymbol(var);
+            this.allTds.get(imbrication - 1).addSymbol(var);
         }
 
         return null;
