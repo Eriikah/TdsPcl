@@ -137,7 +137,7 @@ public class TdsCreator implements AstVisitor<Tds> {
         int shift = -affect.fieldIds.size();
         for (int i = 0; i < affect.fieldIds.size(); i++) {
             Param par = new Param(affect.fieldIds.get(i), "", shift + i);
-            allTds.get(bloc).addSymbol(par);
+            allTds.get(bloc - 1).addSymbol(par);
             affect.fieldTypes.get(i).accept(this);
 
         }
@@ -173,6 +173,7 @@ public class TdsCreator implements AstVisitor<Tds> {
         func.setName(affect.Idf.name);
         allTds.add(func);
         imbrication++;
+        bloc++;
         if (affect.fieldDecl != null) {
             affect.fieldDecl.accept(this);
         }
@@ -180,6 +181,7 @@ public class TdsCreator implements AstVisitor<Tds> {
             affect.expressions.accept(this);
         }
         imbrication--;
+        bloc--;
         ArrayList<Param> params = new ArrayList<Param>();
         for (Symbol el : func.getSymbols()) {
             if (el instanceof Param) {
