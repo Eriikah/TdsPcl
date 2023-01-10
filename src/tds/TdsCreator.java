@@ -137,7 +137,7 @@ public class TdsCreator implements AstVisitor<Tds> {
         int shift = -affect.fieldIds.size();
         for (int i = 0; i < affect.fieldIds.size(); i++) {
             Param par = new Param(affect.fieldIds.get(i), "", shift + i);
-            allTds.get(bloc - 1).addSymbol(par);
+            allTds.get(bloc).addSymbol(par);
             affect.fieldTypes.get(i).accept(this);
 
         }
