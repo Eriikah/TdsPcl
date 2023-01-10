@@ -111,13 +111,12 @@ public class ParamNumControl extends Control {
         }
 
         else {
-            tds.Function calledFunction =
-                    (tds.Function) tds.getSymbol(((FunctionCall) ast).Idf.name);
+            tds.Function calledFunction = (tds.Function) tds.getSymbol(((FunctionCall) ast).Idf.name);
             int parNum = 0;
             if ((ExprList) (((FunctionCall) ast).exprList) != null) {
                 parNum = ((ExprList) (((FunctionCall) ast).exprList)).expressions.size();
             }
-            if (calledFunction.getParamNumber() != parNum) {
+            if (calledFunction != null && calledFunction.getParamNumber() != parNum) {
                 System.out.println(
                         ((FunctionCall) ast).Idf.name + " takes " + calledFunction.getParamNumber()
                                 + " parametter(s), you submitted " + parNum);

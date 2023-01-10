@@ -28,6 +28,7 @@ public class Control {
         }
 
         Symbol symbol = tds_current.getSymbol(name);
+        System.out.println(tds_current);
 
         while (symbol == null) {
             tds_current = tds_current.getParent();
@@ -90,8 +91,33 @@ public class Control {
         }
         if (ast instanceof For) {
             For forAst = (For) ast;
-            return getType(forAst.origExpr);
+            return getType(forAst.expressions);
         }
+        if (ast instanceof Return) {
+            Return retAst = (Return) ast;
+            return getType(retAst.expressions);
+        }
+        if (ast instanceof IntNode) {
+            return "int";
+        }
+        if (ast instanceof Idf) {
+            Idf idAst = (Idf) ast;
+            return getType(idAst.name);
+        }
+        if (ast instanceof ExprList) {
+            String type = "";
+            for (Ast elAst : ((ExprList) ast).expressions) {
+                type = getType(elAst);
+            }
+            return type;
+        }
+        if (ast instanceof Lvalue) {
+            return getType(((Lvalue) ast).Idf.name);
+        }
+        if (ast instanceof StringNode) {
+            return "String";
+        }
+
         return null;
     }
 }

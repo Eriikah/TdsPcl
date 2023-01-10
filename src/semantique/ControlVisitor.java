@@ -155,6 +155,8 @@ public class ControlVisitor implements AstVisitor<Integer> {
 
     public Integer visit(FuncDecl affect) {
         int error = 0;
+        Tds prevTds = this.currentTds;
+        this.currentTds = getTds(affect.Idf.name);
         error += affect.expressions.accept(this);
         if (affect.fieldDecl != null) {
             error += affect.fieldDecl.accept(this);
@@ -162,6 +164,7 @@ public class ControlVisitor implements AstVisitor<Integer> {
         if (affect.typeId != null) {
             error += affect.typeId.accept(this);
         }
+        this.currentTds = prevTds;
         return error;
     }
 
@@ -204,7 +207,9 @@ public class ControlVisitor implements AstVisitor<Integer> {
         error += affect.elseExpr.accept(this);
         error += affect.ifExpr.accept(this);
         error += affect.expressions.accept(this);
-        error += ifControl.control();
+        if (error == 0) {
+            error += ifControl.control();
+        }
         return error;
     }
 
