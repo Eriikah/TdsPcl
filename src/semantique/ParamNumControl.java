@@ -1,8 +1,6 @@
 package semantique;
 
-import java.io.Console;
 import java.util.ArrayList;
-import java.util.function.Function;
 import ast.Ast;
 import ast.ExprList;
 import ast.FunctionCall;
