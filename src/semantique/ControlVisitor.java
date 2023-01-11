@@ -91,18 +91,27 @@ public class ControlVisitor implements AstVisitor<Integer> {
     public Integer visit(DiffNode affect) {
         int error = affect.left.accept(this);
         error += affect.right.accept(this);
+
+        error += new BinOpTypeControl(affect, currentTds, tdsList).control();
+
         return error;
     }
 
     public Integer visit(Div affect) {
         int error = affect.left.accept(this);
         error += affect.right.accept(this);
+
+        error += new BinOpTypeControl(affect, currentTds, tdsList).control();
+
         return error;
     }
 
     public Integer visit(EqNode affect) {
         int error = affect.left.accept(this);
         error += affect.right.accept(this);
+
+        error += new BinOpTypeControl(affect, currentTds, tdsList).control();
+
         return error;
     }
 
@@ -221,12 +230,16 @@ public class ControlVisitor implements AstVisitor<Integer> {
         int error = affect.left.accept(this);
         error += affect.right.accept(this);
 
+        error += new BinOpTypeControl(affect, currentTds, tdsList).control();
+
         return error;
     }
 
     public Integer visit(InfNode affect) {
         int error = affect.left.accept(this);
         error += affect.right.accept(this);
+
+        error += new BinOpTypeControl(affect, currentTds, tdsList).control();
 
         return error;
     }
@@ -256,12 +269,17 @@ public class ControlVisitor implements AstVisitor<Integer> {
         int error = affect.left.accept(this);
         error += affect.right.accept(this);
 
+        error += new BinOpTypeControl(affect, currentTds, tdsList).control();
+
         return error;
     }
 
     public Integer visit(Mult affect) {
         int error = affect.left.accept(this);
         error += affect.right.accept(this);
+
+        error += new BinOpTypeControl(affect, currentTds, tdsList).control();
+
         return error;
     }
 
@@ -281,12 +299,16 @@ public class ControlVisitor implements AstVisitor<Integer> {
         int error = affect.left.accept(this);
         error += affect.right.accept(this);
 
+        error += new BinOpTypeControl(affect, currentTds, tdsList).control();
+
         return error;
     }
 
     public Integer visit(Plus affect) {
         int error = affect.left.accept(this);
         error += affect.right.accept(this);
+
+        error += new BinOpTypeControl(affect, currentTds, tdsList).control();
 
         return error;
     }
@@ -342,12 +364,16 @@ public class ControlVisitor implements AstVisitor<Integer> {
         int error = affect.left.accept(this);
         error += affect.right.accept(this);
 
+        error += new BinOpTypeControl(affect, currentTds, tdsList).control();
+
         return error;
     }
 
     public Integer visit(SupNode affect) {
         int error = affect.left.accept(this);
         error += affect.right.accept(this);
+
+        error += new BinOpTypeControl(affect, currentTds, tdsList).control();
 
         return error;
     }
