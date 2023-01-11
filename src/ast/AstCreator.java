@@ -192,10 +192,10 @@ public class AstCreator extends exprBaseVisitor<Ast> {
         return ctx.getChild(0).accept(this);
     }
 
-    @Override
-    public Ast visitReturnF(exprParser.ReturnFContext ctx) {
-        return ctx.getChild(0).accept(this);
-    }
+    // @Override
+    // public Ast visitReturnF(exprParser.ReturnFContext ctx) {
+    // return ctx.getChild(0).accept(this);
+    // }
 
     @Override
     public Ast visitFlushF(exprParser.FlushFContext ctx) {
@@ -310,10 +310,10 @@ public class AstCreator extends exprBaseVisitor<Ast> {
         return new FieldDecl(idTypes, fieldexpr);
     }
 
-    @Override
-    public Ast visitFreturn(exprParser.FreturnContext ctx) {
-        return new Return(ctx.getChild(2).accept(this));
-    }
+    // @Override
+    // public Ast visitFreturn(exprParser.FreturnContext ctx) {
+    // return new Return(ctx.getChild(2).accept(this));
+    // }
 
     @Override
     public Ast visitPrints(exprParser.PrintsContext ctx) {
@@ -390,7 +390,7 @@ public class AstCreator extends exprBaseVisitor<Ast> {
 
     @Override
     public Ast visitTypeid(exprParser.TypeidContext ctx) {
-        if (ctx.getChild(0) == null){
+        if (ctx.getChild(0) == null) {
             return new TypeId("void");
         }
         return new TypeId(ctx.getChild(0).toString());

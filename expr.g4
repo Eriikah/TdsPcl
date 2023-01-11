@@ -4,7 +4,7 @@ grammar expr;
 package parser;
 }
 
-program: first=exprsolo EOF;
+program: first = exprsolo EOF;
 
 decl: typedecl | vardecl | funcdecl;
 
@@ -25,8 +25,7 @@ funcdecl:
 
 lvalue: ID (lvalsub += lvalues)*;
 
-lvalues: subscript #SubscriptF 
-	| fieldexpr #FieldexprF;
+lvalues: subscript # SubscriptF | fieldexpr # FieldexprF;
 
 subscript: '[' exprsolo ']';
 
@@ -37,7 +36,7 @@ expr:
 	| STRING												# StringDecl
 	| '(' expr_list ')'										# Parenthesis
 	| '-' exprsolo											# MinusAffector
-	| lvalue 												# Val
+	| lvalue												# Val
 	| ID '(' exprlist = expr_list? ')'						# FunctionCall
 	| typeid '[' exprsolo ']' 'of' exprsolo					# ListDecl
 	| typeid '{' fieldcreate '}'							# List
@@ -48,7 +47,6 @@ expr:
 	| 'break'												# Break
 	| 'let' decl_list 'in' expr_list? 'end'					# Let
 	| prints												# PrintStr
-	| freturn												# ReturnF
 	| printi												# PrintInt
 	| flush													# FlushF
 	| getchar												# GetCharF
@@ -66,7 +64,7 @@ orexpr: andexpr ('|' expror += andexpr)* # Or;
 andexpr: boolexpr ('&' exprand += boolexpr)* # And;
 boolexpr:
 	minusexpr (
-		op=('=' | '<>' | '<=' | '>=' | '<' | '>') exprbool=minusexpr
+		op = ('=' | '<>' | '<=' | '>=' | '<' | '>') exprbool = minusexpr
 	)?;
 
 minusexpr: addexpr ('-' exprminus += addexpr)* # Moins;
@@ -83,8 +81,6 @@ fieldcreate:
 	)* # Field_Create;
 
 decl_list: decl+ # DeclList;
-
-freturn: 'return' '(' expr_list ')';
 
 prints: 'print' '(' (exprsolo) ')';
 
@@ -117,9 +113,9 @@ not: 'not' '(' (notel = INT | notel = ID) ')';
 exit: 'exit' '(' (exitel = INT | exitel = ID) ')';
 
 type:
-	typeid #TypeIdF
-	| '{' tyfield = typefields? '}'#Tyfields
-	| 'array' 'of' typeid #DeclArrayOfTyfields;
+	typeid							# TypeIdF
+	| '{' tyfield = typefields? '}'	# Tyfields
+	| 'array' 'of' typeid			# DeclArrayOfTyfields;
 
 typefields:
 	tyfield += typefield (',' tyfield += typefield)* # Type_Fields;
