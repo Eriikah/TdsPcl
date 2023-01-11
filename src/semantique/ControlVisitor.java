@@ -161,6 +161,7 @@ public class ControlVisitor implements AstVisitor<Integer> {
         error += affect.expressions.accept(this);
         error += affect.goalExpr.accept(this);
         error += affect.origExpr.accept(this);
+        error += new ForCondControl(affect, prevTds, tdsList).control();
         this.currentTds = prevTds;
         return error;
     }
