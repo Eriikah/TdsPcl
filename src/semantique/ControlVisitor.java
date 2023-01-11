@@ -173,9 +173,13 @@ public class ControlVisitor implements AstVisitor<Integer> {
         DeclarationControl test = new DeclarationControl(affect, getTds(affect.Idf.name), tdsList);
         error += test.control();
         if (error == 0) {
-            ParamNumControl testParamNumControl = new ParamNumControl(affect, currentTds,
-                    tdsList);
+            ParamNumControl testParamNumControl = new ParamNumControl(affect, currentTds, tdsList);
             error += testParamNumControl.control();
+            if (error == 0) {
+                ParamTypeControl testParamTypeControl =
+                        new ParamTypeControl(affect, currentTds, tdsList);
+                error += testParamTypeControl.control();
+            }
 
         }
         return error;

@@ -2,8 +2,6 @@ package tds;
 
 import java.util.ArrayList;
 
-import ast.For;
-
 public class Tds {
 
     private int imbric;
@@ -66,26 +64,27 @@ public class Tds {
         StringBuilder table = new StringBuilder();
         Tds pere = this.getParent();
         if (pere != null) {
-            table.append(String.format("_ %s - Imbrication : %s - Bloc : %s - Parent : %s _\n", this.getName(),
-                    this.getImbric(), this.getBloc(), pere.getBloc()));
+            table.append(String.format("_ %s - Imbrication : %s - Bloc : %s - Parent : %s _\n",
+                    this.getName(), this.getImbric(), this.getBloc(), pere.getBloc()));
         } else {
-            table.append(String.format("_ %s - Imbrication : %s - Bloc : %s - Parent : null _\n", this.getName(),
-                    this.getImbric(), this.getBloc()));
+            table.append(String.format("_ %s - Imbrication : %s - Bloc : %s - Parent : null _\n",
+                    this.getName(), this.getImbric(), this.getBloc()));
         }
         for (Symbol symbol : this.getSymbols()) {
             if (symbol instanceof Param) {
                 Param param = (Param) symbol;
-                String ligne = String.format("Paramètre : %s // Type : %s // Déplacement : %d", param.getName(),
-                        param.getType(), param.getDepl());
+                String ligne = String.format("Paramètre : %s // Type : %s // Déplacement : %d",
+                        param.getName(), param.getType(), param.getDepl());
                 table.append(ligne).append("\n");
             } else if (symbol instanceof Function) {
                 Function function = (Function) symbol;
-                String ligne = String.format("Fonction : %s // Type de retour : %s // Déplacement : %d ///  \n ",
+                String ligne = String.format(
+                        "Fonction : %s // Type de retour : %s // Déplacement : %d ///  \n ",
                         function.getName(), function.getReturnType(), function.getParams().size());
                 if (function.getParams() != null) {
                     for (Param param : function.getParams()) {
-                        ligne += String.format("Paramètre : %s // Type : %s // Déplacement : %d", param.getName(),
-                                param.getType(), param.getDepl());
+                        ligne += String.format("Paramètre : %s // Type : %s // Déplacement : %d",
+                                param.getName(), param.getType(), param.getDepl());
                     }
                 } else {
                     ligne += "Pas de paramètres";
@@ -94,13 +93,13 @@ public class Tds {
                 table.append(ligne).append("\n");
             } else if (symbol instanceof Var) {
                 Var var = (Var) symbol;
-                String ligne = String.format("Variable : %s // Type : %s // Déplacement : %d", var.getName(),
-                        var.getType(), var.getDepl());
+                String ligne = String.format("Variable : %s // Type : %s // Déplacement : %d",
+                        var.getName(), var.getType(), var.getDepl());
                 table.append(ligne).append("\n");
             } else if (symbol instanceof Type) {
                 Type type = (Type) symbol;
-                String ligne = String.format("type : %s // Type : %s // Déplacement : %d", type.getName(),
-                        type.getType(), type.getDepl());
+                String ligne = String.format("type : %s // Type : %s // Déplacement : %d",
+                        type.getName(), type.getType(), type.getDepl());
                 table.append(ligne).append("\n");
             } else if (symbol instanceof ForTds) {
                 ForTds forTds = (ForTds) symbol;
