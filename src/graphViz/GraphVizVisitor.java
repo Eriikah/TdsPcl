@@ -116,9 +116,17 @@ public class GraphVizVisitor implements AstVisitor<String> {
 
         String idfState = varDecl.Idf.accept(this);
         String exprState = varDecl.expressions.accept(this);
+        
         this.addNode(nodeIdentifier, "VarDecl");
         this.addTransition(nodeIdentifier, idfState);
         this.addTransition(nodeIdentifier, exprState);
+
+        String typeState = varDecl.typeId.accept(this);
+        System.out.println("kaaa "+typeState);
+        this.addTransition(nodeIdentifier, typeState);
+
+
+        
 
         return nodeIdentifier;
     }
