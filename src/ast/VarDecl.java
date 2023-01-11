@@ -7,13 +7,11 @@ public class VarDecl extends Decl implements Ast {
     }
 
     public Idf Idf;
-    public FieldDecl fieldDecl;
     public TypeId typeId;
     public Ast expressions;
 
-    public VarDecl(Idf Idf, FieldDecl fieldDecl, TypeId typeId, Ast expressions) {
+    public VarDecl(Idf Idf, TypeId typeId, Ast expressions) {
         this.Idf = Idf;
-        this.fieldDecl = fieldDecl;
         this.typeId = typeId;
         this.expressions = expressions;
     }

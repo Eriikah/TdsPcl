@@ -59,16 +59,14 @@ public class Control {
 
     public String getType(Ast ast) {
 
-        if (ast instanceof Div || ast instanceof Plus || ast instanceof Minus || ast instanceof Mult) {
+        if (ast instanceof Div || ast instanceof Plus || ast instanceof Minus || ast instanceof Mult
+                || ast instanceof EqNode || ast instanceof DiffNode || ast instanceof InfEqNode
+                || ast instanceof InfNode
+                || ast instanceof SupEqNode || ast instanceof SupNode) {
             return "int";
         }
-        if (ast instanceof InfEqNode || ast instanceof InfNode
-                || ast instanceof SupEqNode || ast instanceof SupNode
-                || ast instanceof EqNode || ast instanceof DiffNode) {
-            return getType(((InfEqNode) ast).left);
-        }
         if (ast instanceof AndNode || ast instanceof OrNode) {
-            return "boolean";
+            return "int";
         }
         if (ast instanceof FunctionCall) {
             FunctionCall call = (FunctionCall) ast;
@@ -110,7 +108,7 @@ public class Control {
             return type;
         }
         if (ast instanceof Lvalue) {
-            return getType(((Lvalue) ast).Idf.name);
+            return "void";
         }
         if (ast instanceof StringNode) {
             return "String";
@@ -119,7 +117,34 @@ public class Control {
             return getType(((For) ast).expressions);
         }
         if (ast instanceof IfThen) {
-            return getType(((IfThen) ast).expressions);
+            return "void";
+        }
+        if (ast instanceof FuncDecl) {
+            return getType(((FuncDecl) ast).expressions);
+        }
+        if (ast instanceof VarDecl) {
+            return getType(((VarDecl) ast).typeId);
+        }
+        if (ast instanceof Subscript) {
+            return getType(((Subscript) ast).expression);
+        }
+        if (ast instanceof FieldExpr) {
+            return getType(((FieldExpr) ast).Idf);
+        }
+        if (ast instanceof While) {
+            return "void";
+        }
+        if (ast instanceof While) {
+            return "void";
+        }
+        if (ast instanceof Break) {
+            return "void";
+        }
+        if (ast instanceof LetNode) {
+            if (((LetNode) ast).exprSeq != null) {
+                return getType(((LetNode) ast).exprSeq);
+            }
+            return "void";
         }
 
         return null;

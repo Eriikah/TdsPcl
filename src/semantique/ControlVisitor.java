@@ -405,10 +405,6 @@ public class ControlVisitor implements AstVisitor<Integer> {
     public Integer visit(VarDecl affect) {
         int error = 0;
         error += affect.expressions.accept(this);
-        if (affect.fieldDecl != null) {
-            error += affect.fieldDecl.accept(this);
-
-        }
         if (affect.typeId != null) {
             error += affect.typeId.accept(this);
         }

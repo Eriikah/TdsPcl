@@ -371,7 +371,7 @@ public class AstCreator extends exprBaseVisitor<Ast> {
 
     @Override
     public Ast visitDeclArrayOfTyfields(exprParser.DeclArrayOfTyfieldsContext ctx) {
-        return new TypeId(ctx.getChild(2).getText());
+        return new TypeId("array of " + ctx.getChild(2).getText());
     }
 
     @Override
@@ -522,24 +522,26 @@ public class AstCreator extends exprBaseVisitor<Ast> {
     @Override
     public Ast visitVarDecl(exprParser.VarDeclContext ctx) {
         // Récupération des noeuds fils
-        if (ctx.getChildCount() > 4){
+        if (ctx.getChildCount() > 4) {
             Ast expr = ctx.getChild(5).accept(this);
             String idfString = ctx.getChild(1).toString();
-            FieldDecl fieldDecl = (FieldDecl) ctx.getChild(2).accept(this);
-            TypeId typeId = (TypeId) ctx.getChild(3).accept(this);
-
+            TypeId typeId = (TypeId) ctx.vartype.accept(this);
             Idf idf = new Idf(idfString);
 
-            return new VarDecl(idf, fieldDecl, typeId, expr);
+            return new VarDecl(idf, typeId, expr);
         } else {
             Ast expr = ctx.getChild(3).accept(this);
             String idfString = ctx.getChild(1).toString();
-            FieldDecl fieldDecl = (FieldDecl) ctx.getChild(2).accept(this);
-            TypeId typeId = new TypeId("int");
+            TypeId typeId;
+            if (expr instanceof ListDecl) {
+                typeId = new TypeId(((TypeId) ((ListDecl) expr).typeId).value);
+            } else {
+                typeId = new TypeId("int");
+            }
 
             Idf idf = new Idf(idfString);
 
-            return new VarDecl(idf, fieldDecl, typeId, expr);
+            return new VarDecl(idf, typeId, expr);
         }
 
     }

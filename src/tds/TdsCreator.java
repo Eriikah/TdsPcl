@@ -296,7 +296,7 @@ public class TdsCreator implements AstVisitor<Tds> {
 
     @Override
     public Tds visit(Lvalue affect) {
-        // TODO Auto-generated method stub
+
         return null;
     }
 
@@ -412,7 +412,7 @@ public class TdsCreator implements AstVisitor<Tds> {
     public Tds visit(TypeDecl affect) {
         // TODO faire en sorte que la déclaratoin de type puisse etre affiché dans la
         // tds
-        Type type = new Type(((TypeId) affect.typeid).value, affect.type.toString(), bloc);
+        Type type = new Type(((TypeId) affect.typeid).value, ((TypeId) affect.type).value, bloc);
         this.allTds.get(imbrication - 1).addSymbol(type);
         // affect.typeid.accept(this);
         // affect.type.accept(this);
@@ -427,22 +427,20 @@ public class TdsCreator implements AstVisitor<Tds> {
 
     @Override
     public Tds visit(TypeId affect) {
-        // this.allTds.get(bloc - 1).getSymbols()
-        // .get(this.allTds.get(bloc - 1).getSymbols().size() -
-        // 1).setType(affect.value);
         return null;
     }
 
     @Override
     public Tds visit(VarDecl affect) {
         if (affect.typeId != null) {
-            Var var = new Var(affect.Idf.name, affect.typeId.value, bloc);
+            Var var = new Var(affect.Idf.name, ((TypeId) affect.typeId).value, bloc);
             this.allTds.get(imbrication - 1).addSymbol(var);
         } else {
             Var var = new Var(affect.Idf.name, "int", bloc);
             this.allTds.get(imbrication - 1).addSymbol(var);
-        }
+            affect.expressions.accept(this);
 
+        }
         return null;
     }
 
@@ -465,7 +463,11 @@ public class TdsCreator implements AstVisitor<Tds> {
 
     @Override
     public Tds visit(ListDecl listDecl) {
-        // TODO Auto-generated method stub
+        System.out.println(((TypeId) listDecl.typeId).value);
+        this.allTds.get(bloc - 1).getSymbols()
+                .get(this.allTds.get(bloc - 1).getSymbols().size() -
+                        1)
+                .setType(((TypeId) listDecl.typeId).value);
         return null;
     }
 
