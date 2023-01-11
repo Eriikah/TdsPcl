@@ -14,15 +14,32 @@ public class ForCondControl extends Control{
     @Override
     public int control(){
         int nb_error = 0;
-        String original = this.getType(((For) this.ast).origExpr.toString());
-        String goal = this.getType(((For) this.ast).goalExpr.toString());
-        if(original != null && goal != null){
-            if(!original.equals(goal)){
+
+        if (this.ast instanceof For){
+            
+            if (((For) this.ast).origExpr instanceof IntNode && ((For) this.ast).goalExpr instanceof StringNode){
+                System.out.println("Error: For condition must be of the same type");
+                nb_error++;
+            }
+            if (((For) this.ast).origExpr instanceof StringNode && ((For) this.ast).goalExpr instanceof IntNode){
                 System.out.println("Error: For condition must be of the same type");
                 nb_error++;
             }
         }
-        return nb_error;
-    }
 
+
+
+
+
+        // String original = this.getType(((For) this.ast).origExpr.toString());
+        // String goal = this.getType(((For) this.ast).goalExpr.toString());
+        // if(original != null && goal != null){
+        //     if(!original.equals(goal)){
+        //         System.out.println("Error: For condition must be of the same type");
+        //         nb_error++;
+        //     }
+        // }
+        return nb_error;
+        }
+    
 }
