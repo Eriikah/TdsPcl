@@ -28,12 +28,10 @@ public class Control {
         }
 
         Symbol symbol = tds_current.getSymbol(name);
-        System.out.println(tds_current);
-
         while (symbol == null) {
             tds_current = tds_current.getParent();
             if (tds_current == null) {
-                System.out.println("Symbol null");
+                System.out.println("Tds null" + name);
                 return null;
             }
             symbol = tds_current.getSymbol(name);
@@ -116,6 +114,12 @@ public class Control {
         }
         if (ast instanceof StringNode) {
             return "String";
+        }
+        if (ast instanceof For) {
+            return getType(((For) ast).expressions);
+        }
+        if (ast instanceof IfThen) {
+            return getType(((IfThen) ast).expressions);
         }
 
         return null;

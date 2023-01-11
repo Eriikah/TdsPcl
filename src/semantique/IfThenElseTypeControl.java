@@ -19,7 +19,8 @@ public class IfThenElseTypeControl extends Control {
             if (ast instanceof IfThenElse) {
                 IfThenElse ifThenElse = (IfThenElse) ast;
                 if (!getType(ifThenElse.expressions).equals(getType(ifThenElse.elseExpr))) {
-                    System.err.println("Not same type of ");
+                    System.err.println("Not same type : then expr returns " + getType(ifThenElse.expressions)
+                            + " whereas else returns " + getType(ifThenElse.elseExpr));
                     error++;
                 }
             }
