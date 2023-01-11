@@ -259,10 +259,8 @@ public class TdsCreator implements AstVisitor<Tds> {
             return ifTds;
 
         } else if (ifTds != null) {
-            allTds.add(ifTds);
             return ifTds;
         } else if (elseTds != null) {
-            allTds.add(elseTds);
             return elseTds;
         } else {
             return null;
