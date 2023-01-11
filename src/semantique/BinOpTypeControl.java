@@ -15,7 +15,7 @@ public class BinOpTypeControl extends Control{
     public int control() {
         int nb_error = 0;
         if (this.ast instanceof SupNode){
-            if (((SupNode)this.ast).left instanceof Lvalue){
+            if (((SupNode)this.ast).left instanceof Lvalue && ((SupNode)this.ast).right instanceof Lvalue){
                 String type_left = getType(((SupNode) this.ast).left);
                 String type_right = getType(((SupNode) this.ast).right);
 
@@ -31,7 +31,7 @@ public class BinOpTypeControl extends Control{
         }
 
         if (this.ast instanceof InfNode){
-            if (((InfNode)this.ast).left instanceof Lvalue){
+            if (((InfNode)this.ast).left instanceof Lvalue && ((InfNode)this.ast).right instanceof Lvalue){
                 String type_left = getType(((InfNode) this.ast).left);
                 String type_right = getType(((InfNode) this.ast).right);
 
@@ -48,7 +48,7 @@ public class BinOpTypeControl extends Control{
         }
 
         if (this.ast instanceof SupEqNode){
-            if (((SupEqNode)this.ast).left instanceof Lvalue){
+            if (((SupEqNode)this.ast).left instanceof Lvalue && ((SupEqNode)this.ast).right instanceof Lvalue){
                 String type_left = getType(((SupEqNode) this.ast).left);
                 String type_right = getType(((SupEqNode) this.ast).right);
 
@@ -64,7 +64,7 @@ public class BinOpTypeControl extends Control{
         }
 
         if (this.ast instanceof InfEqNode){
-            if (((InfEqNode)this.ast).left instanceof Lvalue){
+            if (((InfEqNode)this.ast).left instanceof Lvalue && ((InfEqNode)this.ast).right instanceof Lvalue){
                 String type_left = getType(((InfEqNode) this.ast).left);
                 String type_right = getType(((InfEqNode) this.ast).right);
 
@@ -80,7 +80,7 @@ public class BinOpTypeControl extends Control{
         }
 
         if (this.ast instanceof EqNode){
-            if (((EqNode)this.ast).left instanceof Lvalue){
+            if (((EqNode)this.ast).left instanceof Lvalue && ((EqNode)this.ast).right instanceof Lvalue){
                 String type_left = getType(((EqNode) this.ast).left);
                 String type_right = getType(((EqNode) this.ast).right);
 
@@ -97,7 +97,7 @@ public class BinOpTypeControl extends Control{
 
         if (this.ast instanceof DiffNode){
             
-            if (((DiffNode)this.ast).left instanceof Lvalue){
+            if (((DiffNode)this.ast).left instanceof Lvalue && ((DiffNode)this.ast).right instanceof Lvalue){
                 String type_left = getType(((DiffNode) this.ast).left);
                 String type_right = getType(((DiffNode) this.ast).right);
 
@@ -114,7 +114,7 @@ public class BinOpTypeControl extends Control{
         }
 
         if (this.ast instanceof AndNode){
-            if (((AndNode)this.ast).left instanceof Lvalue){
+            if (((AndNode)this.ast).left instanceof Lvalue && ((AndNode)this.ast).right instanceof Lvalue){
                 String type_left = getType(((AndNode) this.ast).left);
                 String type_right = getType(((AndNode) this.ast).right);
 
@@ -130,7 +130,7 @@ public class BinOpTypeControl extends Control{
         }
 
         if (this.ast instanceof OrNode){
-            if (((OrNode)this.ast).left instanceof Lvalue){
+            if (((OrNode)this.ast).left instanceof Lvalue && ((OrNode)this.ast).right instanceof Lvalue){
                 String type_left = getType(((OrNode) this.ast).left);
                 String type_right = getType(((OrNode) this.ast).right);
 
@@ -146,7 +146,7 @@ public class BinOpTypeControl extends Control{
         }
 
         if (this.ast instanceof Plus){
-            if (((Plus)this.ast).left instanceof Lvalue){
+            if (((Plus)this.ast).left instanceof Lvalue && ((Plus)this.ast).right instanceof Lvalue){
                 String type_left = getType(((Plus) this.ast).left);
                 String type_right = getType(((Plus) this.ast).right);
 
@@ -162,7 +162,7 @@ public class BinOpTypeControl extends Control{
         }
 
         if (this.ast instanceof Minus){
-            if (((Minus)this.ast).left instanceof Lvalue){
+            if (((Minus)this.ast).left instanceof Lvalue && ((Minus)this.ast).right instanceof Lvalue){
                 String type_left = getType(((Minus) this.ast).left);
                 String type_right = getType(((Minus) this.ast).right);
 
@@ -178,7 +178,7 @@ public class BinOpTypeControl extends Control{
         }
 
         if (this.ast instanceof Mult){
-            if (((Mult)this.ast).left instanceof Lvalue){
+            if (((Mult)this.ast).left instanceof Lvalue && ((Mult)this.ast).right instanceof Lvalue){
                 String type_left = getType(((Mult) this.ast).left);
                 String type_right = getType(((Mult) this.ast).right);
 
@@ -194,7 +194,7 @@ public class BinOpTypeControl extends Control{
         }
 
         if (this.ast instanceof Div){
-            if (((Div)this.ast).left instanceof Lvalue){
+            if (((Div)this.ast).left instanceof Lvalue && ((Div)this.ast).right instanceof Lvalue){
                 String type_left = getType(((Div) this.ast).left);
                 String type_right = getType(((Div) this.ast).right);
 
