@@ -70,7 +70,8 @@ public class TdsCreator implements AstVisitor<Tds> {
 
     @Override
     public Tds visit(Affect affect) {
-        affect.accept(this);
+        affect.left.accept(this);
+        affect.right.accept(this);
         return null;
 
     }
@@ -78,6 +79,7 @@ public class TdsCreator implements AstVisitor<Tds> {
     @Override
     public Tds visit(AndNode affect) {
         affect.left.accept(this);
+        affect.right.accept(this);
         return null;
 
     }
@@ -110,7 +112,8 @@ public class TdsCreator implements AstVisitor<Tds> {
 
     @Override
     public Tds visit(Div affect) {
-        affect.accept(this);
+        affect.left.accept(this);
+        affect.right.accept(this);
         return null;
 
     }
@@ -175,7 +178,7 @@ public class TdsCreator implements AstVisitor<Tds> {
             affect.expressions.accept(this);
         }
         imbrication--;
-        System.out.println(allTds.get(bloc - 1));
+        // System.out.println(allTds.get(bloc - 1));
         ForTds forKid = new ForTds(affect.Idf.name, 0, 10);
         allTds.get(imbrication - 1).addSymbol(forKid);
         return forTds;
@@ -269,7 +272,8 @@ public class TdsCreator implements AstVisitor<Tds> {
 
     @Override
     public Tds visit(InfEqNode affect) {
-        affect.accept(this);
+        affect.left.accept(this);
+        affect.right.accept(this);
         return null;
 
     }
@@ -301,21 +305,22 @@ public class TdsCreator implements AstVisitor<Tds> {
 
     @Override
     public Tds visit(Minus affect) {
-        affect.accept(this);
+        affect.left.accept(this);
+        affect.right.accept(this);
         return null;
-
     }
 
     @Override
     public Tds visit(Mult affect) {
         affect.left.accept(this);
+        affect.right.accept(this);
         return null;
 
     }
 
     @Override
     public Tds visit(Not affect) {
-        affect.accept(this);
+        affect.value.accept(this);
         return null;
 
     }
@@ -327,7 +332,8 @@ public class TdsCreator implements AstVisitor<Tds> {
 
     @Override
     public Tds visit(OrNode affect) {
-        affect.accept(this);
+        affect.left.accept(this);
+        affect.right.accept(this);
         return null;
 
     }
@@ -335,6 +341,7 @@ public class TdsCreator implements AstVisitor<Tds> {
     @Override
     public Tds visit(Plus affect) {
         affect.left.accept(this);
+        affect.right.accept(this);
         return null;
 
     }
@@ -392,15 +399,16 @@ public class TdsCreator implements AstVisitor<Tds> {
 
     @Override
     public Tds visit(SupEqNode affect) {
-        affect.accept(this);
+        affect.left.accept(this);
+        affect.right.accept(this);
         return null;
     }
 
     @Override
     public Tds visit(SupNode affect) {
-        affect.accept(this);
+        affect.left.accept(this);
+        affect.right.accept(this);
         return null;
-
     }
 
     @Override
