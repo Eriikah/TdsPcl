@@ -71,7 +71,6 @@ public class TdsCreator implements AstVisitor<Tds> {
     @Override
     public Tds visit(Affect affect) {
         affect.left.accept(this);
-        affect.right.accept(this);
         return null;
 
     }
@@ -141,7 +140,7 @@ public class TdsCreator implements AstVisitor<Tds> {
     public Tds visit(FieldDecl affect) {
         int shift = -affect.fieldIds.size();
         for (int i = 0; i < affect.fieldIds.size(); i++) {
-            Param par = new Param(affect.fieldIds.get(i), "", shift + i);
+            Param par = new Param(affect.fieldIds.get(i), ((TypeId) affect.fieldTypes.get(i)).value, shift + i);
             allTds.get(bloc - 1).addSymbol(par);
             affect.fieldTypes.get(i).accept(this);
 
@@ -168,19 +167,19 @@ public class TdsCreator implements AstVisitor<Tds> {
     @Override
     public Tds visit(For affect) {
         Tds forTds = new Tds(imbrication, new ArrayList<Symbol>(), bloc);
-
-        forTds.setParent(allTds.get(imbrication - 1));
-        forTds.setName(affect.Idf.name);
         allTds.add(forTds);
         imbrication++;
+        forTds.setParent(allTds.get(bloc - 1));
+        forTds.setName(affect.Idf.name);
+        ForTds forKid = new ForTds(affect.Idf.name, 0, 10);
+        allTds.get(bloc - 1).addSymbol(forKid);
         bloc++;
+        Param param = new Param(affect.Idf.name, "int", 1);
+        forTds.addSymbol(param);
         if (affect.expressions != null) {
             affect.expressions.accept(this);
         }
         imbrication--;
-        // System.out.println(allTds.get(bloc - 1));
-        ForTds forKid = new ForTds(affect.Idf.name, 0, 10);
-        allTds.get(imbrication - 1).addSymbol(forKid);
         return forTds;
     }
 
@@ -207,7 +206,8 @@ public class TdsCreator implements AstVisitor<Tds> {
             }
         }
         if (affect.typeId != null) {
-            Function function = new Function(affect.Idf.name, params, params.size(), "", bloc);
+            Function function = new Function(affect.Idf.name, params, params.size(), ((TypeId) affect.typeId).value,
+                    bloc);
             allTds.get(imbrication - 1).addSymbol(function);
             affect.typeId.accept(this);
 
@@ -220,7 +220,6 @@ public class TdsCreator implements AstVisitor<Tds> {
 
     @Override
     public Tds visit(FunctionCall affect) {
-        // TODO Auto-generated method stub
         return null;
     }
 
