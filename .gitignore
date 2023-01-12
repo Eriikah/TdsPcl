@@ -2,10 +2,4 @@
 .vscode
 .antlr
 bin
-
-
-./.idea
-./.vscode
-./bin 
-./.antlr
-./src/parser
+parser
