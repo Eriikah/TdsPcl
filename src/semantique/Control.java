@@ -121,7 +121,7 @@ public class Control {
             return "void";
         }
         if (ast instanceof IfThenElse) {
-            return "void";
+            return getType(((IfThenElse) ast).expressions);
         }
         if (ast instanceof FuncDecl) {
             return getType(((FuncDecl) ast).expressions);
