@@ -1,24 +1,10 @@
 package semantique;
 
 import java.util.ArrayList;
-import ast.Affect;
-import ast.AndNode;
 import ast.Ast;
-import ast.DiffNode;
-import ast.Div;
-import ast.EqNode;
 import ast.ExprList;
-import ast.For;
 import tds.Tds;
 import ast.FuncDecl;
-import ast.InfEqNode;
-import ast.InfNode;
-import ast.Minus;
-import ast.SupEqNode;
-import ast.SupNode;
-import ast.Plus;
-import ast.Mult;
-import ast.OrNode;
 
 public class ReturnTypeControl extends Control {
 
