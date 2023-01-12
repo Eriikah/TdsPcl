@@ -29,15 +29,16 @@ public class ReturnTypeControl extends Control {
                 boolean hasType = false;
                 int incr = seq.size() - 1;
                 while (!hasType && incr >= 0) {
-                    System.out.println(getType(seq.get(incr)));
                     if (!getType(seq.get(incr)).equals("void")) {
                         bodyType = getType(seq.get(incr));
                         hasType = true;
                     }
                     incr--;
                 }
+                if (!hasType) {
+                    bodyType = "void";
+                }
             } else {
-                System.out.println(getType(funcBody));
                 bodyType = getType(funcBody);
             }
 
