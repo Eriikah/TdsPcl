@@ -439,6 +439,7 @@ public class ControlVisitor implements AstVisitor<Integer> {
         error += affect.list.accept(this);
 
         error += new TypeIndexListControl(affect, currentTds, tdsList).control();
+        error += new TypeOfExprListControl(affect, currentTds, tdsList).control();
 
         return error;
     }

@@ -11,4 +11,8 @@ public class TypeId implements Ast {
     public TypeId(String value) {
         this.value = value;
     }
+
+    public String getValue() {
+        return value;
+    }
 }
