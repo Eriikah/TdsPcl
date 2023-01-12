@@ -34,6 +34,7 @@ import ast.List;
 import ast.ListDecl;
 import ast.Lvalue;
 import ast.Minus;
+import ast.MinusAffector;
 import ast.Mult;
 import ast.Not;
 import ast.OrNode;
@@ -483,6 +484,12 @@ public class TdsCreator implements AstVisitor<Tds> {
 
     @Override
     public Tds visit(Break break1) {
+        return null;
+    }
+
+    @Override
+    public Tds visit(MinusAffector minusAffector) {
+        // TODO Auto-generated method stub
         return null;
     }
 

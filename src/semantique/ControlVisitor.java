@@ -211,9 +211,10 @@ public class ControlVisitor implements AstVisitor<Integer> {
 
     public Integer visit(IfThen affect) {
         int error = 0;
-
+        IfThenTypeControl ifControl = new IfThenTypeControl(affect, currentTds, tdsList);
         error += affect.expressions.accept(this);
         error += affect.ifExpr.accept(this);
+        error += ifControl.control();
         return error;
     }
 
@@ -447,6 +448,14 @@ public class ControlVisitor implements AstVisitor<Integer> {
     public Integer visit(Break affect) {
         int error = 0;
         // TODO tests de retours de fonction
+        return error;
+    }
+
+    @Override
+    public Integer visit(MinusAffector minusAffector) {
+        int error = 0;
+        error += (new IntBehindMinusControl(minusAffector, currentTds, tdsList)).control();
+        error += minusAffector.value.accept(this);
         return error;
     }
 

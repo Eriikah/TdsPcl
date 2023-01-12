@@ -104,4 +104,6 @@ public interface AstVisitor<T> {
 
     public T visit(Break break1);
 
+    public T visit(MinusAffector minusAffector);
+
 }

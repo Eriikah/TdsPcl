@@ -119,7 +119,8 @@ public class AstCreator extends exprBaseVisitor<Ast> {
 
     @Override
     public Ast visitMinusAffector(exprParser.MinusAffectorContext ctx) {
-        return ctx.getChild(1).accept(this);
+        Ast minusAst = ctx.getChild(1).accept(this);
+        return new MinusAffector(minusAst);
     }
 
     @Override

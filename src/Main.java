@@ -55,7 +55,7 @@ public class Main {
             System.out.println(allTDS);
 
             ControlVisitor tests = new ControlVisitor(allTDS);
-            System.out.println("Errors : " + ast.accept(tests));
+            System.out.println("Errors : \u001b[31;1m" + ast.accept(tests) + "\u001b[0m");
 
         } catch (IOException e) {
             e.printStackTrace();

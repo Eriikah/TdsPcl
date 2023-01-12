@@ -47,6 +47,7 @@ import ast.List;
 import ast.ListDecl;
 import ast.Lvalue;
 import ast.Minus;
+import ast.MinusAffector;
 import ast.Mult;
 import ast.Not;
 import ast.OrNode;
@@ -116,16 +117,13 @@ public class GraphVizVisitor implements AstVisitor<String> {
 
         String idfState = varDecl.Idf.accept(this);
         String exprState = varDecl.expressions.accept(this);
-        
+
         this.addNode(nodeIdentifier, "VarDecl");
         this.addTransition(nodeIdentifier, idfState);
         this.addTransition(nodeIdentifier, exprState);
 
         String typeState = varDecl.typeId.accept(this);
         this.addTransition(nodeIdentifier, typeState);
-
-        
-        
 
         return nodeIdentifier;
     }
@@ -485,7 +483,6 @@ public class GraphVizVisitor implements AstVisitor<String> {
         return nodeIdentifier;
     }
 
-
     public String typevoid() {
         String nodeIdentifier = this.nextState();
 
@@ -498,7 +495,7 @@ public class GraphVizVisitor implements AstVisitor<String> {
     public String visit(FunctionCall affect) {
         String nodeIdentifier = this.nextState();
 
-        //Ast expr = affect.exprList;
+        // Ast expr = affect.exprList;
 
         this.addNode(nodeIdentifier, "FunctionCall");
 
@@ -506,7 +503,7 @@ public class GraphVizVisitor implements AstVisitor<String> {
         Idf IdfState = affect.Idf;
         this.addTransition(nodeIdentifier, FunctionNameNode(IdfState));
 
-        //this.addNode(nodeIdentifier, affect.Idf.name);
+        // this.addNode(nodeIdentifier, affect.Idf.name);
         if (affect.exprList != null) {
             this.addTransition(nodeIdentifier, FunctionArgNode(exprListState));
         }
@@ -914,6 +911,16 @@ public class GraphVizVisitor implements AstVisitor<String> {
         String nodeIdentifier = this.nextState();
 
         this.addNode(nodeIdentifier, "Break");
+
+        return nodeIdentifier;
+    }
+
+    @Override
+    public String visit(MinusAffector minusAffector) {
+        String nodeIdentifier = this.nextState();
+
+        this.addNode(nodeIdentifier, "-");
+        this.addTransition(nodeIdentifier, minusAffector.value.accept(this));
 
         return nodeIdentifier;
     }

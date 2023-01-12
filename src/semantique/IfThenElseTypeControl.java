@@ -23,6 +23,11 @@ public class IfThenElseTypeControl extends Control {
                             + " whereas else returns " + getType(ifThenElse.elseExpr));
                     error++;
                 }
+                if (!getType(ifThenElse.ifExpr).equals("int")) {
+                    System.err.println(
+                            "ConditionError condition isn't an int, actual type: " + getType(ifThenElse.ifExpr));
+                    error++;
+                }
             }
         }
         return error;
