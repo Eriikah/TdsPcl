@@ -1,6 +1,6 @@
-let 
-    function fact(n:int) = 
-        if n = 1 then return(1) else return(n * fact(n-1))
+let
+    function factorial(n: int)  :int =
+        if n = 0 then 1 else n * factorial(n-1)
 in
-    fact(5)
+    factorial(5)
 end

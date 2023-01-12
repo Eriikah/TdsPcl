@@ -1,11 +1,11 @@
 let
-    function isInBonjour (c:string) = 
-    if c = B then return(1) else
-        if c = o then return(1) else
-            if c = n then return(1) else
-                if c = j then return(1) else
-                    if c = u then return(1) else
-                        if c = r then return(1) else break
-in
+    function isInBonjour (c:string) =
+    if c = "B" then  1 else
+    if c = "o" then  1 else
+    if c = "n" then  1 else
+    if c = "j" then  1 else
+    if c = "u" then  1 else
+    if c = "r" then  1 else  0
+    in
     isInBonjour("g")
-end
+    end
