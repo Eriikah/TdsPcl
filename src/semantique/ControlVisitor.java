@@ -101,6 +101,7 @@ public class ControlVisitor implements AstVisitor<Integer> {
         int error = affect.left.accept(this);
         error += affect.right.accept(this);
 
+        error += new DivisionByZeroControl(affect, currentTds, tdsList).control();
         error += new BinOpTypeControl(affect, currentTds, tdsList).control();
 
         return error;
