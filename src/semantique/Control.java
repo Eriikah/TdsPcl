@@ -61,8 +61,7 @@ public class Control {
 
         if (ast instanceof Div || ast instanceof Plus || ast instanceof Minus || ast instanceof Mult
                 || ast instanceof EqNode || ast instanceof DiffNode || ast instanceof InfEqNode
-                || ast instanceof InfNode
-                || ast instanceof SupEqNode || ast instanceof SupNode) {
+                || ast instanceof InfNode || ast instanceof SupEqNode || ast instanceof SupNode) {
             return "int";
         }
         if (ast instanceof AndNode || ast instanceof OrNode) {
@@ -72,10 +71,12 @@ public class Control {
             FunctionCall call = (FunctionCall) ast;
             return getType(call.Idf.name);
         }
-        if (ast instanceof PrintExpr || ast instanceof PrintInt || ast instanceof Flush || ast instanceof Exit) {
+        if (ast instanceof PrintExpr || ast instanceof PrintInt || ast instanceof Flush
+                || ast instanceof Exit) {
             return "void";
         }
-        if (ast instanceof GetChar || ast instanceof Chr || ast instanceof Substring || ast instanceof Concat) {
+        if (ast instanceof GetChar || ast instanceof Chr || ast instanceof Substring
+                || ast instanceof Concat) {
             return "String";
         }
         if (ast instanceof Ord || ast instanceof Size || ast instanceof Not) {
@@ -117,6 +118,9 @@ public class Control {
             return getType(((For) ast).expressions);
         }
         if (ast instanceof IfThen) {
+            return "void";
+        }
+        if (ast instanceof IfThenElse) {
             return "void";
         }
         if (ast instanceof FuncDecl) {

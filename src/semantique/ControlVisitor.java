@@ -171,6 +171,8 @@ public class ControlVisitor implements AstVisitor<Integer> {
         Tds prevTds = this.currentTds;
         this.currentTds = getTds(affect.Idf.name);
         error += affect.expressions.accept(this);
+        ReturnTypeControl testReturnTypeControl = new ReturnTypeControl(affect, prevTds, tdsList);
+        error += testReturnTypeControl.control();
         if (affect.fieldDecl != null) {
             error += affect.fieldDecl.accept(this);
         }
@@ -189,7 +191,8 @@ public class ControlVisitor implements AstVisitor<Integer> {
             ParamNumControl testParamNumControl = new ParamNumControl(affect, currentTds, tdsList);
             error += testParamNumControl.control();
             if (error == 0) {
-                ParamTypeControl testParamTypeControl = new ParamTypeControl(affect, currentTds, tdsList);
+                ParamTypeControl testParamTypeControl =
+                        new ParamTypeControl(affect, currentTds, tdsList);
                 error += testParamTypeControl.control();
             }
 
