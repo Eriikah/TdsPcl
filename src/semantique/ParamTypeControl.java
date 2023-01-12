@@ -16,17 +16,20 @@ public class ParamTypeControl extends Control {
         int error = 0;
         tds.Function tdsFunction = (tds.Function) tds.getSymbol(((FunctionCall) ast).Idf.name);
         if (tdsFunction != null) {
-            ArrayList<Ast> paramList = ((ExprList) (((FunctionCall) ast).exprList)).expressions;
-            for (int index = 0; index < tdsFunction.getParamNumber(); index++) {
-                if (!tdsFunction.getParams().get(index).getType()
-                        .equals(getType(paramList.get(index)))) {
-                    System.out.print("Wrong type for parametter "
-                            + tdsFunction.getParams().get(index).getName() + ". The type is "
-                            + getType(paramList.get(index)) + "; Expected : "
-                            + tdsFunction.getParams().get(index).getType() + "\n");
-                    error++;
+            if (((FunctionCall) ast).exprList != null) {
+                ArrayList<Ast> paramList = ((ExprList) (((FunctionCall) ast).exprList)).expressions;
+                for (int index = 0; index < tdsFunction.getParamNumber(); index++) {
+                    if (!tdsFunction.getParams().get(index).getType()
+                            .equals(getType(paramList.get(index)))) {
+                        System.out.print("Wrong type for parametter "
+                                + tdsFunction.getParams().get(index).getName() + ". The type is "
+                                + getType(paramList.get(index)) + "; Expected : "
+                                + tdsFunction.getParams().get(index).getType() + "\n");
+                        error++;
+                    }
                 }
             }
+
         }
 
         return error;

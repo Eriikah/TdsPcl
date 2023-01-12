@@ -23,7 +23,13 @@ public class IfThenTypeControl extends Control {
                             "ConditionError condition isn't an int, actual type: " + getType(ifThen.ifExpr));
                     error++;
                 }
+                if (!getType(ifThen.expressions).equals("void")) {
+                    System.err.println(
+                            "ConditionError then expr isn't void, actual type: " + getType(ifThen.expressions));
+                    error++;
+                }
             }
+
         }
         return error;
     }

@@ -83,8 +83,7 @@ public class Control {
             return "int";
         }
         if (ast instanceof Affect) {
-            Affect affect = (Affect) ast;
-            return getType(affect.left);
+            return "void";
         }
         if (ast instanceof For) {
             For forAst = (For) ast;
