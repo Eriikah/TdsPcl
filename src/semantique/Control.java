@@ -108,7 +108,7 @@ public class Control {
             return type;
         }
         if (ast instanceof Lvalue) {
-            return "void";
+            return getType(((Lvalue) ast).Idf.name);
         }
         if (ast instanceof StringNode) {
             return "String";
