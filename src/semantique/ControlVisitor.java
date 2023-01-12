@@ -132,7 +132,7 @@ public class ControlVisitor implements AstVisitor<Integer> {
     public Integer visit(FieldDecl affect) {
         int error = 0;
         for (Ast fieldDecl : affect.fieldTypes) {
-            error += ((TypeId) fieldDecl).accept(this);
+            error += fieldDecl.accept(this);
         }
         return error;
     }

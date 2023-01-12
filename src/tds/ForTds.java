@@ -10,7 +10,7 @@ public class ForTds extends Symbol {
         super("For" + iterableId);
         this.iterableId = iterableId;
         this.startValue = startValue;
-        this.endValue = startValue;
+        this.endValue = endValue;
     }
 
     public String getIterableId() {

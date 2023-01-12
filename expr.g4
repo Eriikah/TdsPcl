@@ -77,7 +77,7 @@ expr_list:
 
 fieldcreate:
 	fieldid += ID '=' fieldex += exprsolo (
-		'.' fieldid += ID '=' fieldex += exprsolo
+		',' fieldid += ID '=' fieldex += exprsolo
 	)* # Field_Create;
 
 decl_list: decl+ # DeclList;

@@ -171,14 +171,15 @@ public class TdsCreator implements AstVisitor<Tds> {
         imbrication++;
         forTds.setParent(allTds.get(bloc - 1));
         forTds.setName(affect.Idf.name);
-        ForTds forKid = new ForTds(affect.Idf.name, 0, 10);
-        allTds.get(bloc - 1).addSymbol(forKid);
+
         bloc++;
         Param param = new Param(affect.Idf.name, "int", 1);
         forTds.addSymbol(param);
         if (affect.expressions != null) {
             affect.expressions.accept(this);
         }
+        ForTds forKid = new ForTds(affect.Idf.name, 0, 5);
+        forTds.getParent().addSymbol(forKid);
         imbrication--;
         return forTds;
     }
@@ -410,10 +411,17 @@ public class TdsCreator implements AstVisitor<Tds> {
 
     @Override
     public Tds visit(TypeDecl affect) {
-        // TODO faire en sorte que la déclaratoin de type puisse etre affiché dans la
-        // tds
-        Type type = new Type(((TypeId) affect.typeid).value, ((TypeId) affect.type).value, bloc);
-        this.allTds.get(imbrication - 1).addSymbol(type);
+        if (affect.type instanceof TypeFields) {
+            ArrayList<Var> varRec = new ArrayList<Var>();
+            for (Ast var : ((TypeFields) affect.type).typeField) {
+                varRec.add(new Var(((TypeField) var).Id, ((TypeField) var).typeId, 1));
+            }
+            Record record = new Record(((TypeId) affect.typeid).value, varRec, varRec.get(0).getType());
+            this.allTds.get(imbrication - 1).addSymbol(record);
+        } else {
+            Type type = new Type(((TypeId) affect.typeid).value, ((TypeId) affect.type).value, bloc);
+            this.allTds.get(imbrication - 1).addSymbol(type);
+        }
         // affect.typeid.accept(this);
         // affect.type.accept(this);
         return null;
@@ -421,7 +429,6 @@ public class TdsCreator implements AstVisitor<Tds> {
 
     @Override
     public Tds visit(TypeFields affect) {
-        // TODO Auto-generated method stub
         return null;
     }
 
@@ -434,6 +441,7 @@ public class TdsCreator implements AstVisitor<Tds> {
     public Tds visit(VarDecl affect) {
         if (affect.typeId != null) {
             Var var = new Var(affect.Idf.name, ((TypeId) affect.typeId).value, bloc);
+            affect.expressions.accept(this);
             this.allTds.get(imbrication - 1).addSymbol(var);
         } else {
             Var var = new Var(affect.Idf.name, "int", bloc);
@@ -457,13 +465,15 @@ public class TdsCreator implements AstVisitor<Tds> {
 
     @Override
     public Tds visit(List list) {
-        // TODO Auto-generated method stub
+        this.allTds.get(bloc - 1).getSymbols()
+                .get(this.allTds.get(bloc - 1).getSymbols().size() -
+                        1)
+                .setType(((TypeId) list.typeid).value);
         return null;
     }
 
     @Override
     public Tds visit(ListDecl listDecl) {
-        System.out.println(((TypeId) listDecl.typeId).value);
         this.allTds.get(bloc - 1).getSymbols()
                 .get(this.allTds.get(bloc - 1).getSymbols().size() -
                         1)
