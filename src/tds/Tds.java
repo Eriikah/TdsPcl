@@ -63,26 +63,28 @@ public class Tds {
     public String toString() {
         StringBuilder table = new StringBuilder();
         Tds pere = this.getParent();
+        table.append(String.format("\u001b[31m____________________________________________________\u001B[0m \n"));
         if (pere != null) {
-            table.append(String.format("\u001b[31m_ %s - Imbrication : %s - Bloc : %s - Parent : %s _\n\u001b[0m",
+            table.append(String.format("\u001b[31m %s - Imbrication : %s - Bloc : %s - Parent : %s \n\u001b[0m",
                     this.getName(), this.getImbric(), this.getBloc(), pere.getBloc()));
         } else {
-            table.append(String.format("\u001b[31m_ %s - Imbrication : %s - Bloc : %s - Parent : null _\n\u001b[0m",
+            table.append(String.format("\u001b[31m %s - Imbrication : %s - Bloc : %s - Parent : null\n\u001b[0m",
                     this.getName(), this.getImbric(), this.getBloc()));
         }
+        table.append(String.format("\u001b[31m----------------------------------------------------\u001B[0m \n"));
         for (Symbol symbol : this.getSymbols()) {
             if (symbol instanceof Param) {
                 Param param = (Param) symbol;
                 String ligne = String.format(
-                        "\u001b[38;5;214m Paramètre : %s | Type : %s | Déplacement : %d\u001B[0m",
+                        "\u001b[38;5;214mParamètre : %s | Type : %s | Déplacement : %d\u001B[0m",
                         param.getName(), param.getType(), param.getDepl());
                 table.append(ligne).append("\n");
             } else if (symbol instanceof Function) {
                 Function function = (Function) symbol;
                 String ligne = String.format(
-                        "\u001B[35m Fonction : %s | Type de retour : %s | Déplacement : %d |/ ",
+                        "\u001B[35mFonction : %s | Type de retour : %s | Déplacement : %d |/ ",
                         function.getName(), function.getReturnType(), function.getParams().size());
-                if (function.getParams() != null) {
+                if (function.getParams().size() != 0) {
                     for (Param param : function.getParams()) {
                         ligne += String.format("Paramètre : %s | Type : %s | Déplacement : %d\u001B[0m",
                                 param.getName(), param.getType(), param.getDepl());
@@ -99,17 +101,17 @@ public class Tds {
                 table.append(ligne).append("\n");
             } else if (symbol instanceof Type) {
                 Type type = (Type) symbol;
-                String ligne = String.format("\u001B[37m Type : %s | Type : %s | Déplacement : %d\u001B[0m",
+                String ligne = String.format("\u001B[37mType : %s | Type : %s | Déplacement : %d\u001B[0m",
                         type.getName(), type.getType(), type.getDepl());
                 table.append(ligne).append("\n");
             } else if (symbol instanceof ForTds) {
                 ForTds forTds = (ForTds) symbol;
-                String ligne = String.format("\u001B[36m %s | for %s in range %d %d  | Déplacement :\u001B[0m",
+                String ligne = String.format("\u001B[36m%s | for %s in range %d %d  | Déplacement :\u001B[0m",
                         forTds.getName(), forTds.getIterableId(), forTds.getStartValue(), forTds.getEndValue());
                 table.append(ligne).append("\n");
             } else if (symbol instanceof Record) {
                 Record record = (Record) symbol;
-                String ligne = String.format("\u001B[37m Type : %s | { ",
+                String ligne = String.format("\u001B[37mRecordType : %s | { ",
                         record.getName());
                 for (Var var : record.getContent()) {
                     ligne = ligne + var.getName() + ":" + var.getType() + " ";
@@ -117,7 +119,8 @@ public class Tds {
                 table.append(ligne).append("}\n");
             }
         }
-        table.append("\u001b[31m_---END---\u001B[0m\n");
+        table.append("\u001b[31m________________________END_________________________\u001B[0m\n");
+        System.out.println(table);
         return table.toString();
     }
 

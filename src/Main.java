@@ -52,7 +52,7 @@ public class Main {
             TdsCreator tdsCreator = new TdsCreator();
             ast.accept(tdsCreator);
             ArrayList<Tds> allTDS = tdsCreator.allTds;
-            System.out.println(allTDS);
+            allTDS.toString();
 
             ControlVisitor tests = new ControlVisitor(allTDS);
             System.out.println("Errors : \u001b[31;1m" + ast.accept(tests) + "\u001b[0m");
