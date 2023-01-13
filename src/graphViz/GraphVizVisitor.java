@@ -57,6 +57,7 @@ import ast.PrintExpr;
 import ast.VarDecl;
 import ast.While;
 import ast.PrintInt;
+import ast.Nil;
 
 public class GraphVizVisitor implements AstVisitor<String> {
     private int state;
@@ -205,6 +206,15 @@ public class GraphVizVisitor implements AstVisitor<String> {
 
         return nodeIdentifier;
 
+    }
+
+    @Override
+    public String visit(Nil nil) {
+        String nodeIdentifier = this.nextState();
+
+        this.addNode(nodeIdentifier, "nil");
+
+        return nodeIdentifier;
     }
 
     @Override

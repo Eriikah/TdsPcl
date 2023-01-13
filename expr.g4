@@ -34,6 +34,7 @@ fieldexpr: '.' ID;
 expr:
 	INT														# Integer
 	| STRING												# StringDecl
+	| 'nil'													# Nil
 	| '(' expr_list ')'										# Parenthesis
 	| '-' exprsolo											# MinusAffector
 	| lvalue												# Val

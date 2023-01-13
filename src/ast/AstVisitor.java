@@ -58,6 +58,8 @@ public interface AstVisitor<T> {
 
     public T visit(Mult affect);
 
+    public T visit(Nil affect);
+
     public T visit(Not affect);
 
     public T visit(Ord affect);

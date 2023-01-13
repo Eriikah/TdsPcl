@@ -502,6 +502,11 @@ public class AstCreator extends exprBaseVisitor<Ast> {
     }
 
     @Override
+    public Ast visitNil(exprParser.NilContext ctx) {
+        return new Nil();
+    }
+
+    @Override
     public Ast visitNot(exprParser.NotContext ctx) {
         Ast expr = ctx.getChild(1).accept(this);
         return new Not(expr);

@@ -36,6 +36,7 @@ import ast.Lvalue;
 import ast.Minus;
 import ast.MinusAffector;
 import ast.Mult;
+import ast.Nil;
 import ast.Not;
 import ast.OrNode;
 import ast.Ord;
@@ -141,7 +142,8 @@ public class TdsCreator implements AstVisitor<Tds> {
     public Tds visit(FieldDecl affect) {
         int shift = -affect.fieldIds.size();
         for (int i = 0; i < affect.fieldIds.size(); i++) {
-            Param par = new Param(affect.fieldIds.get(i), ((TypeId) affect.fieldTypes.get(i)).value, shift + i);
+            Param par = new Param(affect.fieldIds.get(i), ((TypeId) affect.fieldTypes.get(i)).value,
+                    shift + i);
             allTds.get(bloc - 1).addSymbol(par);
             affect.fieldTypes.get(i).accept(this);
 
@@ -208,8 +210,8 @@ public class TdsCreator implements AstVisitor<Tds> {
             }
         }
         if (affect.typeId != null) {
-            Function function = new Function(affect.Idf.name, params, params.size(), ((TypeId) affect.typeId).value,
-                    bloc);
+            Function function = new Function(affect.Idf.name, params, params.size(),
+                    ((TypeId) affect.typeId).value, bloc);
             allTds.get(imbrication - 1).addSymbol(function);
             affect.typeId.accept(this);
 
@@ -417,10 +419,12 @@ public class TdsCreator implements AstVisitor<Tds> {
             for (Ast var : ((TypeFields) affect.type).typeField) {
                 varRec.add(new Var(((TypeField) var).Id, ((TypeField) var).typeId, 1));
             }
-            Record record = new Record(((TypeId) affect.typeid).value, varRec, varRec.get(0).getType());
+            Record record =
+                    new Record(((TypeId) affect.typeid).value, varRec, varRec.get(0).getType());
             this.allTds.get(imbrication - 1).addSymbol(record);
         } else {
-            Type type = new Type(((TypeId) affect.typeid).value, ((TypeId) affect.type).value, bloc);
+            Type type =
+                    new Type(((TypeId) affect.typeid).value, ((TypeId) affect.type).value, bloc);
             this.allTds.get(imbrication - 1).addSymbol(type);
         }
         // affect.typeid.accept(this);
@@ -467,8 +471,7 @@ public class TdsCreator implements AstVisitor<Tds> {
     @Override
     public Tds visit(List list) {
         this.allTds.get(bloc - 1).getSymbols()
-                .get(this.allTds.get(bloc - 1).getSymbols().size() -
-                        1)
+                .get(this.allTds.get(bloc - 1).getSymbols().size() - 1)
                 .setType(((TypeId) list.typeid).value);
         return null;
     }
@@ -476,14 +479,18 @@ public class TdsCreator implements AstVisitor<Tds> {
     @Override
     public Tds visit(ListDecl listDecl) {
         this.allTds.get(bloc - 1).getSymbols()
-                .get(this.allTds.get(bloc - 1).getSymbols().size() -
-                        1)
+                .get(this.allTds.get(bloc - 1).getSymbols().size() - 1)
                 .setType(((TypeId) listDecl.typeId).value);
         return null;
     }
 
     @Override
     public Tds visit(Break break1) {
+        return null;
+    }
+
+    @Override
+    public Tds visit(Nil nil) {
         return null;
     }
 

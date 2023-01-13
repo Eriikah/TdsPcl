@@ -291,6 +291,11 @@ public class ControlVisitor implements AstVisitor<Integer> {
         return error;
     }
 
+    public Integer visit(Nil affect) {
+        int error = 0;
+        return error;
+    }
+
     public Integer visit(Not affect) {
         int error = 0;
         // TODO tests de retours de fonction
