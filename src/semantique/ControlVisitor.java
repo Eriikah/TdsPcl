@@ -414,6 +414,9 @@ public class ControlVisitor implements AstVisitor<Integer> {
 
     public Integer visit(VarDecl affect) {
         int error = 0;
+        VarDeclNilControl testVarDeclNilControl =
+                new VarDeclNilControl(affect, currentTds, tdsList);
+        error += testVarDeclNilControl.control();
         error += affect.expressions.accept(this);
         if (affect.typeId != null) {
             error += affect.typeId.accept(this);

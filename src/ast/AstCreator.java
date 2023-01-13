@@ -543,6 +543,8 @@ public class AstCreator extends exprBaseVisitor<Ast> {
                 typeId = new TypeId(((TypeId) ((ListDecl) expr).typeId).value);
             } else if (expr instanceof List) {
                 typeId = new TypeId(((TypeId) ((List) expr).typeid).value);
+            } else if (expr instanceof Nil) {
+                typeId = new TypeId(null);
             } else {
                 typeId = new TypeId("int");
             }

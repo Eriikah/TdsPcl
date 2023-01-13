@@ -20,8 +20,8 @@ public class DeclarationControl extends Control {
         if (ast instanceof FunctionCall) {
             FunctionCall FunctionCall = (FunctionCall) ast;
             if (getTds(FunctionCall.Idf.name) == null) {
-                System.err.println("DeclarationError" +
-                        String.format("'%s' isn't defined", FunctionCall.Idf.name));
+                System.err.println("DeclarationError"
+                        + String.format("'%s' isn't defined", FunctionCall.Idf.name));
                 error++;
             }
 
@@ -29,8 +29,8 @@ public class DeclarationControl extends Control {
             TypeId typeId = (TypeId) ast;
             int returnerr = 0;
             for (Tds tds : tdsList) {
-                if (tds.getSymbol(typeId.value) == null && !typeId.value.equals("int")
-                        && !typeId.value.equals("string")) {
+                if (tds.getSymbol(typeId.value) == null && typeId.value != null
+                        && !typeId.value.equals("int") && !typeId.value.equals("string")) {
                     returnerr = 1;
                 } else {
                     returnerr = 0;
@@ -38,8 +38,8 @@ public class DeclarationControl extends Control {
                 }
             }
             if (returnerr != 0) {
-                System.err.println("TypeID DeclarationError : " +
-                        String.format("'%s' isn't defined", typeId.value));
+                System.err.println("TypeID DeclarationError : "
+                        + String.format("'%s' isn't defined", typeId.value));
                 error++;
 
             }
@@ -55,8 +55,8 @@ public class DeclarationControl extends Control {
                 }
             }
             if (returnerr != 0) {
-                System.err.println("DeclarationError : " +
-                        String.format("'%s' isn't defined", id.name));
+                System.err.println(
+                        "DeclarationError : " + String.format("'%s' isn't defined", id.name));
                 error++;
 
             }
