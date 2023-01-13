@@ -176,10 +176,11 @@ public class ControlVisitor implements AstVisitor<Integer> {
 
     public Integer visit(FuncDecl affect) {
         int error = 0;
+        int ligne = affect.getLigne();
         Tds prevTds = this.currentTds;
         this.currentTds = getTds(affect.Idf.name);
         error += affect.expressions.accept(this);
-        ReturnTypeControl testReturnTypeControl = new ReturnTypeControl(affect, prevTds, tdsList);
+        ReturnTypeControl testReturnTypeControl = new ReturnTypeControl(affect, prevTds, tdsList, ligne);
         error += testReturnTypeControl.control();
         if (affect.fieldDecl != null) {
             error += affect.fieldDecl.accept(this);
@@ -443,8 +444,9 @@ public class ControlVisitor implements AstVisitor<Integer> {
 
     public Integer visit(VarDecl affect) {
         int error = 0;
+        int ligne = affect.getLigne();
         VarDeclNilControl testVarDeclNilControl =
-                new VarDeclNilControl(affect, currentTds, tdsList);
+                new VarDeclNilControl(affect, currentTds, tdsList, ligne);
         error += testVarDeclNilControl.control();
         error += affect.expressions.accept(this);
         if (affect.typeId != null) {
@@ -476,13 +478,14 @@ public class ControlVisitor implements AstVisitor<Integer> {
     }
 
     public Integer visit(ListDecl affect) {
+        int ligne = affect.getLigne();
         int error = 0;
         error += affect.ofexpr.accept(this);
         error += affect.typeId.accept(this);
         error += affect.list.accept(this);
 
-        error += new TypeIndexListControl(affect, currentTds, tdsList).control();
-        error += new TypeOfExprListControl(affect, currentTds, tdsList).control();
+        error += new TypeIndexListControl(affect, currentTds, tdsList, ligne).control();
+        error += new TypeOfExprListControl(affect, currentTds, tdsList, ligne).control();
 
         return error;
     }

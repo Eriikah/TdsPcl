@@ -8,8 +8,11 @@ import ast.FuncDecl;
 
 public class ReturnTypeControl extends Control {
 
-    public ReturnTypeControl(Ast ast, Tds tds, ArrayList<Tds> TdsList) {
+    private int ligne;
+
+    public ReturnTypeControl(Ast ast, Tds tds, ArrayList<Tds> TdsList, int ligne) {
         super(ast, tds, TdsList);
+        this.ligne = ligne;
     }
 
     public int control() {
@@ -43,7 +46,7 @@ public class ReturnTypeControl extends Control {
             }
 
             if (!tdsType.equals(bodyType)) {
-                System.out.println("Wrong return type : \"" + bodyType + "\", "
+                System.out.println("Wrong return type at line "+this.ligne+" : \"" + bodyType + "\", "
                         + tdsFunction.getName() + " should return a " + tdsType);
                 error++;
             }

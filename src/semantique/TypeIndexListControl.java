@@ -7,8 +7,11 @@ import java.util.ArrayList;
 
 public class TypeIndexListControl extends Control{
 
-    public TypeIndexListControl(Ast ast, Tds tds, ArrayList<Tds> tdsList) {
+    private int ligne;
+
+    public TypeIndexListControl(Ast ast, Tds tds, ArrayList<Tds> tdsList, int ligne) {
         super(ast, tds, tdsList);
+        this.ligne = ligne;
     }
     
     @Override
@@ -17,7 +20,7 @@ public class TypeIndexListControl extends Control{
         
         if (this.ast instanceof ListDecl){
             if (((ListDecl) this.ast).list instanceof StringNode){
-                System.out.println("Error: List index must be an integer");
+                System.out.println("Error: List index must be an integer at line "+this.ligne);
                 nb_error++;
             }
         }

@@ -51,18 +51,18 @@ public class AstCreator extends exprBaseVisitor<Ast> {
         Ast exprSeq3 = ctx.funcbody.accept(this);
         if (ctx.funcfield == null) {
             if (ctx.functype == null) {
-                return new FuncDecl(idf, null, null, exprSeq3);
+                return new FuncDecl(idf, null, null, exprSeq3, line);
             } else {
                 Ast exprSeq2 = ctx.functype.accept(this);
-                return new FuncDecl(idf, null, exprSeq2, exprSeq3);
+                return new FuncDecl(idf, null, exprSeq2, exprSeq3, line);
             }
         } else {
             Ast exprSeq = ctx.funcfield.accept(this);
             if (ctx.functype == null) {
-                return new FuncDecl(idf, exprSeq, null, exprSeq3);
+                return new FuncDecl(idf, exprSeq, null, exprSeq3, line);
             } else {
                 Ast exprSeq2 = ctx.functype.accept(this);
-                return new FuncDecl(idf, exprSeq, exprSeq2, exprSeq3);
+                return new FuncDecl(idf, exprSeq, exprSeq2, exprSeq3, line);
             }
         }
         // Ast exprSeq = ctx.funcfield.accept(this);
@@ -148,11 +148,12 @@ public class AstCreator extends exprBaseVisitor<Ast> {
 
     @Override
     public Ast visitListDecl(exprParser.ListDeclContext ctx) {
+        int line = ctx.getStart().getLine();
         Ast typeId = ctx.getChild(0).accept(this);
         Ast list = ctx.getChild(2).accept(this);
         Ast ofexpr = ctx.getChild(5).accept(this);
 
-        return new ListDecl(typeId, list, ofexpr);
+        return new ListDecl(typeId, list, ofexpr, line);
     }
 
     @Override
@@ -552,7 +553,7 @@ public class AstCreator extends exprBaseVisitor<Ast> {
             TypeId typeId = (TypeId) ctx.vartype.accept(this);
             Idf idf = new Idf(idfString, line);
 
-            return new VarDecl(idf, typeId, expr);
+            return new VarDecl(idf, typeId, expr, line);
         } else {
             Ast expr = ctx.getChild(3).accept(this);
             String idfString = ctx.getChild(1).toString();
@@ -569,7 +570,7 @@ public class AstCreator extends exprBaseVisitor<Ast> {
 
             Idf idf = new Idf(idfString, line);
 
-            return new VarDecl(idf, typeId, expr);
+            return new VarDecl(idf, typeId, expr, line);
         }
 
     }

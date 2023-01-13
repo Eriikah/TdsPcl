@@ -9,10 +9,16 @@ public class ListDecl implements Ast {
     public Ast typeId;
     public Ast list;
     public Ast ofexpr;
+    private int ligne;
 
-    public ListDecl(Ast typeId, Ast list, Ast ofexpr) {
+    public ListDecl(Ast typeId, Ast list, Ast ofexpr, int ligne) {
         this.typeId = typeId;
         this.list = list;
         this.ofexpr = ofexpr;
+        this.ligne = ligne;
+    }
+
+    public int getLigne() {
+        return this.ligne;
     }
 }

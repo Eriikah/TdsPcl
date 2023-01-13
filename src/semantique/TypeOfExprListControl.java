@@ -6,9 +6,12 @@ import tds.*;
 import java.util.ArrayList;
 
 public class TypeOfExprListControl extends Control{
+
+    private int ligne;
     
-    public TypeOfExprListControl(Ast ast, Tds tds, ArrayList<Tds> tdsList) {
+    public TypeOfExprListControl(Ast ast, Tds tds, ArrayList<Tds> tdsList, int ligne) {
         super(ast, tds, tdsList);
+        this.ligne = ligne;
     }
     
     @Override
@@ -20,14 +23,14 @@ public class TypeOfExprListControl extends Control{
 
             if (type.equals("intArray")){
                 if (!(((ListDecl) this.ast).ofexpr instanceof IntNode)){
-                    System.out.println("Error: List must contain integers");
+                    System.out.println("Error: List must contain integers at line "+this.ligne);
                     nb_error++;
                 }
             }
 
             if (type.equals("StringArray")){
                 if (!(((ListDecl) this.ast).ofexpr instanceof StringNode)){
-                    System.out.println("Error: List must contain strings");
+                    System.out.println("Error: List must contain strings at line "+this.ligne);
                     nb_error++;
                 }
             }
