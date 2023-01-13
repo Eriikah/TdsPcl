@@ -121,8 +121,9 @@ public class AstCreator extends exprBaseVisitor<Ast> {
 
     @Override
     public Ast visitMinusAffector(exprParser.MinusAffectorContext ctx) {
+        int line = ctx.getStart().getLine();
         Ast minusAst = ctx.getChild(1).accept(this);
-        return new MinusAffector(minusAst);
+        return new MinusAffector(minusAst, line);
     }
 
     @Override
@@ -535,9 +536,10 @@ public class AstCreator extends exprBaseVisitor<Ast> {
 
     @Override
     public Ast visitProgram(exprParser.ProgramContext ctx) {
+        int line = ctx.getStart().getLine();
         Ast child = ctx.first.accept(this);
 
-        return new Program(child);
+        return new Program(child, line);
     }
 
     @Override

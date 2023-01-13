@@ -8,8 +8,11 @@ import tds.Tds;
 
 public class ParamNumControl extends Control {
 
-    public ParamNumControl(Ast ast, Tds tds, ArrayList<Tds> TdsList) {
+    private int ligne;
+
+    public ParamNumControl(Ast ast, Tds tds, ArrayList<Tds> TdsList, int ligne) {
         super(ast, tds, TdsList);
+        this.ligne = ligne;
     }
 
     public int control() {
@@ -18,7 +21,7 @@ public class ParamNumControl extends Control {
             if (((ExprList) (((FunctionCall) ast).exprList)).expressions.size() != 1) {
                 System.out.println(
                         ((FunctionCall) ast).Idf.name + " takes 1 parametter, you submitted "
-                                + ((ExprList) (((FunctionCall) ast).exprList)).expressions.size());
+                                + ((ExprList) (((FunctionCall) ast).exprList)).expressions.size()+" at line "+this.ligne);
             }
         }
 
@@ -26,7 +29,7 @@ public class ParamNumControl extends Control {
             if (((ExprList) (((FunctionCall) ast).exprList)).expressions.size() != 1) {
                 System.out.println(
                         ((FunctionCall) ast).Idf.name + " takes 1 parametter, you submitted "
-                                + ((ExprList) (((FunctionCall) ast).exprList)).expressions.size());
+                                + ((ExprList) (((FunctionCall) ast).exprList)).expressions.size()+" at line "+this.ligne);
             }
         }
 
@@ -34,7 +37,7 @@ public class ParamNumControl extends Control {
             if (((ExprList) (((FunctionCall) ast).exprList)).expressions.size() != 1) {
                 System.out.println(
                         ((FunctionCall) ast).Idf.name + " takes 1 parametter, you submitted "
-                                + ((ExprList) (((FunctionCall) ast).exprList)).expressions.size());
+                                + ((ExprList) (((FunctionCall) ast).exprList)).expressions.size()+" at line "+this.ligne);
             }
         }
 
@@ -42,7 +45,7 @@ public class ParamNumControl extends Control {
             if (((ExprList) (((FunctionCall) ast).exprList)).expressions.size() != 0) {
                 System.out.println(
                         ((FunctionCall) ast).Idf.name + " takes 0 parametter, you submitted "
-                                + ((ExprList) (((FunctionCall) ast).exprList)).expressions.size());
+                                + ((ExprList) (((FunctionCall) ast).exprList)).expressions.size()+" at line "+this.ligne);
             }
         }
 
@@ -50,7 +53,7 @@ public class ParamNumControl extends Control {
             if (((ExprList) (((FunctionCall) ast).exprList)).expressions.size() != 0) {
                 System.out.println(
                         ((FunctionCall) ast).Idf.name + " takes 0 parametter, you submitted "
-                                + ((ExprList) (((FunctionCall) ast).exprList)).expressions.size());
+                                + ((ExprList) (((FunctionCall) ast).exprList)).expressions.size()+" at line "+this.ligne);
             }
         }
 
@@ -58,7 +61,7 @@ public class ParamNumControl extends Control {
             if (((ExprList) (((FunctionCall) ast).exprList)).expressions.size() != 1) {
                 System.out.println(
                         ((FunctionCall) ast).Idf.name + " takes 1 parametter, you submitted "
-                                + ((ExprList) (((FunctionCall) ast).exprList)).expressions.size());
+                                + ((ExprList) (((FunctionCall) ast).exprList)).expressions.size()+" at line "+this.ligne);
             }
         }
 
@@ -66,7 +69,7 @@ public class ParamNumControl extends Control {
             if (((ExprList) (((FunctionCall) ast).exprList)).expressions.size() != 1) {
                 System.out.println(
                         ((FunctionCall) ast).Idf.name + " takes 1 parametter, you submitted "
-                                + ((ExprList) (((FunctionCall) ast).exprList)).expressions.size());
+                                + ((ExprList) (((FunctionCall) ast).exprList)).expressions.size()+" at line "+this.ligne);
             }
         }
 
@@ -74,7 +77,7 @@ public class ParamNumControl extends Control {
             if (((ExprList) (((FunctionCall) ast).exprList)).expressions.size() != 1) {
                 System.out.println(
                         ((FunctionCall) ast).Idf.name + " takes 1 parametter, you submitted "
-                                + ((ExprList) (((FunctionCall) ast).exprList)).expressions.size());
+                                + ((ExprList) (((FunctionCall) ast).exprList)).expressions.size()+" at line "+this.ligne);
             }
         }
 
@@ -82,7 +85,7 @@ public class ParamNumControl extends Control {
             if (((ExprList) (((FunctionCall) ast).exprList)).expressions.size() != 3) {
                 System.out.println(
                         ((FunctionCall) ast).Idf.name + " takes 3 parametter, you submitted "
-                                + ((ExprList) (((FunctionCall) ast).exprList)).expressions.size());
+                                + ((ExprList) (((FunctionCall) ast).exprList)).expressions.size()+" at line "+this.ligne);
             }
         }
 
@@ -90,7 +93,7 @@ public class ParamNumControl extends Control {
             if (((ExprList) (((FunctionCall) ast).exprList)).expressions.size() != 2) {
                 System.out.println(
                         ((FunctionCall) ast).Idf.name + " takes 2 parametter, you submitted "
-                                + ((ExprList) (((FunctionCall) ast).exprList)).expressions.size());
+                                + ((ExprList) (((FunctionCall) ast).exprList)).expressions.size()+" at line "+this.ligne);
             }
         }
 
@@ -98,7 +101,7 @@ public class ParamNumControl extends Control {
             if (((ExprList) (((FunctionCall) ast).exprList)).expressions.size() != 1) {
                 System.out.println(
                         ((FunctionCall) ast).Idf.name + " takes 1 parametter, you submitted "
-                                + ((ExprList) (((FunctionCall) ast).exprList)).expressions.size());
+                                + ((ExprList) (((FunctionCall) ast).exprList)).expressions.size()+" at line "+this.ligne);
             }
         }
 
@@ -106,7 +109,7 @@ public class ParamNumControl extends Control {
             if (((ExprList) (((FunctionCall) ast).exprList)).expressions.size() != 1) {
                 System.out.println(
                         ((FunctionCall) ast).Idf.name + " takes 1 parametter, you submitted "
-                                + ((ExprList) (((FunctionCall) ast).exprList)).expressions.size());
+                                + ((ExprList) (((FunctionCall) ast).exprList)).expressions.size()+" at line "+this.ligne);
             }
         }
 
@@ -119,7 +122,7 @@ public class ParamNumControl extends Control {
             if (calledFunction != null && calledFunction.getParamNumber() != parNum) {
                 System.out.println(
                         ((FunctionCall) ast).Idf.name + " takes " + calledFunction.getParamNumber()
-                                + " parametter(s), you submitted " + parNum);
+                                + " parametter(s), you submitted " + parNum +" at line "+this.ligne);
                 error++;
             }
         }

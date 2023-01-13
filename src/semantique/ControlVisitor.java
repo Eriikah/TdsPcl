@@ -197,11 +197,11 @@ public class ControlVisitor implements AstVisitor<Integer> {
         DeclarationControl test = new DeclarationControl(affect, getTds(affect.Idf.name), tdsList, ligne);
         error += test.control();
         if (error == 0) {
-            ParamNumControl testParamNumControl = new ParamNumControl(affect, currentTds, tdsList);
+            ParamNumControl testParamNumControl = new ParamNumControl(affect, currentTds, tdsList, ligne);
             error += testParamNumControl.control();
             if (error == 0) {
                 ParamTypeControl testParamTypeControl =
-                        new ParamTypeControl(affect, currentTds, tdsList);
+                        new ParamTypeControl(affect, currentTds, tdsList, ligne);
                 error += testParamTypeControl.control();
             }
 
@@ -362,8 +362,9 @@ public class ControlVisitor implements AstVisitor<Integer> {
     }
 
     public Integer visit(Program affect) {
+        int ligne = affect.getLigne();
         this.currentTds = getFirstTds();
-        NoMultipleDeclControl test = new NoMultipleDeclControl(affect, currentTds, tdsList);
+        NoMultipleDeclControl test = new NoMultipleDeclControl(affect, currentTds, tdsList, ligne);
         int error = test.control();
         error += affect.expressions.accept(this);
         return error;
@@ -495,7 +496,8 @@ public class ControlVisitor implements AstVisitor<Integer> {
     @Override
     public Integer visit(MinusAffector minusAffector) {
         int error = 0;
-        error += (new IntBehindMinusControl(minusAffector, currentTds, tdsList)).control();
+        int ligne = minusAffector.getLigne();
+        error += (new IntBehindMinusControl(minusAffector, currentTds, tdsList, ligne)).control();
         error += minusAffector.value.accept(this);
         return error;
     }

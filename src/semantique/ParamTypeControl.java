@@ -8,8 +8,11 @@ import tds.Tds;
 
 public class ParamTypeControl extends Control {
 
-    public ParamTypeControl(Ast ast, Tds tds, ArrayList<Tds> TdsList) {
+    private int ligne;
+
+    public ParamTypeControl(Ast ast, Tds tds, ArrayList<Tds> TdsList, int ligne) {
         super(ast, tds, TdsList);
+        this.ligne = ligne;
     }
 
     public int control() {
@@ -21,8 +24,8 @@ public class ParamTypeControl extends Control {
                 for (int index = 0; index < tdsFunction.getParamNumber(); index++) {
                     if (!tdsFunction.getParams().get(index).getType()
                             .equals(getType(paramList.get(index)))) {
-                        System.out.print("Wrong type for parametter "
-                                + tdsFunction.getParams().get(index).getName() + ". The type is "
+                        System.out.print("Wrong type for parameter "
+                                + tdsFunction.getParams().get(index).getName() +" at line "+ this.ligne + ". The type is "
                                 + getType(paramList.get(index)) + "; Expected : "
                                 + tdsFunction.getParams().get(index).getType() + "\n");
                         error++;

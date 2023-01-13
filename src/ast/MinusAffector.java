@@ -7,9 +7,15 @@ public class MinusAffector implements Ast {
         return visitor.visit(this);
     }
 
+    private int ligne;
     public Ast value;
 
-    public MinusAffector(Ast value) {
+    public MinusAffector(Ast value, int ligne) {
         this.value = value;
+        this.ligne = ligne;
+    }
+
+    public int getLigne() {
+        return ligne;
     }
 }

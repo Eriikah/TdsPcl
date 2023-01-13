@@ -8,8 +8,11 @@ import tds.Tds;
 
 public class NoMultipleDeclControl extends Control {
 
-    public NoMultipleDeclControl(Ast ast, Tds tds, ArrayList<Tds> tdsList) {
+    private int ligne;
+
+    public NoMultipleDeclControl(Ast ast, Tds tds, ArrayList<Tds> tdsList, int ligne) {
         super(ast, tds, tdsList);
+        this.ligne = ligne;
     }
 
     @Override
@@ -22,7 +25,7 @@ public class NoMultipleDeclControl extends Control {
                     if (j != i) {
                         if (symbols.get(i).getName().equals(symbols.get(j).getName())) {
                             System.err.println("DeclarationError : " +
-                                    String.format("'%s' is already defined", symbols.get(j).getName()));
+                                    String.format("'%s' is already defined at line "+this.ligne, symbols.get(j).getName()));
                             error += 1;
                         }
                     }

@@ -7,8 +7,14 @@ public class Program implements Ast {
     }
 
     public Ast expressions;
+    private int ligne;
 
-    public Program(Ast expressions) {
+    public Program(Ast expressions, int ligne) {
         this.expressions = expressions;
+        this.ligne = ligne;
+    }
+
+    public int getLigne() {
+        return ligne;
     }
 }

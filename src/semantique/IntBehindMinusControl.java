@@ -8,8 +8,11 @@ import tds.Tds;
 
 public class IntBehindMinusControl extends Control {
 
-    public IntBehindMinusControl(Ast ast, Tds tds, ArrayList<Tds> tdsList) {
+    private int ligne;
+
+    public IntBehindMinusControl(Ast ast, Tds tds, ArrayList<Tds> tdsList, int ligne) {
         super(ast, tds, tdsList);
+        this.ligne = ligne;
     }
 
     @Override
@@ -18,7 +21,7 @@ public class IntBehindMinusControl extends Control {
         if (ast instanceof MinusAffector) {
             MinusAffector minAst = (MinusAffector) ast;
             if (!getType(minAst.value).equals("int")) {
-                System.err.println("Error Cannot put " + getType(minAst.value) + " after \"-\"");
+                System.err.println("Error Cannot put " + getType(minAst.value) + " after \"-\" at line " + this.ligne);
                 error++;
             }
         }
