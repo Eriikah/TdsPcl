@@ -92,7 +92,9 @@ public class ControlVisitor implements AstVisitor<Integer> {
         int error = affect.left.accept(this);
         error += affect.right.accept(this);
 
-        error += new BinOpTypeControl(affect, currentTds, tdsList).control();
+        int ligne = affect.getLigne();
+
+        error += new BinOpTypeControl(affect, currentTds, tdsList, ligne).control();
 
         return error;
     }
@@ -101,8 +103,10 @@ public class ControlVisitor implements AstVisitor<Integer> {
         int error = affect.left.accept(this);
         error += affect.right.accept(this);
 
-        error += new DivisionByZeroControl(affect, currentTds, tdsList).control();
-        error += new BinOpTypeControl(affect, currentTds, tdsList).control();
+        int ligne = affect.getLigne();
+
+        error += new DivisionByZeroControl(affect, currentTds, tdsList, ligne).control();
+        error += new BinOpTypeControl(affect, currentTds, tdsList, ligne).control();
 
         return error;
     }
@@ -111,7 +115,9 @@ public class ControlVisitor implements AstVisitor<Integer> {
         int error = affect.left.accept(this);
         error += affect.right.accept(this);
 
-        error += new BinOpTypeControl(affect, currentTds, tdsList).control();
+        int ligne = affect.getLigne();
+
+        error += new BinOpTypeControl(affect, currentTds, tdsList, ligne).control();
 
         return error;
     }
@@ -186,7 +192,8 @@ public class ControlVisitor implements AstVisitor<Integer> {
 
     public Integer visit(FunctionCall affect) {
         int error = 0;
-        DeclarationControl test = new DeclarationControl(affect, getTds(affect.Idf.name), tdsList);
+        int ligne = affect.getLigne();
+        DeclarationControl test = new DeclarationControl(affect, getTds(affect.Idf.name), tdsList, ligne);
         error += test.control();
         if (error == 0) {
             ParamNumControl testParamNumControl = new ParamNumControl(affect, currentTds, tdsList);
@@ -209,7 +216,8 @@ public class ControlVisitor implements AstVisitor<Integer> {
 
     public Integer visit(Idf affect) {
         int error = 0;
-        error += (new DeclarationControl(affect, currentTds, tdsList)).control();
+        int ligne = affect.getLigne();
+        error += (new DeclarationControl(affect, currentTds, tdsList, ligne)).control();
         return error;
     }
 
@@ -238,7 +246,9 @@ public class ControlVisitor implements AstVisitor<Integer> {
         int error = affect.left.accept(this);
         error += affect.right.accept(this);
 
-        error += new BinOpTypeControl(affect, currentTds, tdsList).control();
+        int ligne = affect.getLigne();
+
+        error += new BinOpTypeControl(affect, currentTds, tdsList, ligne).control();
 
         return error;
     }
@@ -247,7 +257,9 @@ public class ControlVisitor implements AstVisitor<Integer> {
         int error = affect.left.accept(this);
         error += affect.right.accept(this);
 
-        error += new BinOpTypeControl(affect, currentTds, tdsList).control();
+        int ligne = affect.getLigne();
+
+        error += new BinOpTypeControl(affect, currentTds, tdsList, ligne).control();
 
         return error;
     }
@@ -277,7 +289,9 @@ public class ControlVisitor implements AstVisitor<Integer> {
         int error = affect.left.accept(this);
         error += affect.right.accept(this);
 
-        error += new BinOpTypeControl(affect, currentTds, tdsList).control();
+        int ligne = affect.getLigne();
+
+        error += new BinOpTypeControl(affect, currentTds, tdsList, ligne).control();
 
         return error;
     }
@@ -286,7 +300,9 @@ public class ControlVisitor implements AstVisitor<Integer> {
         int error = affect.left.accept(this);
         error += affect.right.accept(this);
 
-        error += new BinOpTypeControl(affect, currentTds, tdsList).control();
+        int ligne = affect.getLigne();
+
+        error += new BinOpTypeControl(affect, currentTds, tdsList, ligne).control();
 
         return error;
     }
@@ -312,7 +328,9 @@ public class ControlVisitor implements AstVisitor<Integer> {
         int error = affect.left.accept(this);
         error += affect.right.accept(this);
 
-        error += new BinOpTypeControl(affect, currentTds, tdsList).control();
+        int ligne = affect.getLigne();
+
+        error += new BinOpTypeControl(affect, currentTds, tdsList, ligne).control();
 
         return error;
     }
@@ -321,7 +339,9 @@ public class ControlVisitor implements AstVisitor<Integer> {
         int error = affect.left.accept(this);
         error += affect.right.accept(this);
 
-        error += new BinOpTypeControl(affect, currentTds, tdsList).control();
+        int ligne = affect.getLigne();
+
+        error += new BinOpTypeControl(affect, currentTds, tdsList, ligne).control();
 
         return error;
     }
@@ -377,7 +397,9 @@ public class ControlVisitor implements AstVisitor<Integer> {
         int error = affect.left.accept(this);
         error += affect.right.accept(this);
 
-        error += new BinOpTypeControl(affect, currentTds, tdsList).control();
+        int ligne = affect.getLigne();
+
+        error += new BinOpTypeControl(affect, currentTds, tdsList, ligne).control();
 
         return error;
     }
@@ -386,7 +408,9 @@ public class ControlVisitor implements AstVisitor<Integer> {
         int error = affect.left.accept(this);
         error += affect.right.accept(this);
 
-        error += new BinOpTypeControl(affect, currentTds, tdsList).control();
+        int ligne = affect.getLigne();
+
+        error += new BinOpTypeControl(affect, currentTds, tdsList, ligne).control();
 
         return error;
     }
@@ -407,7 +431,8 @@ public class ControlVisitor implements AstVisitor<Integer> {
 
     public Integer visit(TypeId affect) {
         int error = 0;
-        DeclarationControl declCont = new DeclarationControl(affect, currentTds, tdsList);
+        int ligne = affect.getLigne();
+        DeclarationControl declCont = new DeclarationControl(affect, currentTds, tdsList, ligne);
         error += declCont.control();
         return error;
     }
@@ -433,7 +458,8 @@ public class ControlVisitor implements AstVisitor<Integer> {
 
     public Integer visit(TypeField affect) {
         int error = 0;
-        DeclarationControl declCont = new DeclarationControl(affect, currentTds, tdsList);
+        int ligne = affect.getLigne();
+        DeclarationControl declCont = new DeclarationControl(affect, currentTds, tdsList, ligne);
         error += declCont.control();
         return error;
     }

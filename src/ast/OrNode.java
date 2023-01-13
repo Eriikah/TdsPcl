@@ -8,10 +8,16 @@ public class OrNode implements Ast {
 
     public Ast left;
     public Ast right;
+    private int ligne;
 
-    public OrNode(Ast left, Ast right) {
+    public OrNode(Ast left, Ast right, int ligne) {
         this.left = left;
         this.right = right;
+        this.ligne = ligne;
+    }
+
+    public int getLigne() {
+        return this.ligne;
     }
 
 }

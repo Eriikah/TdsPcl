@@ -11,4 +11,8 @@ public class IntNode implements Ast {
     public IntNode(String value) {
         this.value = value;
     }
+
+    public String getValue() {
+        return this.value;
+    }
 }

@@ -45,8 +45,9 @@ public class AstCreator extends exprBaseVisitor<Ast> {
 
     @Override
     public Ast visitFuncdecl(exprParser.FuncdeclContext ctx) {
+        int line = ctx.getStart().getLine();
         String idfString = ctx.getChild(1).toString();
-        Idf idf = new Idf(idfString);
+        Idf idf = new Idf(idfString, line);
         Ast exprSeq3 = ctx.funcbody.accept(this);
         if (ctx.funcfield == null) {
             if (ctx.functype == null) {
@@ -83,8 +84,9 @@ public class AstCreator extends exprBaseVisitor<Ast> {
 
     @Override
     public Ast visitLvalue(exprParser.LvalueContext ctx) {
+        int line = ctx.getStart().getLine();
         String idfString = ctx.getChild(0).toString();
-        Idf idf = new Idf(idfString);
+        Idf idf = new Idf(idfString, line);
         ArrayList<Ast> lvaluesubs = new ArrayList<Ast>();
         for (int i = 1; i < ctx.getChildCount(); i++) {
             lvaluesubs.add(ctx.getChild(i).accept(this));
@@ -131,12 +133,13 @@ public class AstCreator extends exprBaseVisitor<Ast> {
     @Override
     public Ast visitFunctionCall(exprParser.FunctionCallContext ctx) {
         String idfString = ctx.getChild(0).toString();
-        Idf idf = new Idf(idfString);
+        int line = ctx.getStart().getLine();
+        Idf idf = new Idf(idfString, line);
         if (ctx.getChild(2) == null) {
-            return new FunctionCall(idf, null);
+            return new FunctionCall(idf, null, line);
         } else {
             Ast exprList = ctx.getChild(2).accept(this);
-            return new FunctionCall(idf, exprList);
+            return new FunctionCall(idf, exprList, line);
         }
 
         // Création des sous AST
@@ -250,10 +253,11 @@ public class AstCreator extends exprBaseVisitor<Ast> {
 
     @Override
     public Ast visitOr(exprParser.OrContext ctx) {
+        int line = ctx.getStart().getLine();
         Ast tempNode = ctx.getChild(0).accept(this);
         for (AndexprContext el : ctx.expror) {
             Ast right = el.accept(this);
-            tempNode = new OrNode(tempNode, right);
+            tempNode = new OrNode(tempNode, right, line);
 
         }
         return tempNode;
@@ -261,6 +265,7 @@ public class AstCreator extends exprBaseVisitor<Ast> {
 
     @Override
     public Ast visitBoolexpr(exprParser.BoolexprContext ctx) {
+        int line = ctx.getStart().getLine();
         Ast left = ctx.getChild(0).accept(this);
         if (ctx.getChild(2) == null) {
             return left;
@@ -268,17 +273,17 @@ public class AstCreator extends exprBaseVisitor<Ast> {
         Ast right = ctx.getChild(2).accept(this);
         switch (ctx.op.getText()) {
             case ">":
-                return new SupNode(left, right);
+                return new SupNode(left, right, line);
             case "<":
-                return new InfEqNode(left, right);
+                return new InfEqNode(left, right, line);
             case "=":
-                return new EqNode(left, right);
+                return new EqNode(left, right, line);
             case "<>":
-                return new DiffNode(left, right);
+                return new DiffNode(left, right, line);
             case "<=":
-                return new InfEqNode(left, right);
+                return new InfEqNode(left, right, line);
             case ">=":
-                return new SupEqNode(left, right);
+                return new SupEqNode(left, right, line);
             default:
                 return left;
         }
@@ -286,10 +291,11 @@ public class AstCreator extends exprBaseVisitor<Ast> {
 
     @Override
     public Ast visitPlus(exprParser.PlusContext ctx) {
+        int line = ctx.getStart().getLine();
         Ast tempNode = ctx.getChild(0).accept(this);
         for (DivexprContext el : ctx.exprplus) {
             Ast right = el.accept(this);
-            tempNode = new Plus(tempNode, right);
+            tempNode = new Plus(tempNode, right, line);
 
         }
         return tempNode;
@@ -372,7 +378,8 @@ public class AstCreator extends exprBaseVisitor<Ast> {
 
     @Override
     public Ast visitDeclArrayOfTyfields(exprParser.DeclArrayOfTyfieldsContext ctx) {
-        return new TypeId("array of " + ctx.getChild(2).getText());
+        int line = ctx.getStart().getLine();
+        return new TypeId("array of " + ctx.getChild(2).getText(), line);
     }
 
     @Override
@@ -386,15 +393,17 @@ public class AstCreator extends exprBaseVisitor<Ast> {
 
     @Override
     public Ast visitType_Field(exprParser.Type_FieldContext ctx) {
-        return new TypeField(ctx.getChild(0).getText(), ctx.getChild(2).getText());
+        int line = ctx.getStart().getLine();
+        return new TypeField(ctx.getChild(0).getText(), ctx.getChild(2).getText(), line);
     }
 
     @Override
     public Ast visitTypeid(exprParser.TypeidContext ctx) {
+        int line = ctx.getStart().getLine();
         if (ctx.getChild(0) == null) {
-            return new TypeId("void");
+            return new TypeId("void", line);
         }
-        return new TypeId(ctx.getChild(0).toString());
+        return new TypeId(ctx.getChild(0).toString(), line);
     }
 
     @Override
@@ -428,10 +437,11 @@ public class AstCreator extends exprBaseVisitor<Ast> {
 
     @Override
     public Ast visitDiv(exprParser.DivContext ctx) {
+        int line = ctx.getStart().getLine();
         Ast tempNode = ctx.getChild(0).accept(this);
         for (MultexprContext el : ctx.exprdiv) {
             Ast right = el.accept(this);
-            tempNode = new Div(tempNode, right);
+            tempNode = new Div(tempNode, right, line);
 
         }
         return tempNode;
@@ -454,13 +464,14 @@ public class AstCreator extends exprBaseVisitor<Ast> {
 
     @Override
     public Ast visitFor(exprParser.ForContext ctx) {
+        int line = ctx.getStart().getLine();
         String idfString = ctx.getChild(1).toString();
         Ast expr = ctx.getChild(3).accept(this);
         Ast exprSeq = ctx.getChild(5).accept(this);
         Ast exprSeq2 = ctx.getChild(7).accept(this);
 
         // Création des sous AST
-        Idf idf = new Idf(idfString);
+        Idf idf = new Idf(idfString, line);
 
         return new For(idf, expr, exprSeq, exprSeq2);
     }
@@ -482,10 +493,11 @@ public class AstCreator extends exprBaseVisitor<Ast> {
 
     @Override
     public Ast visitMoins(exprParser.MoinsContext ctx) {
+        int line = ctx.getStart().getLine();
         Ast tempNode = ctx.getChild(0).accept(this);
         for (AddexprContext el : ctx.exprminus) {
             Ast right = el.accept(this);
-            tempNode = new Minus(tempNode, right);
+            tempNode = new Minus(tempNode, right, line);
 
         }
         return tempNode;
@@ -493,12 +505,13 @@ public class AstCreator extends exprBaseVisitor<Ast> {
 
     @Override
     public Ast visitMult(exprParser.MultContext ctx) {
+        int line = ctx.getStart().getLine();
         Ast left = ctx.getChild(0).accept(this);
         if (ctx.getChild(2) == null) {
             return left;
         }
         Ast right = ctx.getChild(2).accept(this);
-        return new Mult(left, right);
+        return new Mult(left, right, line);
     }
 
     @Override
@@ -527,12 +540,13 @@ public class AstCreator extends exprBaseVisitor<Ast> {
 
     @Override
     public Ast visitVarDecl(exprParser.VarDeclContext ctx) {
+        int line = ctx.getStart().getLine();
         // Récupération des noeuds fils
         if (ctx.getChildCount() > 4) {
             Ast expr = ctx.getChild(5).accept(this);
             String idfString = ctx.getChild(1).toString();
             TypeId typeId = (TypeId) ctx.vartype.accept(this);
-            Idf idf = new Idf(idfString);
+            Idf idf = new Idf(idfString, line);
 
             return new VarDecl(idf, typeId, expr);
         } else {
@@ -540,16 +554,16 @@ public class AstCreator extends exprBaseVisitor<Ast> {
             String idfString = ctx.getChild(1).toString();
             TypeId typeId;
             if (expr instanceof ListDecl) {
-                typeId = new TypeId(((TypeId) ((ListDecl) expr).typeId).value);
+                typeId = new TypeId(((TypeId) ((ListDecl) expr).typeId).value, line);
             } else if (expr instanceof List) {
-                typeId = new TypeId(((TypeId) ((List) expr).typeid).value);
+                typeId = new TypeId(((TypeId) ((List) expr).typeid).value, line);
             } else if (expr instanceof Nil) {
-                typeId = new TypeId(null);
+                typeId = new TypeId(null, line);
             } else {
-                typeId = new TypeId("int");
+                typeId = new TypeId("int", line);
             }
 
-            Idf idf = new Idf(idfString);
+            Idf idf = new Idf(idfString, line);
 
             return new VarDecl(idf, typeId, expr);
         }

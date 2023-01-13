@@ -7,12 +7,18 @@ public class TypeId implements Ast {
     }
 
     public String value;
+    private int ligne;
 
-    public TypeId(String value) {
+    public TypeId(String value, int ligne) {
         this.value = value;
+        this.ligne = ligne;
     }
 
     public String getValue() {
         return value;
+    }
+
+    public int getLigne() {
+        return this.ligne;
     }
 }

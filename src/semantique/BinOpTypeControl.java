@@ -7,8 +7,11 @@ import java.util.ArrayList;
 
 public class BinOpTypeControl extends Control {
 
-    public BinOpTypeControl(Ast ast, Tds tds, ArrayList<Tds> tdsList) {
+    private int ligne;
+
+    public BinOpTypeControl(Ast ast, Tds tds, ArrayList<Tds> tdsList, int ligne) {
         super(ast, tds, tdsList);
+        this.ligne = ligne;
     }
 
     @Override
@@ -17,7 +20,7 @@ public class BinOpTypeControl extends Control {
         if (this.ast instanceof SupNode) {
             if (((SupNode) this.ast).left instanceof Nil
                     && ((SupNode) this.ast).right instanceof Nil) {
-                System.out.println("Unauthorized comparaison between \"nil\" and \"nil\"");
+                System.out.println("Unauthorized comparaison between \"nil\" and \"nil\" at line "+this.ligne);
                 nb_error++;
             }
             if (((SupNode) this.ast).left instanceof Lvalue
@@ -31,7 +34,7 @@ public class BinOpTypeControl extends Control {
                         if (!type_right.equals(type_left)) {
                             nb_error++;
                             System.out.println(
-                                    "Error: SupNode must have two operands of the same type");
+                                    "Error: SupNode must have two operands of the same type at line "+this.ligne);
                         }
                     }
                 }
@@ -41,7 +44,7 @@ public class BinOpTypeControl extends Control {
         if (this.ast instanceof InfNode) {
             if (((InfNode) this.ast).left instanceof Nil
                     && ((InfNode) this.ast).right instanceof Nil) {
-                System.out.println("Unauthorized comparaison between \"nil\" and \"nil\"");
+                System.out.println("Unauthorized comparaison between \"nil\" and \"nil\" at line "+this.ligne);
                 nb_error++;
             }
             if (((InfNode) this.ast).left instanceof Lvalue
@@ -55,7 +58,7 @@ public class BinOpTypeControl extends Control {
                         if (!type_right.equals(type_left)) {
                             nb_error++;
                             System.out.println(
-                                    "Error: InfNode must have two operands of the same type");
+                                    "Error: InfNode must have two operands of the same type at line "+this.ligne);
                         }
                     }
                 }
@@ -66,7 +69,7 @@ public class BinOpTypeControl extends Control {
         if (this.ast instanceof SupEqNode) {
             if (((SupEqNode) this.ast).left instanceof Nil
                     && ((SupEqNode) this.ast).right instanceof Nil) {
-                System.out.println("Unauthorized comparaison between \"nil\" and \"nil\"");
+                System.out.println("Unauthorized comparaison between \"nil\" and \"nil\" at line "+this.ligne);
                 nb_error++;
             }
             if (((SupEqNode) this.ast).left instanceof Lvalue
@@ -80,7 +83,7 @@ public class BinOpTypeControl extends Control {
                         if (!type_right.equals(type_left)) {
                             nb_error++;
                             System.out.println(
-                                    "Error: SupEqNode must have two operands of the same type");
+                                    "Error: SupEqNode must have two operands of the same type at line "+this.ligne);
                         }
                     }
                 }
@@ -90,7 +93,7 @@ public class BinOpTypeControl extends Control {
         if (this.ast instanceof InfEqNode) {
             if (((InfEqNode) this.ast).left instanceof Nil
                     && ((InfEqNode) this.ast).right instanceof Nil) {
-                System.out.println("Unauthorized comparaison between \"nil\" and \"nil\"");
+                System.out.println("Unauthorized comparaison between \"nil\" and \"nil\" at line "+this.ligne);
                 nb_error++;
             }
             if (((InfEqNode) this.ast).left instanceof Lvalue
@@ -104,7 +107,7 @@ public class BinOpTypeControl extends Control {
                         if (!type_right.equals(type_left)) {
                             nb_error++;
                             System.out.println(
-                                    "Error: InfEqNode must have two operands of the same type");
+                                    "Error: InfEqNode must have two operands of the same type at line "+this.ligne);
                         }
                     }
                 }
@@ -114,7 +117,7 @@ public class BinOpTypeControl extends Control {
         if (this.ast instanceof EqNode) {
             if (((EqNode) this.ast).left instanceof Nil
                     && ((EqNode) this.ast).right instanceof Nil) {
-                System.out.println("Unauthorized comparaison between \"nil\" and \"nil\"");
+                System.out.println("Unauthorized comparaison between \"nil\" and \"nil\" at line "+this.ligne);
                 nb_error++;
             }
             if (((EqNode) this.ast).left instanceof Lvalue
@@ -128,7 +131,7 @@ public class BinOpTypeControl extends Control {
                         if (!type_right.equals(type_left)) {
                             nb_error++;
                             System.out.println(
-                                    "Error: EqNode must have two operands of the same type");
+                                    "Error: EqNode must have two operands of the same type at line "+this.ligne);
                         }
                     }
                 }
@@ -138,7 +141,7 @@ public class BinOpTypeControl extends Control {
         if (this.ast instanceof DiffNode) {
             if (((DiffNode) this.ast).left instanceof Nil
                     && ((DiffNode) this.ast).right instanceof Nil) {
-                System.out.println("Unauthorized comparaison between \"nil\" and \"nil\"");
+                System.out.println("Unauthorized comparaison between \"nil\" and \"nil\" at line "+this.ligne);
                 nb_error++;
             }
             if (((DiffNode) this.ast).left instanceof Lvalue
@@ -152,7 +155,7 @@ public class BinOpTypeControl extends Control {
                         if (!type_right.equals(type_left)) {
                             nb_error++;
                             System.out.println(
-                                    "Error: DiffNode must have two operands of the same type");
+                                    "Error: DiffNode must have two operands of the same type at line "+this.ligne);
                         }
                     }
                 }
@@ -163,7 +166,7 @@ public class BinOpTypeControl extends Control {
         if (this.ast instanceof AndNode) {
             if (((AndNode) this.ast).left instanceof Nil
                     && ((AndNode) this.ast).right instanceof Nil) {
-                System.out.println("Unauthorized comparaison between \"nil\" and \"nil\"");
+                System.out.println("Unauthorized comparaison between \"nil\" and \"nil\" at line "+this.ligne);
                 nb_error++;
             }
             if (((AndNode) this.ast).left instanceof Lvalue
@@ -176,7 +179,7 @@ public class BinOpTypeControl extends Control {
                         if (!type_right.equals(type_left)) {
                             nb_error++;
                             System.out.println(
-                                    "Error: AndNode must have two operands of the type boolean");
+                                    "Error: AndNode must have two operands of the type boolean at line "+this.ligne);
                         }
                     }
                 }
@@ -186,7 +189,7 @@ public class BinOpTypeControl extends Control {
         if (this.ast instanceof OrNode) {
             if (((OrNode) this.ast).left instanceof Nil
                     && ((OrNode) this.ast).right instanceof Nil) {
-                System.out.println("Unauthorized comparaison between \"nil\" and \"nil\"");
+                System.out.println("Unauthorized comparaison between \"nil\" and \"nil\" at line "+this.ligne);
                 nb_error++;
             }
             if (((OrNode) this.ast).left instanceof Lvalue
@@ -199,7 +202,7 @@ public class BinOpTypeControl extends Control {
                         if (!type_right.equals(type_left)) {
                             nb_error++;
                             System.out.println(
-                                    "Error: OrNode must have two operands of the type boolean");
+                                    "Error: OrNode must have two operands of the type boolean at line "+this.ligne);
                         }
                     }
                 }
@@ -208,7 +211,7 @@ public class BinOpTypeControl extends Control {
 
         if (this.ast instanceof Plus) {
             if (((Plus) this.ast).left instanceof Nil && ((Plus) this.ast).right instanceof Nil) {
-                System.out.println("Unauthorized operation between \"nil\" and \"nil\"");
+                System.out.println("Unauthorized operation between \"nil\" and \"nil\" at line "+this.ligne);
                 nb_error++;
             }
             if (((Plus) this.ast).left instanceof Lvalue
@@ -222,7 +225,7 @@ public class BinOpTypeControl extends Control {
                         if (!type_right.equals(type_left)) {
                             nb_error++;
                             System.out
-                                    .println("Error: Plus must have two operands of the same type");
+                                    .println("Error: Plus must have two operands of the same type at line "+this.ligne);
                         }
                     }
                 }
@@ -231,7 +234,7 @@ public class BinOpTypeControl extends Control {
 
         if (this.ast instanceof Minus) {
             if (((Minus) this.ast).left instanceof Nil && ((Minus) this.ast).right instanceof Nil) {
-                System.out.println("Unauthorized operation between \"nil\" and \"nil\"");
+                System.out.println("Unauthorized operation between \"nil\" and \"nil\" at line "+this.ligne);
                 nb_error++;
             }
             if (((Minus) this.ast).left instanceof Lvalue
@@ -245,7 +248,7 @@ public class BinOpTypeControl extends Control {
                         if (!type_right.equals(type_left)) {
                             nb_error++;
                             System.out.println(
-                                    "Error: Minus must have two operands of the same type");
+                                    "Error: Minus must have two operands of the same type at line "+this.ligne);
                         }
                     }
                 }
@@ -254,7 +257,7 @@ public class BinOpTypeControl extends Control {
 
         if (this.ast instanceof Mult) {
             if (((Mult) this.ast).left instanceof Nil && ((Mult) this.ast).right instanceof Nil) {
-                System.out.println("Unauthorized operation between \"nil\" and \"nil\"");
+                System.out.println("Unauthorized operation between \"nil\" and \"nil\" at line "+this.ligne);
                 nb_error++;
             }
             if (((Mult) this.ast).left instanceof Lvalue
@@ -268,7 +271,7 @@ public class BinOpTypeControl extends Control {
                         if (!type_right.equals(type_left)) {
                             nb_error++;
                             System.out
-                                    .println("Error: Mult must have two operands of the same type");
+                                    .println("Error: Mult must have two operands of the same type at line "+this.ligne);
                         }
                     }
                 }
@@ -277,7 +280,7 @@ public class BinOpTypeControl extends Control {
 
         if (this.ast instanceof Div) {
             if (((Div) this.ast).left instanceof Nil && ((Div) this.ast).right instanceof Nil) {
-                System.out.println("Unauthorized operation between \"nil\" and \"nil\"");
+                System.out.println("Unauthorized operation between \"nil\" and \"nil\" at line "+this.ligne);
                 nb_error++;
             }
             if (((Div) this.ast).left instanceof Lvalue
@@ -291,7 +294,7 @@ public class BinOpTypeControl extends Control {
                         if (!type_right.equals(type_left)) {
                             nb_error++;
                             System.out
-                                    .println("Error: Div must have two operands of the same type");
+                                    .println("Error: Div must have two operands of the same type at line "+this.ligne);
                         }
                     }
                 }

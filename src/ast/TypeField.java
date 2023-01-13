@@ -8,9 +8,15 @@ public class TypeField implements Ast {
 
     public String Id;
     public String typeId;
+    private int ligne;
 
-    public TypeField(String Id, String typeId) {
+    public TypeField(String Id, String typeId, int ligne) {
         this.Id = Id;
         this.typeId = typeId;
+        this.ligne = ligne;
+    }
+
+    public int getLigne() {
+        return this.ligne;
     }
 }
