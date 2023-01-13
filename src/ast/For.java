@@ -10,12 +10,18 @@ public class For implements Ast {
     public Ast origExpr;
     public Ast goalExpr;
     public Ast expressions;
+    private int ligne;
 
-    public For(Idf Idf, Ast origExpr, Ast goalExpr, Ast expressions) {
+    public For(Idf Idf, Ast origExpr, Ast goalExpr, Ast expressions, int ligne) {
         this.Idf = Idf;
         this.origExpr = origExpr;
         this.goalExpr = goalExpr;
         this.expressions = expressions;
+        this.ligne = ligne;
+    }
+
+    public int getLigne() {
+        return ligne;
     }
 
 }

@@ -473,22 +473,24 @@ public class AstCreator extends exprBaseVisitor<Ast> {
         // Création des sous AST
         Idf idf = new Idf(idfString, line);
 
-        return new For(idf, expr, exprSeq, exprSeq2);
+        return new For(idf, expr, exprSeq, exprSeq2, line);
     }
 
     @Override
     public Ast visitIfThen(exprParser.IfThenContext ctx) {
+        int line = ctx.getStart().getLine();
         Ast expr = ctx.getChild(1).accept(this);
         Ast exprSeq = ctx.getChild(3).accept(this);
-        return new IfThen(expr, exprSeq);
+        return new IfThen(expr, exprSeq, line);
     }
 
     @Override
     public Ast visitIfThenElse(exprParser.IfThenElseContext ctx) {
+        int line = ctx.getStart().getLine();
         Ast expr = ctx.getChild(1).accept(this);
         Ast exprSeq = ctx.getChild(3).accept(this);
         Ast exprSeq2 = ctx.getChild(5).accept(this);
-        return new IfThenElse(expr, exprSeq, exprSeq2);
+        return new IfThenElse(expr, exprSeq, exprSeq2, line);
     }
 
     @Override

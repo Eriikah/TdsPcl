@@ -163,12 +163,13 @@ public class ControlVisitor implements AstVisitor<Integer> {
 
     public Integer visit(For affect) {
         int error = 0;
+        int ligne = affect.getLigne();
         Tds prevTds = this.currentTds;
         this.currentTds = getTds(affect.Idf.name);
         error += affect.expressions.accept(this);
         error += affect.goalExpr.accept(this);
         error += affect.origExpr.accept(this);
-        error += new ForCondControl(affect, prevTds, tdsList).control();
+        error += new ForCondControl(affect, prevTds, tdsList, ligne).control();
         this.currentTds = prevTds;
         return error;
     }
@@ -223,7 +224,8 @@ public class ControlVisitor implements AstVisitor<Integer> {
 
     public Integer visit(IfThen affect) {
         int error = 0;
-        IfThenTypeControl ifControl = new IfThenTypeControl(affect, currentTds, tdsList);
+        int ligne = affect.getLigne();
+        IfThenTypeControl ifControl = new IfThenTypeControl(affect, currentTds, tdsList, ligne);
         error += affect.expressions.accept(this);
         error += affect.ifExpr.accept(this);
         error += ifControl.control();
@@ -232,7 +234,8 @@ public class ControlVisitor implements AstVisitor<Integer> {
 
     public Integer visit(IfThenElse affect) {
         int error = 0;
-        IfThenElseTypeControl ifControl = new IfThenElseTypeControl(affect, currentTds, tdsList);
+        int ligne = affect.getLigne();
+        IfThenElseTypeControl ifControl = new IfThenElseTypeControl(affect, currentTds, tdsList, ligne);
         error += affect.elseExpr.accept(this);
         error += affect.ifExpr.accept(this);
         error += affect.expressions.accept(this);

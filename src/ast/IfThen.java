@@ -8,10 +8,16 @@ public class IfThen implements Ast {
 
     public Ast ifExpr;
     public Ast expressions;
+    private int ligne;
 
-    public IfThen(Ast ifExpr, Ast expressions) {
+    public IfThen(Ast ifExpr, Ast expressions, int ligne) {
         this.ifExpr = ifExpr;
         this.expressions = expressions;
+        this.ligne = ligne;
+    }
+
+    public int getLigne() {
+        return ligne;
     }
 
 }

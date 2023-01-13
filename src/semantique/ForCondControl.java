@@ -6,9 +6,12 @@ import ast.*;
 import tds.*;
 
 public class ForCondControl extends Control{
+
+    private int ligne;
     
-    public ForCondControl(Ast ast, Tds tds, ArrayList<Tds> tdsList) {
+    public ForCondControl(Ast ast, Tds tds, ArrayList<Tds> tdsList, int ligne) {
         super(ast, tds, tdsList);
+        this.ligne = ligne;
     }
 
     @Override
@@ -24,7 +27,7 @@ public class ForCondControl extends Control{
 
                     if(original != null && goal != null){
                         if(!original.equals(goal)){
-                            System.out.println("Error: For condition must be of the same type");
+                            System.out.println("Error: For condition must be of the same type at line "+this.ligne);
                             nb_error++;
                         }
                     }
@@ -35,7 +38,7 @@ public class ForCondControl extends Control{
 
                     if(original != null && goal != null){
                         if(!original.equals(goal)){
-                            System.out.println("Error: For condition must be of the same type");
+                            System.out.println("Error: For condition must be of the same type at line "+this.ligne);
                             nb_error++;
                         }
                     }
@@ -49,7 +52,7 @@ public class ForCondControl extends Control{
 
                     if(original != null && goal != null){
                         if(!original.equals(goal)){
-                            System.out.println("Error: For condition must be of the same type");
+                            System.out.println("Error: For condition must be of the same type at line "+this.ligne);
                             nb_error++;
                         }
                     }
@@ -60,7 +63,7 @@ public class ForCondControl extends Control{
 
                     if(original != null && goal != null){
                         if(!original.equals(goal)){
-                            System.out.println("Error: For condition must be of the same type");
+                            System.out.println("Error: For condition must be of the same type at line "+this.ligne);
                             nb_error++;
                         }
                     }
@@ -68,27 +71,15 @@ public class ForCondControl extends Control{
             }
             
             if (((For) this.ast).origExpr instanceof IntNode && ((For) this.ast).goalExpr instanceof StringNode){
-                System.out.println("Error: For condition must be of the same type");
+                System.out.println("Error: For condition must be of the same type at line "+this.ligne);
                 nb_error++;
             }
             if (((For) this.ast).origExpr instanceof StringNode && ((For) this.ast).goalExpr instanceof IntNode){
-                System.out.println("Error: For condition must be of the same type");
+                System.out.println("Error: For condition must be of the same type at line "+this.ligne);
                 nb_error++;
             }
         }
 
-
-
-
-
-        // String original = this.getType(((For) this.ast).origExpr.toString());
-        // String goal = this.getType(((For) this.ast).goalExpr.toString());
-        // if(original != null && goal != null){
-        //     if(!original.equals(goal)){
-        //         System.out.println("Error: For condition must be of the same type");
-        //         nb_error++;
-        //     }
-        // }
         return nb_error;
         }
     
