@@ -55,7 +55,12 @@ public class Main {
             allTDS.toString();
 
             ControlVisitor tests = new ControlVisitor(allTDS);
-            System.out.println("Errors : \u001b[31;1m" + ast.accept(tests) + "\u001b[0m");
+            int errors = ast.accept(tests);
+            if (errors != 0) {
+                System.out.println("Errors : \u001b[31;1m" + errors + "\u001b[0m");
+            } else {
+                System.out.println("Errors : \u001b[32;1m" + errors + "\u001b[0m");
+            }
 
         } catch (IOException e) {
             e.printStackTrace();

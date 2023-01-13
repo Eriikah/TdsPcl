@@ -140,10 +140,10 @@ public class TdsCreator implements AstVisitor<Tds> {
 
     @Override
     public Tds visit(FieldDecl affect) {
-        int shift = -affect.fieldIds.size();
+        int shift = -32;
         for (int i = 0; i < affect.fieldIds.size(); i++) {
             Param par = new Param(affect.fieldIds.get(i), ((TypeId) affect.fieldTypes.get(i)).value,
-                    shift + i);
+                    shift + i * 32);
             allTds.get(bloc - 1).addSymbol(par);
             affect.fieldTypes.get(i).accept(this);
 
@@ -176,12 +176,12 @@ public class TdsCreator implements AstVisitor<Tds> {
         forTds.setName(affect.Idf.name);
 
         bloc++;
-        Param param = new Param(affect.Idf.name, "int", 1);
+        Param param = new Param(affect.Idf.name, "int", 32);
         forTds.addSymbol(param);
         if (affect.expressions != null) {
             affect.expressions.accept(this);
         }
-        ForTds forKid = new ForTds(affect.Idf.name, 0, 5);
+        ForTds forKid = new ForTds(affect.Idf.name);
         forTds.getParent().addSymbol(forKid);
         imbrication--;
         return forTds;
@@ -417,14 +417,12 @@ public class TdsCreator implements AstVisitor<Tds> {
         if (affect.type instanceof TypeFields) {
             ArrayList<Var> varRec = new ArrayList<Var>();
             for (Ast var : ((TypeFields) affect.type).typeField) {
-                varRec.add(new Var(((TypeField) var).Id, ((TypeField) var).typeId, 1));
+                varRec.add(new Var(((TypeField) var).Id, ((TypeField) var).typeId, 32));
             }
-            Record record =
-                    new Record(((TypeId) affect.typeid).value, varRec, varRec.get(0).getType());
+            Record record = new Record(((TypeId) affect.typeid).value, varRec, varRec.get(0).getType());
             this.allTds.get(imbrication - 1).addSymbol(record);
         } else {
-            Type type =
-                    new Type(((TypeId) affect.typeid).value, ((TypeId) affect.type).value, bloc);
+            Type type = new Type(((TypeId) affect.typeid).value, ((TypeId) affect.type).value, 32);
             this.allTds.get(imbrication - 1).addSymbol(type);
         }
         // affect.typeid.accept(this);
@@ -445,11 +443,18 @@ public class TdsCreator implements AstVisitor<Tds> {
     @Override
     public Tds visit(VarDecl affect) {
         if (affect.typeId != null) {
-            Var var = new Var(affect.Idf.name, ((TypeId) affect.typeId).value, bloc);
+            Var var = new Var(affect.Idf.name, ((TypeId) affect.typeId).value, 32);
+            if (affect.expressions instanceof List) {
+                System.out.println(((FieldDecl) ((List) affect.expressions).fieldCreate).fieldIds.size() * 32);
+                var.setDepl(((FieldDecl) ((List) affect.expressions).fieldCreate).fieldIds.size() * 32);
+            }
             affect.expressions.accept(this);
             this.allTds.get(imbrication - 1).addSymbol(var);
         } else {
-            Var var = new Var(affect.Idf.name, "int", bloc);
+            Var var = new Var(affect.Idf.name, "int", 32);
+            if (affect.expressions instanceof List) {
+                var.setDepl(((FieldDecl) ((List) affect.expressions).fieldCreate).fieldIds.size() * 32);
+            }
             this.allTds.get(imbrication - 1).addSymbol(var);
             affect.expressions.accept(this);
 

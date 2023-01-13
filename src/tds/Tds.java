@@ -82,16 +82,14 @@ public class Tds {
             } else if (symbol instanceof Function) {
                 Function function = (Function) symbol;
                 String ligne = String.format(
-                        "\u001B[35mFonction : %s | Type de retour : %s | Déplacement : %d |/ ",
+                        "\u001B[35mFonction : %s | Params : (",
                         function.getName(), function.getReturnType(), function.getParams().size());
                 if (function.getParams().size() != 0) {
                     for (Param param : function.getParams()) {
-                        ligne += String.format("Paramètre : %s | Type : %s | Déplacement : %d\u001B[0m",
-                                param.getName(), param.getType(), param.getDepl());
+                        ligne += String.format("%s : %s", param.getName(), param.getType());
                     }
-                } else {
-                    ligne += "Pas de paramètres\u001B[0m";
                 }
+                ligne += ") | Type de retour : " + function.getReturnType() + " \u001B[0m   ";
 
                 table.append(ligne).append("\n");
             } else if (symbol instanceof Var) {
@@ -101,13 +99,8 @@ public class Tds {
                 table.append(ligne).append("\n");
             } else if (symbol instanceof Type) {
                 Type type = (Type) symbol;
-                String ligne = String.format("\u001B[37mType : %s | Type : %s | Déplacement : %d\u001B[0m",
-                        type.getName(), type.getType(), type.getDepl());
-                table.append(ligne).append("\n");
-            } else if (symbol instanceof ForTds) {
-                ForTds forTds = (ForTds) symbol;
-                String ligne = String.format("\u001B[36m%s | for %s in range %d %d  | Déplacement :\u001B[0m",
-                        forTds.getName(), forTds.getIterableId(), forTds.getStartValue(), forTds.getEndValue());
+                String ligne = String.format("\u001B[37mType : %s | Type : %s \u001B[0m",
+                        type.getName(), type.getType());
                 table.append(ligne).append("\n");
             } else if (symbol instanceof Record) {
                 Record record = (Record) symbol;
@@ -116,7 +109,7 @@ public class Tds {
                 for (Var var : record.getContent()) {
                     ligne = ligne + var.getName() + ":" + var.getType() + " ";
                 }
-                table.append(ligne).append("}\n");
+                table.append(ligne).append("}| Taille : " + record.getContent().size() + "\n");
             }
         }
         table.append("\u001b[31m________________________END_________________________\u001B[0m\n");
