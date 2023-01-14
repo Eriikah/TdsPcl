@@ -443,18 +443,35 @@ public class TdsCreator implements AstVisitor<Tds> {
     @Override
     public Tds visit(VarDecl affect) {
         if (affect.typeId != null) {
-            Var var = new Var(affect.Idf.name, ((TypeId) affect.typeId).value, 32);
-            if (affect.expressions instanceof List) {
-                System.out.println(((FieldDecl) ((List) affect.expressions).fieldCreate).fieldIds.size() * 32);
-                var.setDepl(((FieldDecl) ((List) affect.expressions).fieldCreate).fieldIds.size() * 32);
+            Var var;
+            if (affect.expressions instanceof IntNode) {
+                var = new Var(affect.Idf.name, "int", 32);
+
+            } else if (affect.expressions instanceof StringNode) {
+                var = new Var(affect.Idf.name, "string", 32);
+
+            } else if (affect.expressions instanceof List) {
+                var = new Var(affect.Idf.name, ((TypeId) affect.typeId).value,
+                        ((FieldDecl) ((List) affect.expressions).fieldCreate).fieldIds.size() * 32);
+            } else {
+                var = new Var(affect.Idf.name, ((TypeId) affect.typeId).value, 32);
             }
+
             affect.expressions.accept(this);
             this.allTds.get(imbrication - 1).addSymbol(var);
         } else {
-            Var var = new Var(affect.Idf.name, "int", 32);
-            if (affect.expressions instanceof List) {
-                var.setDepl(((FieldDecl) ((List) affect.expressions).fieldCreate).fieldIds.size() * 32);
+            Var var = new Var(affect.Idf.name, "unknown", 32);
+            if (affect.expressions instanceof IntNode) {
+                var = new Var(affect.Idf.name, "int", 32);
+
+            } else if (affect.expressions instanceof StringNode) {
+                var = new Var(affect.Idf.name, "string", 32);
+
+            } else if (affect.expressions instanceof List) {
+                var = new Var(affect.Idf.name, ((TypeId) affect.typeId).value,
+                        ((FieldDecl) ((List) affect.expressions).fieldCreate).fieldIds.size() * 32);
             }
+
             this.allTds.get(imbrication - 1).addSymbol(var);
             affect.expressions.accept(this);
 
