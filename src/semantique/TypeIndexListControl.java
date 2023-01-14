@@ -23,6 +23,13 @@ public class TypeIndexListControl extends Control{
                 System.out.println("Error: List index must be an integer at line "+this.ligne);
                 nb_error++;
             }
+            if (((ListDecl) this.ast).list instanceof Lvalue){
+                String type = getType((Lvalue) ((ListDecl) this.ast).list);
+                if (!type.equals("int")){
+                    System.out.println("Error: List index must be an integer at line "+this.ligne);
+                    nb_error++;
+                }
+            }
         }
 
         return nb_error;
