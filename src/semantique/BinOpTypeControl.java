@@ -40,14 +40,16 @@ public class BinOpTypeControl extends Control {
                     }
                 }
             }
-            if (((SupNode) this.ast).left instanceof Lvalue && !(((SupNode) this.ast).right instanceof IntNode) && !(((SupNode) this.ast).right instanceof Lvalue)) {
+            if (((SupNode) this.ast).left instanceof Lvalue
+                    && !(((SupNode) this.ast).right instanceof IntNode)
+                    && !(((SupNode) this.ast).right instanceof Lvalue)) {
                 String type_left = getType(((SupNode) this.ast).left);
                 if (type_left != null) {
                     nb_error++;
                     System.out.println(
                             "Error: SupNode must have two operands of the same type at line "
                                     + this.ligne);
-    
+
                 }
             }
         }
@@ -75,14 +77,16 @@ public class BinOpTypeControl extends Control {
                     }
                 }
             }
-            if (((InfNode) this.ast).left instanceof Lvalue && !(((InfNode) this.ast).right instanceof IntNode) && !(((InfNode) this.ast).right instanceof Lvalue)) {
+            if (((InfNode) this.ast).left instanceof Lvalue
+                    && !(((InfNode) this.ast).right instanceof IntNode)
+                    && !(((InfNode) this.ast).right instanceof Lvalue)) {
                 String type_left = getType(((InfNode) this.ast).left);
                 if (type_left != null) {
                     nb_error++;
                     System.out.println(
                             "Error: InfNode must have two operands of the same type at line "
                                     + this.ligne);
-    
+
                 }
             }
 
@@ -111,14 +115,16 @@ public class BinOpTypeControl extends Control {
                     }
                 }
             }
-            if (((SupEqNode) this.ast).left instanceof Lvalue && !(((SupEqNode) this.ast).right instanceof IntNode) && !(((SupEqNode) this.ast).right instanceof Lvalue)) {
+            if (((SupEqNode) this.ast).left instanceof Lvalue
+                    && !(((SupEqNode) this.ast).right instanceof IntNode)
+                    && !(((SupEqNode) this.ast).right instanceof Lvalue)) {
                 String type_left = getType(((SupEqNode) this.ast).left);
                 if (type_left != null) {
                     nb_error++;
                     System.out.println(
                             "Error: SupEqNode must have two operands of the same type at line "
                                     + this.ligne);
-    
+
                 }
             }
         }
@@ -146,14 +152,16 @@ public class BinOpTypeControl extends Control {
                     }
                 }
             }
-            if (((InfEqNode) this.ast).left instanceof Lvalue && !(((InfEqNode) this.ast).right instanceof IntNode) && !(((InfEqNode) this.ast).right instanceof Lvalue)) {
+            if (((InfEqNode) this.ast).left instanceof Lvalue
+                    && !(((InfEqNode) this.ast).right instanceof IntNode)
+                    && !(((InfEqNode) this.ast).right instanceof Lvalue)) {
                 String type_left = getType(((InfEqNode) this.ast).left);
                 if (type_left != null) {
                     nb_error++;
                     System.out.println(
                             "Error: InfEqNode must have two operands of the same type at line "
                                     + this.ligne);
-    
+
                 }
             }
         }
@@ -228,14 +236,16 @@ public class BinOpTypeControl extends Control {
                     }
                 }
             }
-            if (((DiffNode) this.ast).left instanceof Lvalue && !(((DiffNode) this.ast).right instanceof IntNode) && !(((DiffNode) this.ast).right instanceof Lvalue)) {
+            if (((DiffNode) this.ast).left instanceof Lvalue
+                    && !(((DiffNode) this.ast).right instanceof IntNode)
+                    && !(((DiffNode) this.ast).right instanceof Lvalue)) {
                 String type_left = getType(((DiffNode) this.ast).left);
                 if (type_left != null) {
                     nb_error++;
                     System.out.println(
                             "Error: DiffNode must have two operands of the same type at line "
                                     + this.ligne);
-    
+
                 }
             }
 
@@ -311,14 +321,16 @@ public class BinOpTypeControl extends Control {
                     }
                 }
             }
-            if (((Plus) this.ast).left instanceof Lvalue && !(((Plus) this.ast).right instanceof IntNode) && !(((Plus) this.ast).right instanceof Lvalue)) {
+            if (((Plus) this.ast).left instanceof Lvalue
+                    && !(((Plus) this.ast).right instanceof IntNode)
+                    && !(((Plus) this.ast).right instanceof Lvalue)) {
                 String type_left = getType(((Plus) this.ast).left);
                 if (type_left != null) {
                     nb_error++;
-                    System.out.println(
-                            "Error: Plus must have two operands of the same type at line "
+                    System.out
+                            .println("Error: Plus must have two operands of the same type at line "
                                     + this.ligne);
-    
+
                 }
             }
         }
@@ -345,14 +357,16 @@ public class BinOpTypeControl extends Control {
                     }
                 }
             }
-            if (((Minus) this.ast).left instanceof Lvalue && !(((Minus) this.ast).right instanceof IntNode) && !(((Minus) this.ast).right instanceof Lvalue)) {
+            if (((Minus) this.ast).left instanceof Lvalue
+                    && !(((Minus) this.ast).right instanceof IntNode)
+                    && !(((Minus) this.ast).right instanceof Lvalue)) {
                 String type_left = getType(((Minus) this.ast).left);
                 if (type_left != null) {
                     nb_error++;
-                    System.out.println(
-                            "Error: Minus must have two operands of the same type at line "
+                    System.out
+                            .println("Error: Minus must have two operands of the same type at line "
                                     + this.ligne);
-    
+
                 }
             }
         }
@@ -379,14 +393,16 @@ public class BinOpTypeControl extends Control {
                     }
                 }
             }
-            if (((Mult) this.ast).left instanceof Lvalue && !(((Mult) this.ast).right instanceof IntNode) && !(((Mult) this.ast).right instanceof Lvalue)) {
+            if (((Mult) this.ast).left instanceof Lvalue
+                    && !(((Mult) this.ast).right instanceof IntNode)
+                    && !(((Mult) this.ast).right instanceof Lvalue)) {
                 String type_left = getType(((Mult) this.ast).left);
                 if (type_left != null) {
                     nb_error++;
-                    System.out.println(
-                            "Error: Mult must have two operands of the same type at line "
+                    System.out
+                            .println("Error: Mult must have two operands of the same type at line "
                                     + this.ligne);
-    
+
                 }
             }
         }
@@ -413,18 +429,18 @@ public class BinOpTypeControl extends Control {
                     }
                 }
             }
-            if (((Div) this.ast).left instanceof Lvalue && !(((Div) this.ast).right instanceof IntNode) && !(((Div) this.ast).right instanceof Lvalue)) {
+            if (((Div) this.ast).left instanceof Lvalue
+                    && !(((Div) this.ast).right instanceof IntNode)
+                    && !(((Div) this.ast).right instanceof Lvalue)) {
                 String type_left = getType(((Div) this.ast).left);
                 if (type_left != null) {
                     nb_error++;
-                    System.out.println(
-                            "Error: Div must have two operands of the same type at line "
-                                    + this.ligne);
-    
+                    System.out.println("Error: Div must have two operands of the same type at line "
+                            + this.ligne);
+
                 }
             }
         }
-
         return nb_error;
     }
 }

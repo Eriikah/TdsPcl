@@ -180,7 +180,8 @@ public class ControlVisitor implements AstVisitor<Integer> {
         Tds prevTds = this.currentTds;
         this.currentTds = getTds(affect.Idf.name);
         error += affect.expressions.accept(this);
-        ReturnTypeControl testReturnTypeControl = new ReturnTypeControl(affect, prevTds, tdsList, ligne);
+        ReturnTypeControl testReturnTypeControl =
+                new ReturnTypeControl(affect, prevTds, tdsList, ligne);
         error += testReturnTypeControl.control();
         if (affect.fieldDecl != null) {
             error += affect.fieldDecl.accept(this);
@@ -195,10 +196,12 @@ public class ControlVisitor implements AstVisitor<Integer> {
     public Integer visit(FunctionCall affect) {
         int error = 0;
         int ligne = affect.getLigne();
-        DeclarationControl test = new DeclarationControl(affect, getTds(affect.Idf.name), tdsList, ligne);
+        DeclarationControl test =
+                new DeclarationControl(affect, getTds(affect.Idf.name), tdsList, ligne);
         error += test.control();
         if (error == 0) {
-            ParamNumControl testParamNumControl = new ParamNumControl(affect, currentTds, tdsList, ligne);
+            ParamNumControl testParamNumControl =
+                    new ParamNumControl(affect, currentTds, tdsList, ligne);
             error += testParamNumControl.control();
             if (error == 0) {
                 ParamTypeControl testParamTypeControl =
@@ -236,7 +239,8 @@ public class ControlVisitor implements AstVisitor<Integer> {
     public Integer visit(IfThenElse affect) {
         int error = 0;
         int ligne = affect.getLigne();
-        IfThenElseTypeControl ifControl = new IfThenElseTypeControl(affect, currentTds, tdsList, ligne);
+        IfThenElseTypeControl ifControl =
+                new IfThenElseTypeControl(affect, currentTds, tdsList, ligne);
         error += affect.elseExpr.accept(this);
         error += affect.ifExpr.accept(this);
         error += affect.expressions.accept(this);
@@ -448,6 +452,9 @@ public class ControlVisitor implements AstVisitor<Integer> {
         VarDeclNilControl testVarDeclNilControl =
                 new VarDeclNilControl(affect, currentTds, tdsList, ligne);
         error += testVarDeclNilControl.control();
+        VarDeclRecordControl testVarDeclRecordControl =
+                new VarDeclRecordControl(affect, currentTds, tdsList, ligne);
+        error += testVarDeclRecordControl.control();
         error += affect.expressions.accept(this);
         if (affect.typeId != null) {
             error += affect.typeId.accept(this);

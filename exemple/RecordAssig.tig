@@ -1,0 +1,10 @@
+let
+    type MyRecord = {
+        field1: int,
+        field2: string
+    }
+    var Man := MyRecord { field1 = 15, field2 = "bonjour"}
+    function this() = print("bonjour")
+in
+    this()
+end
