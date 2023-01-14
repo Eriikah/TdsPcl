@@ -23,34 +23,39 @@ class VarDeclRecordControl extends Control {
     public int control() {
         int error = 0;
         VarDecl decl = ((VarDecl) ast);
-        ArrayList<tds.Var> vars =
-                ((tds.Record) tds.getSymbol(((TypeId) decl.typeId).value)).getContent();
-        ArrayList<Ast> typeList = ((FieldDecl) ((List) decl.expressions).fieldCreate).fieldTypes;
-        if (vars.size() != typeList.size()) {
-            System.out.println(((tds.Record) tds.getSymbol(((TypeId) decl.typeId).value)).getName()
-                    + " should be declared with " + vars.size() + " elements, not "
-                    + typeList.size());
-            error++;
-        }
-        if (error == 0) {
-            for (int index = 0; index < vars.size(); index++) {
-                String varType = "";
-                if (typeList.get(index) instanceof IntNode) {
-                    varType = "int";
-                } else if (typeList.get(index) instanceof StringNode) {
-                    varType = "string";
-                } else if (typeList.get(index) instanceof Nil) {
-                    varType = "void";
-                } else {
-                    varType = ((TypeId) typeList.get(index)).value;
-                }
-                if (!varType.equals("void") && !vars.get(index).getType().equals(varType)) {
-                    System.out.println("Type mismatch : " + vars.get(index).getName()
-                            + " should be a " + vars.get(index).getType());
-                    error++;
+        if (tds.getSymbol(((TypeId) decl.typeId).value) instanceof tds.Record) {
+            ArrayList<tds.Var> vars =
+                    ((tds.Record) tds.getSymbol(((TypeId) decl.typeId).value)).getContent();
+            ArrayList<Ast> typeList =
+                    ((FieldDecl) ((List) decl.expressions).fieldCreate).fieldTypes;
+            if (vars.size() != typeList.size()) {
+                System.out.println(
+                        ((tds.Record) tds.getSymbol(((TypeId) decl.typeId).value)).getName()
+                                + " should be declared with " + vars.size() + " elements, not "
+                                + typeList.size());
+                error++;
+            }
+            if (error == 0) {
+                for (int index = 0; index < vars.size(); index++) {
+                    String varType = "";
+                    if (typeList.get(index) instanceof IntNode) {
+                        varType = "int";
+                    } else if (typeList.get(index) instanceof StringNode) {
+                        varType = "string";
+                    } else if (typeList.get(index) instanceof Nil) {
+                        varType = "void";
+                    } else {
+                        varType = ((TypeId) typeList.get(index)).value;
+                    }
+                    if (!varType.equals("void") && !vars.get(index).getType().equals(varType)) {
+                        System.out.println("Type mismatch : " + vars.get(index).getName()
+                                + " should be a " + vars.get(index).getType());
+                        error++;
+                    }
                 }
             }
         }
+
         return error;
     }
 }
