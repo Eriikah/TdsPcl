@@ -32,7 +32,13 @@ let
         )
         else (
             d := -"true"
+        );
+        if b<9 then (
+            print(b)
         )
+    else(
+        a
+    )
     )
 in
     setToString(5);
