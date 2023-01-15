@@ -23,8 +23,8 @@ public class DeclarationControl extends Control {
         if (ast instanceof FunctionCall) {
             FunctionCall FunctionCall = (FunctionCall) ast;
             if (getTds(FunctionCall.Idf.name) == null) {
-                System.err.println("DeclarationError"
-                        + String.format("'%s' isn't defined at line "+this.ligne, FunctionCall.Idf.name));
+                System.err.println("Error at line " + this.ligne + " : "
+                        + String.format("'%s' isn't defined", FunctionCall.Idf.name));
                 error++;
             }
 
@@ -41,8 +41,8 @@ public class DeclarationControl extends Control {
                 }
             }
             if (returnerr != 0) {
-                System.err.println("TypeID DeclarationError : "
-                        + String.format("'%s' isn't defined at line "+this.ligne, typeId.value));
+                System.err.println("Error at line " + this.ligne + " : "
+                        + String.format("'%s' isn't defined", typeId.value));
                 error++;
 
             }
@@ -58,8 +58,8 @@ public class DeclarationControl extends Control {
                 }
             }
             if (returnerr != 0) {
-                System.err.println(
-                        "DeclarationError : " + String.format("'%s' isn't defined at line "+this.ligne, id.name));
+                System.err.println("Error at line " + this.ligne + " : "
+                        + String.format("'%s' isn't defined", id.name));
                 error++;
 
             }

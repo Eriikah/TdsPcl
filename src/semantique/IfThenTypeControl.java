@@ -22,13 +22,13 @@ public class IfThenTypeControl extends Control {
             if (ast instanceof IfThen) {
                 IfThen ifThen = (IfThen) ast;
                 if (!getType(ifThen.ifExpr).equals("int")) {
-                    System.err.println(
-                            "ConditionError condition isn't an int, actual type: " + getType(ifThen.ifExpr)+ "at line "+this.ligne);
+                    System.err.println("Error at line " + this.ligne + " : "
+                            + "condition isn't an int, actual type: " + getType(ifThen.ifExpr));
                     error++;
                 }
                 if (!getType(ifThen.expressions).equals("void")) {
-                    System.err.println(
-                            "ConditionError then expr isn't void, actual type: " + getType(ifThen.expressions)+ "at line "+this.ligne);
+                    System.err.println("Error at line " + this.ligne + " : "
+                            + "then expr isn't void, actual type: " + getType(ifThen.expressions));
                     error++;
                 }
             }

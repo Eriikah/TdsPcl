@@ -21,7 +21,8 @@ public class IntBehindMinusControl extends Control {
         if (ast instanceof MinusAffector) {
             MinusAffector minAst = (MinusAffector) ast;
             if (!getType(minAst.value).equals("int")) {
-                System.err.println("Error Cannot put " + getType(minAst.value) + " after \"-\" at line " + this.ligne);
+                System.err.println("Error at line " + this.ligne + " : " + "Cannot put "
+                        + getType(minAst.value) + " after \"-\"");
                 error++;
             }
         }

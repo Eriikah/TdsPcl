@@ -29,8 +29,10 @@ class VarDeclRecordControl extends Control {
             ArrayList<Ast> typeList =
                     ((FieldDecl) ((List) decl.expressions).fieldCreate).fieldTypes;
             if (vars.size() != typeList.size()) {
-                System.out.println(
-                        ((tds.Record) tds.getSymbol(((TypeId) decl.typeId).value)).getName()
+                System.out
+                        .println("Error at line " + this.ligne + " : "
+                                + ((tds.Record) tds.getSymbol(((TypeId) decl.typeId).value))
+                                        .getName()
                                 + " should be declared with " + vars.size() + " elements, not "
                                 + typeList.size());
                 error++;
@@ -48,8 +50,9 @@ class VarDeclRecordControl extends Control {
                         varType = ((TypeId) typeList.get(index)).value;
                     }
                     if (!varType.equals("void") && !vars.get(index).getType().equals(varType)) {
-                        System.out.println("Type mismatch : " + vars.get(index).getName()
-                                + " should be a " + vars.get(index).getType());
+                        System.out.println(
+                                "Error at line " + this.ligne + " : " + vars.get(index).getName()
+                                        + " should be a " + vars.get(index).getType());
                         error++;
                     }
                 }

@@ -24,8 +24,8 @@ public class NoMultipleDeclControl extends Control {
                 for (int j = i; j < symbols.size(); j++) {
                     if (j != i) {
                         if (symbols.get(i).getName().equals(symbols.get(j).getName())) {
-                            System.err.println("DeclarationError : " +
-                                    String.format("'%s' is already defined", symbols.get(j).getName()));
+                            System.err.println("Error at line " + this.ligne + " : " + String
+                                    .format("'%s' is already defined", symbols.get(j).getName()));
                             error += 1;
                         }
                     }

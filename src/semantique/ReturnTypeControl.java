@@ -46,8 +46,9 @@ public class ReturnTypeControl extends Control {
             }
 
             if (!tdsType.equals(bodyType)) {
-                System.out.println("Wrong return type at line "+this.ligne+" : \"" + bodyType + "\", "
-                        + tdsFunction.getName() + " should return a " + tdsType);
+                System.out.println(
+                        "Error at line " + this.ligne + " : " + "Wrong return type : \"" + bodyType
+                                + "\", " + tdsFunction.getName() + " should return a " + tdsType);
                 error++;
             }
         }

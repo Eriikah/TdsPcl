@@ -22,13 +22,14 @@ public class IfThenElseTypeControl extends Control {
             if (ast instanceof IfThenElse) {
                 IfThenElse ifThenElse = (IfThenElse) ast;
                 if (!getType(ifThenElse.expressions).equals(getType(ifThenElse.elseExpr))) {
-                    System.err.println("Not same type : then expr returns " + getType(ifThenElse.expressions)
-                            + " whereas else returns " + getType(ifThenElse.elseExpr)+ "at line "+this.ligne);
+                    System.err.println("Error at line " + this.ligne + " : " + "then expr returns "
+                            + getType(ifThenElse.expressions) + " whereas else returns "
+                            + getType(ifThenElse.elseExpr));
                     error++;
                 }
                 if (!getType(ifThenElse.ifExpr).equals("int")) {
-                    System.err.println(
-                            "ConditionError condition isn't an int, actual type: " + getType(ifThenElse.ifExpr)+ "at line "+this.ligne);
+                    System.err.println("Error at line " + this.ligne + " : "
+                            + "condition isn't an int, actual type: " + getType(ifThenElse.ifExpr));
                     error++;
                 }
             }

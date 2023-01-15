@@ -5,7 +5,7 @@ import tds.*;
 
 import java.util.ArrayList;
 
-public class TypeIndexListControl extends Control{
+public class TypeIndexListControl extends Control {
 
     private int ligne;
 
@@ -13,20 +13,22 @@ public class TypeIndexListControl extends Control{
         super(ast, tds, tdsList);
         this.ligne = ligne;
     }
-    
+
     @Override
     public int control() {
         int nb_error = 0;
-        
-        if (this.ast instanceof ListDecl){
-            if (((ListDecl) this.ast).list instanceof StringNode){
-                System.out.println("Error: List index must be an integer at line "+this.ligne);
+
+        if (this.ast instanceof ListDecl) {
+            if (((ListDecl) this.ast).list instanceof StringNode) {
+                System.out.println(
+                        "Error at line " + this.ligne + " : List index must be an integer");
                 nb_error++;
             }
-            if (((ListDecl) this.ast).list instanceof Lvalue){
+            if (((ListDecl) this.ast).list instanceof Lvalue) {
                 String type = getType((Lvalue) ((ListDecl) this.ast).list);
-                if (!type.equals("int")){
-                    System.out.println("Error: List index must be an integer at line "+this.ligne);
+                if (!type.equals("int")) {
+                    System.out.println(
+                            "Error at line " + this.ligne + ": List index must be an integer");
                     nb_error++;
                 }
             }

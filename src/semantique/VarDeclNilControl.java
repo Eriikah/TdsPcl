@@ -19,8 +19,9 @@ public class VarDeclNilControl extends Control {
         int error = 0;
         VarDecl decl = ((VarDecl) ast);
         if (decl.typeId.value == null && decl.expressions instanceof Nil) {
-            System.out.println("Variable " + decl.Idf.name
-                    + " can't be initialized as nil without stating it's type at line "+this.ligne);
+            System.out.println("Error at line " + this.ligne + " : Variable " + decl.Idf.name
+                    + " can't be initialized as nil without stating it's type at line "
+                    + this.ligne);
             error++;
         }
         return error;

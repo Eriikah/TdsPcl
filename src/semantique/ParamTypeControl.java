@@ -24,8 +24,9 @@ public class ParamTypeControl extends Control {
                 for (int index = 0; index < tdsFunction.getParamNumber(); index++) {
                     if (!tdsFunction.getParams().get(index).getType()
                             .equals(getType(paramList.get(index)))) {
-                        System.out.print("Wrong type for parameter "
-                                + tdsFunction.getParams().get(index).getName() +" at line "+ this.ligne + ". The type is "
+                        System.out.print("Error at line " + this.ligne + " : "
+                                + "Wrong type for parameter "
+                                + tdsFunction.getParams().get(index).getName() + ". The type is "
                                 + getType(paramList.get(index)) + "; Expected : "
                                 + tdsFunction.getParams().get(index).getType() + "\n");
                         error++;
