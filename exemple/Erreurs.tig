@@ -1,0 +1,41 @@
+let
+    var a := nil
+    var a :int := nil
+    var b := 5
+    var c:boolString := "true"
+    var d:string := "false"
+    type intArray = array of int
+    var row := intArray [ 7 ] of d
+    var col := intArray [ "7" ] of 0
+    type RecOne = {f1:string, f2:int}
+    type RecTwo = {a:int, b:int, c:int, d:int}
+    var Frecor := RecOne {f1 = "f1"}
+    var Srecord := RecTwo {a = "1", b =1, c= 1, d=1}
+    function showInt(i:int):int = (
+        print(i)
+    )
+    function makeOps(firstInt:int, secInt:int, firstStr:string, secStr:string) = (
+        a := firstInt/0;
+        y := "test";
+        if b < firstStr then (
+            if nil = nil then (
+                a := firstInt + secStr
+            )
+        );
+        for i := 0 to secStr do (
+            if firstStr then (
+                if 1 then print(i) else print(-i)
+            )
+        );
+        if a >= nil then (
+            a := b
+        )
+        else (
+            d := -"true"
+        )
+    )
+in
+    setToString(5);
+    makeOps(1,5,"one");
+    showInt("5")
+end
