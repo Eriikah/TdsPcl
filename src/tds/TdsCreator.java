@@ -140,7 +140,7 @@ public class TdsCreator implements AstVisitor<Tds> {
 
     @Override
     public Tds visit(FieldDecl affect) {
-        int shift = -32;
+        int shift = -32 * affect.fieldIds.size();
         for (int i = 0; i < affect.fieldIds.size(); i++) {
             Param par = new Param(affect.fieldIds.get(i), ((TypeId) affect.fieldTypes.get(i)).value,
                     shift + i * 32);
@@ -419,7 +419,8 @@ public class TdsCreator implements AstVisitor<Tds> {
             for (Ast var : ((TypeFields) affect.type).typeField) {
                 varRec.add(new Var(((TypeField) var).Id, ((TypeField) var).typeId, 32));
             }
-            Record record = new Record(((TypeId) affect.typeid).value, varRec, varRec.get(0).getType());
+            Record record =
+                    new Record(((TypeId) affect.typeid).value, varRec, varRec.get(0).getType());
             this.allTds.get(imbrication - 1).addSymbol(record);
         } else {
             Type type = new Type(((TypeId) affect.typeid).value, ((TypeId) affect.type).value, 32);
