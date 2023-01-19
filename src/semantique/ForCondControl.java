@@ -34,7 +34,7 @@ public class ForCondControl extends Control {
                     }
                 }
                 if (((For) this.ast).origExpr instanceof StringNode) {
-                    String original = "String";
+                    String original = "string";
                     String goal = getType(((For) this.ast).goalExpr);
 
                     if (original != null && goal != null) {
@@ -61,7 +61,7 @@ public class ForCondControl extends Control {
                     }
                 }
                 if (((For) this.ast).goalExpr instanceof StringNode) {
-                    String goal = "String";
+                    String goal = "string";
                     String original = getType(((For) this.ast).origExpr);
 
                     if (original != null && goal != null) {

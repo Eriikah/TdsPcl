@@ -30,8 +30,8 @@ public class BinOpTypeControl extends Control {
                 String type_right = getType(((SupNode) this.ast).right);
 
                 if (type_right != null && type_left != null) {
-                    if (!type_right.equals("int") || !type_right.equals("String")
-                            || !type_left.equals("int") || !type_left.equals("String")) {
+                    if (!type_right.equals("int") || !type_right.equals("string")
+                            || !type_left.equals("int") || !type_left.equals("string")) {
                         if (!type_right.equals(type_left)) {
                             nb_error++;
                             System.out.println("Error at line " + this.ligne + " : "
@@ -66,8 +66,8 @@ public class BinOpTypeControl extends Control {
                 String type_right = getType(((InfNode) this.ast).right);
 
                 if (type_right != null && type_left != null) {
-                    if (!type_right.equals("int") || !type_right.equals("String")
-                            || !type_left.equals("int") || !type_left.equals("String")) {
+                    if (!type_right.equals("int") || !type_right.equals("string")
+                            || !type_left.equals("int") || !type_left.equals("string")) {
                         if (!type_right.equals(type_left)) {
                             nb_error++;
                             System.out.println("Error at line " + this.ligne
@@ -103,8 +103,8 @@ public class BinOpTypeControl extends Control {
                 String type_right = getType(((SupEqNode) this.ast).right);
 
                 if (type_right != null && type_left != null) {
-                    if (!type_right.equals("int") || !type_right.equals("String")
-                            || !type_left.equals("int") || !type_left.equals("String")) {
+                    if (!type_right.equals("int") || !type_right.equals("string")
+                            || !type_left.equals("int") || !type_left.equals("string")) {
                         if (!type_right.equals(type_left)) {
                             nb_error++;
                             System.out.println("Error at line " + this.ligne + " : "
@@ -139,8 +139,8 @@ public class BinOpTypeControl extends Control {
                 String type_right = getType(((InfEqNode) this.ast).right);
 
                 if (type_right != null && type_left != null) {
-                    if (!type_right.equals("int") || !type_right.equals("String")
-                            || !type_left.equals("int") || !type_left.equals("String")) {
+                    if (!type_right.equals("int") || !type_right.equals("string")
+                            || !type_left.equals("int") || !type_left.equals("string")) {
                         if (!type_right.equals(type_left)) {
                             nb_error++;
                             System.out.println("Error at line " + this.ligne + " : "
@@ -185,8 +185,8 @@ public class BinOpTypeControl extends Control {
                 }
 
                 if (type_right != null && type_left != null) {
-                    if (!type_right.equals("int") || !type_right.equals("String")
-                            || !type_left.equals("int") || !type_left.equals("String")) {
+                    if (!type_right.equals("int") || !type_right.equals("string")
+                            || !type_left.equals("int") || !type_left.equals("string")) {
                         if (!type_right.equals(type_left)) {
                             nb_error++;
                             System.out.println("Error at line " + this.ligne + " : "
@@ -220,8 +220,8 @@ public class BinOpTypeControl extends Control {
                 }
 
                 if (type_right != null && type_left != null) {
-                    if (!type_right.equals("int") || !type_right.equals("String")
-                            || !type_left.equals("int") || !type_left.equals("String")) {
+                    if (!type_right.equals("int") || !type_right.equals("string")
+                            || !type_left.equals("int") || !type_left.equals("string")) {
                         if (!type_right.equals(type_left)) {
                             nb_error++;
                             System.out.println("Error at line " + this.ligne + " : "
@@ -304,8 +304,8 @@ public class BinOpTypeControl extends Control {
                 String type_right = getType(((Plus) this.ast).right);
 
                 if (type_right != null && type_left != null) {
-                    if (!type_right.equals("int") || !type_right.equals("String")
-                            || !type_left.equals("int") || !type_left.equals("String")) {
+                    if (!type_right.equals("int") || !type_right.equals("string")
+                            || !type_left.equals("int") || !type_left.equals("string")) {
                         if (!type_right.equals(type_left)) {
                             nb_error++;
                             System.out.println("Error at line " + this.ligne + " : "
@@ -339,8 +339,8 @@ public class BinOpTypeControl extends Control {
                 String type_right = getType(((Minus) this.ast).right);
 
                 if (type_right != null && type_left != null) {
-                    if (!type_right.equals("int") || !type_right.equals("String")
-                            || !type_left.equals("int") || !type_left.equals("String")) {
+                    if (!type_right.equals("int") || !type_right.equals("string")
+                            || !type_left.equals("int") || !type_left.equals("string")) {
                         if (!type_right.equals(type_left)) {
                             nb_error++;
                             System.out.println("Error at line " + this.ligne + " : "
@@ -374,8 +374,8 @@ public class BinOpTypeControl extends Control {
                 String type_right = getType(((Mult) this.ast).right);
 
                 if (type_right != null && type_left != null) {
-                    if (!type_right.equals("int") || !type_right.equals("String")
-                            || !type_left.equals("int") || !type_left.equals("String")) {
+                    if (!type_right.equals("int") || !type_right.equals("string")
+                            || !type_left.equals("int") || !type_left.equals("string")) {
                         if (!type_right.equals(type_left)) {
                             nb_error++;
                             System.out.println("Error at line " + this.ligne + " : "
@@ -409,8 +409,8 @@ public class BinOpTypeControl extends Control {
                 String type_right = getType(((Div) this.ast).right);
 
                 if (type_right != null && type_left != null) {
-                    if (!type_right.equals("int") || !type_right.equals("String")
-                            || !type_left.equals("int") || !type_left.equals("String")) {
+                    if (!type_right.equals("int") || !type_right.equals("string")
+                            || !type_left.equals("int") || !type_left.equals("string")) {
                         if (!type_right.equals(type_left)) {
                             nb_error++;
                             System.out.println("Error at line " + this.ligne + " : "

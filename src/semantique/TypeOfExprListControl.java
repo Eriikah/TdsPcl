@@ -29,7 +29,7 @@ public class TypeOfExprListControl extends Control {
                 }
             }
 
-            if (type.equals("StringArray")) {
+            if (type.equals("stringArray")) {
                 if (!(((ListDecl) this.ast).ofexpr instanceof StringNode)) {
                     System.out.println(
                             "Error at line " + this.ligne + " : List must contain strings");
